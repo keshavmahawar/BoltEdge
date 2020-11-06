@@ -2,6 +2,15 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
+const restaurantSchema = new Schema({
+    id: Number,
+    name: String,
+    cuisines: String,
+    url: String,
+    lat: Number,
+    lon: Number,
+});
+
 const User = new Schema({
     name: {
         type: String,
@@ -17,6 +26,26 @@ const User = new Schema({
         type: String,
         required: true,
         min: 6,
+    },
+    gstNo: {
+        type: String,
+        required: false,
+        default: "",
+    },
+    fssaiNo: {
+        type: String,
+        required: false,
+        default: "",
+    },
+    isVerified: { type: Boolean, default: false },
+    isPaid: { type: Boolean, default: false },
+    restaurant: {
+        type: restaurantSchema,
+        default: null,
+    },
+    competitor: {
+        type: [restaurantSchema],
+        default: Array,
     },
     date: {
         type: Date,
