@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const axios = require("axios");
+const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+
 const {
     registerValidator,
     loginValidator,
@@ -33,13 +35,11 @@ const registerUser = async (req, res) => {
         await newUser.save();
 
         res.json({
-            error: true,
-            message: "User registered",
+            message: `${name} registered Successfully`,
             email,
         });
     } catch (error) {
         res.status(400).json({
-            error: true,
             message: error.message,
         });
     }
@@ -54,21 +54,21 @@ const loginUser = async (req, res) => {
         }
 
         const { email, password } = req.body;
-        const userExists = await User.findOne({ email });
+        const user = await User.findOne({ email });
 
-        if (!userExists) {
+        if (!user) {
             throw new Error("Account doesn't exists");
         }
 
-        const passwordCheck = await bcrypt.compare(
-            password,
-            userExists.password
-        );
+        const passwordCheck = await bcrypt.compare(password, user.password);
 
         if (passwordCheck) {
+            const { isVerified, isPaid, emailDb } = user;
+            const data = { isVerified, isPaid, email: emailDb };
+            const authToken = jwt.sign(data, process.env.JWT_HASH);
             res.json({
-                auth: email,
-                error: false,
+                authToken,
+                user,
                 message: "Logged in successfully",
             });
         } else {
@@ -76,7 +76,6 @@ const loginUser = async (req, res) => {
         }
     } catch (error) {
         res.status(401).json({
-            error: true,
             message: error.message,
         });
     }
