@@ -30,10 +30,12 @@ const User = new Schema({
     gstNo: {
         type: String,
         required: false,
+        default: "",
     },
     fssaiNo: {
         type: String,
         required: false,
+        default: "",
     },
     isVerified: { type: Boolean, default: false },
     isPaid: { type: Boolean, default: false },
