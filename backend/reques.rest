@@ -1,0 +1,8 @@
+POST http://localhost:5000/restaurant/search
+Content-Type: application/json
+
+{
+    "restaurant":"dhaba",
+    "address":"alwar"
+
+}
