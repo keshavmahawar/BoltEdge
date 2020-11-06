@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Container, Divider, Grid } from '@material-ui/core'
+import { Container, Divider, Grid, Card } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
 
 const ReviewSection = styled.div`
     max-width: 1700px;
@@ -49,7 +50,39 @@ const Text = styled.p`
     font-weight: 250;
 
 `
+
+const Button = styled.div`
+    width: 300px;
+    height: 50px;
+    padding-top: 20px;
+    background-color:#f4a72d;
+    color: white;
+    border:none;
+    border-bottom: 1px solid gray;
+    border-radius: 5px;
+    font-size: 20px;
+    text-shadow: 1px 2px 0 rgba(0,0,0,.1);
+    cursor: pointer;
+    text-align: center;
+    margin: 0 auto;
+
+`
+
+const Gap = styled.div`
+    margin: 70px 0;
+`
+
+const useStyles = makeStyles({
+    root: {
+        minWidth: 275,
+        minHeight: 150,
+        margin: 30,
+        cursor: 'pointer'
+    }
+})
+
 export default function AboutFeatures() {
+    const classes = useStyles()
 
     return (
         <>
@@ -79,10 +112,21 @@ export default function AboutFeatures() {
 
             <Heading>Competitor Research</Heading>
             <SubHeading>BoltEdge exposes the search marketing secret formula of your most successful competitors.</SubHeading>
-
-
+            <Gap />
+            <Container>
+                <Card className={classes.root}>1</Card>
+                <Card className={classes.root}>2</Card>
+                <Card className={classes.root}>3</Card>
+            </Container>
+            <Gap />
             <Divider />
-            <ReviewSection></ReviewSection>
+            <ReviewSection>
+                <Container>
+                    <Heading>Membership starts at just $33/month.<br />Unlimited data and downloads.</Heading>
+                    <SubHeading>Every plan includes unlimited searches and downloads.<br />30-day, no questions-asked, money back guarantee. No contracts. Zero hoops.</SubHeading>
+                    <Button>TRY BOLTEDGE NOW</Button>
+                </Container>
+            </ReviewSection>
 
         </>
     )
