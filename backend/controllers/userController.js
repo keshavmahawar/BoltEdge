@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
@@ -80,4 +81,25 @@ const loginUser = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser };
+const competitors = (req, res) => {
+    axios
+        .get(`https://developers.zomato.com/api/v2.1/search?`, {
+            params: {
+                count: 20,
+                lat: 12.937254,
+                lon: 77.626938,
+                radius: 5000,
+                sort: "rating",
+                order: "desc",
+            },
+            headers: {
+                "user-key": "37c5a3bc78ac2a208c45a4c912c1f270",
+            },
+        })
+        .then((response) => {
+            res.send(response.data);
+        })
+        .catch((err) => res.send(err));
+};
+
+module.exports = { registerUser, loginUser, competitors };
