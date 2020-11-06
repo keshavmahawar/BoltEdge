@@ -1,5 +1,17 @@
 const Joi = require("joi");
 
+const restaurantSchema = Joi.object({
+    id: Joi.number().required(),
+    cuisines: Joi.string().required(),
+    url: Joi.string().required(),
+    lat: Joi.number().required(),
+    lon: Joi.number().required(),
+});
+
+const restaurantValidator = (data) => {
+    return restaurantSchema.validate(data);
+};
+
 const registerValidator = (data) => {
     const schema = Joi.object({
         name: Joi.string().min(4).required(),
@@ -17,4 +29,4 @@ const loginValidator = (data) => {
     return schema.validate(data);
 };
 
-module.exports = { registerValidator, loginValidator };
+module.exports = { registerValidator, loginValidator, restaurantValidator };

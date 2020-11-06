@@ -15,7 +15,7 @@ const searchRestaurant = async (req, res) => {
     try {
         const { address, restaurant } = req.body;
         const { lat, lon } = await geoCode(address);
-        console.log(address, restaurant, lat, lon);
+        // console.log(address, restaurant, lat, lon);
         const { data } = await axiosZomato.get("/search", {
             params: {
                 lat,
@@ -24,7 +24,20 @@ const searchRestaurant = async (req, res) => {
                 radius: 7000,
             },
         });
-        res.json(data);
+        const { restaurants } = data;
+        const response = [];
+        for (let i = 0; i < restaurants.length; i += 1) {
+            // console.log(restaurants[i]);
+            const {
+                id,
+                cuisines,
+                url,
+                location: { latitude, longitude },
+            } = restaurants[i].restaurant;
+
+            response.push({ id, cuisines, url, lat: latitude, lon: longitude });
+        }
+        res.json(response);
     } catch (error) {
         res.status(400).json({
             message: error.message,

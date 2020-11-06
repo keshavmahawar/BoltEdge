@@ -5,6 +5,7 @@ const User = require("../models/userModel");
 const {
     registerValidator,
     loginValidator,
+    restaurantValidator,
 } = require("../validators/userValidator");
 
 const registerUser = async (req, res) => {
@@ -62,7 +63,7 @@ const loginUser = async (req, res) => {
         const passwordCheck = await bcrypt.compare(password, user.password);
 
         if (passwordCheck) {
-            const { isVerified, isPaid, emailDb } = user;
+            const { isVerified, isPaid, email: emailDb } = user;
             const data = { isVerified, isPaid, email: emailDb };
             const authToken = jwt.sign(data, process.env.JWT_HASH);
             res.json({
@@ -80,4 +81,36 @@ const loginUser = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser };
+const setRestaurant = async (req, res) => {
+    try {
+        const { error } = restaurantValidator(req.body);
+
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
+
+        const { id, cuisines, url, lat, lon } = req.body;
+
+        const { email } = req.user;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            throw new Error("Account doesn't exists");
+        }
+
+        user.restaurant = { id, cuisines, url, lat, lon };
+
+        user.save();
+
+        res.json({
+            message: "restaurant updated",
+            restaurant: user.restaurant,
+        });
+    } catch (error) {
+        res.status(401).json({
+            message: error.message,
+        });
+    }
+};
+
+module.exports = { registerUser, loginUser, setRestaurant };
