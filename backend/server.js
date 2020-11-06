@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const authRoute = require("./routes/mainRoute");
+const restaurantRoute = require("./routes/restaurantRoute");
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/user", authRoute);
+app.use("/restaurant", restaurantRoute);
 
 mongoose.connect(
     process.env.MONGO_URL,

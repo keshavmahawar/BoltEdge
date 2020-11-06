@@ -1,0 +1,40 @@
+POST http://localhost:5000/restaurant/search
+Content-Type: application/json
+
+{
+    "restaurant":"dhaba",
+    "address":"alwar"
+
+}
+
+###
+POST http://localhost:5000/user/restaurant
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc1ZlcmlmaWVkIjp0cnVlLCJpc1BhaWQiOnRydWUsImVtYWlsIjoia2VzbWFoYXdhckBnbWFpbC5jb20iLCJpYXQiOjE2MDQ2NjYyMjB9.LJkhn27UUD3mUEU8blOMpSIWiI1CRvyOsKeHfOGB7Oo
+
+{
+    "id": "18883026",
+    "cuisines": "North Indian",
+    "url": "https://www.zomato.com/alwar/mahaveer-dhaba-alwar-locality?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1",
+    "lat": "27.5638211869",
+    "lon": "76.6003670543"
+}
+
+###
+POST http://localhost:5000/user/login
+Content-Type: application/json
+
+{
+    "email": "kesmahawar@gmail.com",
+    "password": "pass1234"
+}
+
+###
+POST http://localhost:5000/user/register
+Content-Type: application/json
+
+{
+    "name":"test user",
+    "email": "kesmahawar@gmail.com",
+    "password": "pass1234"
+}
