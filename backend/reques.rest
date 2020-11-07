@@ -1,11 +1,15 @@
+###
 POST http://localhost:5000/restaurant/search
 Content-Type: application/json
 
 {
-    "restaurant":"dhaba",
+    "restaurant":"pizza",
     "address":"alwar"
-
 }
+
+###
+get http://localhost:5000/user/competitors
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc1ZlcmlmaWVkIjp0cnVlLCJpc1BhaWQiOnRydWUsImVtYWlsIjoia2VzbWFoYXdhckBnbWFpbC5jb20iLCJpYXQiOjE2MDQ2NjYyMjB9.LJkhn27UUD3mUEU8blOMpSIWiI1CRvyOsKeHfOGB7Oo
 
 ###
 POST http://localhost:5000/user/restaurant
@@ -36,5 +40,6 @@ Content-Type: application/json
 {
     "name":"test user",
     "email": "kesmahawar@gmail.com",
+    "phoneNo": "7891442004",
     "password": "pass1234"
 }
