@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import { Button, Grid, TextField, Box, Checkbox, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { loginAdmin } from '../redux/Admin/action'
+
 const useStyles = makeStyles({
 	mainLogin: {
 		display: 'flex',
@@ -24,6 +27,14 @@ const useStyles = makeStyles({
 });
 function LoginPage(props) {
 	const classes = useStyles(props);
+	const [email, setEmail] = useState("")
+	const [password, setPassword] = useState("")
+	const dispatch = useDispatch()
+
+	const handleLogin = () => {
+		dispatch(loginAdmin({ email, password }))
+	}
+
 	return (
 		<div>
 			<Grid container style={{ minHeight: '100vh' }}>
@@ -40,8 +51,8 @@ function LoginPage(props) {
 					<div />
 					<div className={classes.mainLogin}>
 						<Box className={classes.loginHeading}>Login to your account</Box>
-						<TextField label="Email or Username" margin="normal" variant="outlined" />
-						<TextField label="Password" margin="normal" variant="outlined" />
+						<TextField label="Email or Username" margin="normal" variant="outlined" value={email} onChange={(e) => setEmail(e.target.value)} />
+						<TextField label="Password" margin="normal" variant="outlined" value={password} onChange={(e) => setPassword(e.target.value)} />
 						<FormControlLabel
 							value="Remember me"
 							control={<Checkbox color="primary" />}
@@ -49,7 +60,7 @@ function LoginPage(props) {
 							labelPlacement="end"
 						/>
 						<div style={{ height: 20 }} />
-						<Button color="primary" variant="contained">
+						<Button color="primary" variant="contained" onClick={handleLogin}>
 							Log in
 						</Button>
 					</div>

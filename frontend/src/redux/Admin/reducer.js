@@ -5,8 +5,18 @@ import {
     LOGIN_LOGOUT,
 } from "./action";
 import { saveData, loadData } from "../localStorage";
+
 const initStore = {
-    authToken: loadData("userToken") || null,
+    authToken: loadData("authToken") || null,
+    isVerified: false,
+    isPaid: false,
+    restaurant: null,
+    _id: "",
+    email: "",
+    password: "",
+    name: "",
+    competitor: [],
+    date: "",
 };
 
 const authReducer = (state = initStore, { type, payload }) => {
@@ -16,10 +26,19 @@ const authReducer = (state = initStore, { type, payload }) => {
                 ...state,
             };
         case LOGIN_SUCCESS:
-            saveData("userToken", "Bearer " + payload);
+            saveData("authToken", "Bearer " + payload.authToken);
             return {
                 ...state,
-                authToken: "Bearer " + payload,
+                authToken: "Bearer " + payload.authToken,
+                isVerified: payload.user.isVerified,
+                isPaid: payload.user.isPaid,
+                restaurant: payload.user.restaurant,
+                _id: payload.user._id,
+                email: payload.user.email,
+                password: payload.user.password,
+                name: payload.user.name,
+                competitor: payload.user.competitor,
+                date: payload.user.date,
             };
         case LOGIN_FAILURE:
             return {

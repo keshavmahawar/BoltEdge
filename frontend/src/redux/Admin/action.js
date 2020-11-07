@@ -32,7 +32,16 @@ const loginLogout = () => {
     };
 };
 
-const loginAdmin = (payload) => (dispatch) => {};
+const loginAdmin = (payload) => (dispatch) => {
+    dispatch(loginRequest(payload))
+    return axios.post("/user/login", payload)
+        .then((res) => {
+            dispatch(loginSuccess(res.data))
+        })
+        .catch((err) => {
+            dispatch(loginFailure(err?.response?.data?.message))
+        })
+};
 
 export {
     loginAdmin,
