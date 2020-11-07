@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { makeStyles, InputBase, Button } from "@material-ui/core";
+import { makeStyles, InputBase, Grid, Hidden } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -8,22 +8,6 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: "25ch",
     },
-  },
-  InputBase: {
-    border: "1px solid white",
-    borderRadius: theme.spacing.borderRadius,
-    padding: "15px 70px",
-    background: "white",
-    marginLeft: "30px",
-    fontSize: "larger",
-  },
-  InputDiv: {
-    marginTop: "25px",
-    marginLeft: "25%",
-  },
-  Button: {
-    padding: "15px 50px",
-    marginLeft: "25px",
   },
 }));
 
@@ -43,7 +27,26 @@ const Heading = styled.h2`
 
 const BannerImage = styled.div`
   margin-top: 50px;
-  margin-left: 25%;
+  text-align: center;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const Button = styled.div`
+  display: block;
+  border: none;
+  width: 9em;
+  height: 2em;
+  background: #008cba;
+  color: white;
+  line-height: 2;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 22px;
+  margin-top: 10px;
+  margin-left: 20px;
 `;
 
 function DisplayBanner() {
@@ -54,23 +57,15 @@ function DisplayBanner() {
         The Best SEO & PPC Tools. Period.
         <br /> Starting at Only $33/mo.
       </Heading>
-      <div className={classes.InputDiv}>
-        <InputBase
-          placeholder="Location"
-          variant="outlined"
-          className={classes.InputBase}
-        />
-        <InputBase
-          placeholder="Restaruant Name"
-          variant="outlined"
-          className={classes.InputBase}
-        />
-        <Button variant="contained" color="primary" className={classes.Button}>
-          Search
-        </Button>
-      </div>
+
       <BannerImage>
-        <img src="https://cdn1.spyfu.com/dist/img/mbp-zoom.svg" alt="banner" />
+        <Hidden only="sm">
+          {" "}
+          <img
+            src="https://cdn1.spyfu.com/dist/img/mbp-zoom.svg"
+            alt="banner"
+          />
+        </Hidden>
       </BannerImage>
     </BannerConatiner>
   );
