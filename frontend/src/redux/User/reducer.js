@@ -13,13 +13,11 @@ const initStore = {
     restaurant: null,
     _id: "",
     email: "",
-    password: "",
     name: "",
     competitor: [],
-    date: "",
 };
 
-const authReducer = (state = initStore, { type, payload }) => {
+const userReducer = (state = initStore, { type, payload }) => {
     switch (type) {
         case LOGIN_REQUEST:
             return {
@@ -35,10 +33,8 @@ const authReducer = (state = initStore, { type, payload }) => {
                 restaurant: payload.user.restaurant,
                 _id: payload.user._id,
                 email: payload.user.email,
-                password: payload.user.password,
                 name: payload.user.name,
                 competitor: payload.user.competitor,
-                date: payload.user.date,
             };
         case LOGIN_FAILURE:
             return {
@@ -53,4 +49,4 @@ const authReducer = (state = initStore, { type, payload }) => {
             return state;
     }
 };
-export default authReducer;
+export default userReducer;

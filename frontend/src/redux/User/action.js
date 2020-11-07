@@ -32,19 +32,20 @@ const loginLogout = () => {
     };
 };
 
-const loginAdmin = (payload) => (dispatch) => {
-    dispatch(loginRequest(payload))
-    return axios.post("/user/login", payload)
+const userLogin = (payload) => (dispatch) => {
+    dispatch(loginRequest(payload));
+    return axios
+        .post("/user/login", payload)
         .then((res) => {
-            dispatch(loginSuccess(res.data))
+            dispatch(loginSuccess(res.data));
         })
         .catch((err) => {
-            dispatch(loginFailure(err?.response?.data?.message))
-        })
+            dispatch(loginFailure(err?.response?.data?.message));
+        });
 };
 
 export {
-    loginAdmin,
+    userLogin,
     loginFailure,
     loginRequest,
     loginSuccess,
