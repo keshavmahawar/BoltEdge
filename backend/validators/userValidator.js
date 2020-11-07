@@ -13,6 +13,15 @@ const restaurantValidator = (data) => {
     return restaurantSchema.validate(data);
 };
 
+const restaurantArrayValidator = (data) => {
+    const restaurantArraySchema = Joi.array()
+        .items(restaurantSchema)
+        .max(5)
+        .min(1);
+
+    return restaurantArraySchema.validate(data);
+};
+
 const registerValidator = (data) => {
     const schema = Joi.object({
         name: Joi.string().min(4).required(),
@@ -30,4 +39,9 @@ const loginValidator = (data) => {
     return schema.validate(data);
 };
 
-module.exports = { registerValidator, loginValidator, restaurantValidator };
+module.exports = {
+    registerValidator,
+    loginValidator,
+    restaurantValidator,
+    restaurantArrayValidator,
+};
