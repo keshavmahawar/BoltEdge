@@ -11,11 +11,35 @@ const geoCode = async (address) => {
     };
 };
 
+const restaurantDataParser = (data) => {
+    const { restaurants } = data;
+    const response = [];
+    for (let i = 0; i < restaurants.length; i += 1) {
+        const {
+            id,
+            name,
+            cuisines,
+            url,
+            location: { latitude, longitude },
+        } = restaurants[i].restaurant;
+
+        response.push({
+            name,
+            id,
+            cuisines,
+            url,
+            lat: latitude,
+            lon: longitude,
+        });
+    }
+    return response;
+};
+
 const searchRestaurant = async (req, res) => {
     try {
         const { address, restaurant } = req.body;
         const { lat, lon } = await geoCode(address);
-        // console.log(address, restaurant, lat, lon);
+
         const { data } = await axiosZomato.get("/search", {
             params: {
                 lat,
@@ -24,20 +48,8 @@ const searchRestaurant = async (req, res) => {
                 radius: 7000,
             },
         });
-        const { restaurants } = data;
-        const response = [];
-        for (let i = 0; i < restaurants.length; i += 1) {
-            // console.log(restaurants[i]);
-            const {
-                id,
-                cuisines,
-                url,
-                location: { latitude, longitude },
-            } = restaurants[i].restaurant;
 
-            response.push({ id, cuisines, url, lat: latitude, lon: longitude });
-        }
-        res.json(response);
+        res.json(restaurantDataParser(data));
     } catch (error) {
         res.status(400).json({
             message: error.message,
@@ -45,4 +57,4 @@ const searchRestaurant = async (req, res) => {
     }
 };
 
-module.exports = { searchRestaurant };
+module.exports = { searchRestaurant, restaurantDataParser };

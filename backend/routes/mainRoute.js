@@ -3,7 +3,7 @@ const {
     registerUser,
     loginUser,
     setRestaurant,
-   competitors,
+    competitors,
 } = require("../controllers/userController");
 
 const userAuthCheck = require("../middleware/userAuthCheck");
@@ -13,11 +13,11 @@ const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.get("/competitors", competitors);
 
 router.use(userAuthCheck);
 router.use(userVerifiedAndPaidCheck);
 
+router.get("/competitors", competitors);
 router.post("/restaurant", setRestaurant);
 
 module.exports = router;
