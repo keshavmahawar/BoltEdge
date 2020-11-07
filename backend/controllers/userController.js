@@ -1,8 +1,12 @@
 const bcrypt = require("bcrypt");
+const axios = require("axios");
+const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+
 const {
     registerValidator,
     loginValidator,
+    restaurantValidator,
 } = require("../validators/userValidator");
 
 const registerUser = async (req, res) => {
@@ -32,13 +36,11 @@ const registerUser = async (req, res) => {
         await newUser.save();
 
         res.json({
-            error: true,
-            message: "User registered",
+            message: `${name} registered Successfully`,
             email,
         });
     } catch (error) {
         res.status(400).json({
-            error: true,
             message: error.message,
         });
     }
@@ -53,21 +55,21 @@ const loginUser = async (req, res) => {
         }
 
         const { email, password } = req.body;
-        const userExists = await User.findOne({ email });
+        const user = await User.findOne({ email });
 
-        if (!userExists) {
+        if (!user) {
             throw new Error("Account doesn't exists");
         }
 
-        const passwordCheck = await bcrypt.compare(
-            password,
-            userExists.password
-        );
+        const passwordCheck = await bcrypt.compare(password, user.password);
 
         if (passwordCheck) {
+            const { isVerified, isPaid, email: emailDb } = user;
+            const data = { isVerified, isPaid, email: emailDb };
+            const authToken = jwt.sign(data, process.env.JWT_HASH);
             res.json({
-                auth: email,
-                error: false,
+                authToken,
+                user,
                 message: "Logged in successfully",
             });
         } else {
@@ -75,10 +77,62 @@ const loginUser = async (req, res) => {
         }
     } catch (error) {
         res.status(401).json({
-            error: true,
             message: error.message,
         });
     }
 };
 
-module.exports = { registerUser, loginUser };
+const setRestaurant = async (req, res) => {
+    try {
+        const { error } = restaurantValidator(req.body);
+
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
+
+        const { id, cuisines, url, lat, lon } = req.body;
+
+        const { email } = req.user;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            throw new Error("Account doesn't exists");
+        }
+
+        user.restaurant = { id, cuisines, url, lat, lon };
+
+        user.save();
+
+        res.json({
+            message: "restaurant updated",
+            restaurant: user.restaurant,
+        });
+    } catch (error) {
+        res.status(401).json({
+            message: error.message,
+        });
+    }
+};
+
+const competitors = (req, res) => {
+    axios
+        .get(`https://developers.zomato.com/api/v2.1/search?`, {
+            params: {
+                count: 20,
+                lat: 12.937254,
+                lon: 77.626938,
+                radius: 5000,
+                sort: "rating",
+                order: "desc",
+            },
+            headers: {
+                "user-key": "37c5a3bc78ac2a208c45a4c912c1f270",
+            },
+        })
+        .then((response) => {
+            res.send(response.data);
+        })
+        .catch((err) => res.send(err));
+};
+
+module.exports = { registerUser, loginUser, competitors, setRestaurant };

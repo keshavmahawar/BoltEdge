@@ -1,9 +1,23 @@
 const express = require("express");
-const { registerUser, loginUser } = require("../controllers/userController");
+const {
+    registerUser,
+    loginUser,
+    setRestaurant,
+   competitors,
+} = require("../controllers/userController");
+
+const userAuthCheck = require("../middleware/userAuthCheck");
+const userVerifiedAndPaidCheck = require("../middleware/userVerifiedAndPaidCheck");
 
 const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
+router.get("/competitors", competitors);
+
+router.use(userAuthCheck);
+router.use(userVerifiedAndPaidCheck);
+
+router.post("/restaurant", setRestaurant);
 
 module.exports = router;
