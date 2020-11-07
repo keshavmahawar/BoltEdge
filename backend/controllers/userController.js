@@ -91,7 +91,7 @@ const setRestaurant = async (req, res) => {
             throw new Error(error.details[0].message);
         }
 
-        const { id, cuisines, url, lat, lon } = req.body;
+        const { id, cuisines, url, lat, lon, name } = req.body;
 
         const { email } = req.user;
         const user = await User.findOne({ email });
@@ -99,7 +99,7 @@ const setRestaurant = async (req, res) => {
         if (!user) {
             throw new Error("Account doesn't exists");
         }
-        user.restaurant = { id, cuisines, url, lat, lon };
+        user.restaurant = { id, cuisines, url, lat, lon, name };
         user.save();
 
         res.json({

@@ -3,6 +3,7 @@ const Joi = require("joi");
 const restaurantSchema = Joi.object({
     id: Joi.number().required(),
     cuisines: Joi.string().required(),
+    name: Joi.string().required(),
     url: Joi.string().required(),
     lat: Joi.number().required(),
     lon: Joi.number().required(),
