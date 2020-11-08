@@ -3,6 +3,9 @@ import { useState } from "react";
 import "../index.css";
 import axios from "axios";
 import { makeStyles, InputBase, Button, Grid, Box } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { setRestaurant } from "../redux/User/action";
 import Cards from "./CardComponents/Cards";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,11 +32,12 @@ const useStyles = makeStyles((theme) => ({
 function MapIntegration() {
     const classes = useStyles();
     const gecodeRef = React.useRef();
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const [name, setName] = useState("");
     const [gecode, setgeCode] = useState(null);
     const [result, setResult] = useState([]);
-
+    const history = useHistory();
     useEffect(() => {
         const script1 = document.createElement("script");
         script1.src =
@@ -84,6 +88,11 @@ function MapIntegration() {
             console.log(error);
         }
     };
+    const clickHandler = (data) => {
+        dispatch(setRestaurant(data)).then(() =>
+            history.replace("/dashboard/demo")
+        );
+    };
     console.log(result);
     return (
         <>
@@ -129,8 +138,18 @@ function MapIntegration() {
                     ) : (
                         <Grid container spacing={2} className={classes.grid}>
                             {result.map((item) => (
-                                <Grid item xs={12} sm={12} md={6} lg={4}>
-                                    <Cards data={item} />
+                                <Grid
+                                    item
+                                    xs={12}
+                                    sm={12}
+                                    md={6}
+                                    lg={4}
+                                    key={item.id}
+                                >
+                                    <Cards
+                                        data={item}
+                                        clickHandler={clickHandler}
+                                    />
                                 </Grid>
                             ))}
                         </Grid>

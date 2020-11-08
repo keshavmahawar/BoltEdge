@@ -3,6 +3,9 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     LOGIN_LOGOUT,
+    SET_RESTAURANT_REQUEST,
+    SET_RESTAURANT_SUCCESS,
+    SET_RESTAURANT_FAILURE,
 } from "./action";
 import { saveData, loadData, removeData } from "../localStorage";
 
@@ -51,6 +54,19 @@ const userReducer = (
             return {
                 ...state,
                 ...initStore,
+            };
+        case SET_RESTAURANT_REQUEST:
+            return {
+                ...state,
+            };
+        case SET_RESTAURANT_SUCCESS:
+            return {
+                ...state,
+                restaurant: payload,
+            };
+        case SET_RESTAURANT_FAILURE:
+            return {
+                ...state,
             };
         default:
             return state;

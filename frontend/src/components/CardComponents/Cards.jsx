@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./style.module.css";
 
-function Cards({ data }) {
+function Cards({ data, clickHandler }) {
     return (
         <>
             {" "}
@@ -18,9 +18,19 @@ function Cards({ data }) {
                             Block, Bangalore
                         </div>
                         <button>
-                            <a href={data.url}>More Details</a>
+                            <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={data.url}
+                            >
+                                More Details
+                            </a>
                         </button>
-                        <button type="button" className={styles.button}>
+                        <button
+                            type="button"
+                            className={styles.button}
+                            onClick={() => clickHandler(data)}
+                        >
                             Select Restaurant
                         </button>
                     </div>
