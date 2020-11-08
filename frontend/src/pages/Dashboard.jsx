@@ -25,6 +25,7 @@ import { Route, Switch } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { loginLogout } from "../redux/User/action";
+import SetRestaurant from "../components/SetRestaurant";
 
 const drawerWidth = 240;
 
@@ -86,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
         flexGrow: 1,
-        padding: theme.spacing(8),
+        padding: theme.spacing(2),
     },
     logo: {
         flexGrow: 1,
@@ -227,6 +228,10 @@ export default function Dashboard() {
                     <PaidRoute
                         path="/dashboard/details"
                         component={() => <div>details </div>}
+                    />
+                    <PaidAndVerifiedRoute
+                        path="/dashboard/restaurant/add"
+                        component={SetRestaurant}
                     />
                     <PaidAndVerifiedRoute
                         path="/dashboard/insight"
