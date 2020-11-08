@@ -90,7 +90,7 @@ export default function UserDetails() {
 							<TextField label=" New Password" margin="normal" variant="outlined" />
 							<div style={{ height: 12 }} />
 							<Button color="primary" variant="contained">
-								Change
+								Change Password
 							</Button>
 						</div>
 						<div />
