@@ -3,7 +3,7 @@ import { Button, Grid, TextField, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
-import axios from "axios";
+import axios from "../requests/request";
 import Navbar from "../components/Navbar";
 
 const useStyles = makeStyles({
@@ -62,14 +62,11 @@ function Register(props) {
 
     const handleRegister = async (data) => {
         try {
-            const response = await axios.post(
-                `http://localhost:5000/user/register`,
-                {
-                    name: data.name,
-                    email: data.email,
-                    password: data.password,
-                }
-            );
+            const response = await axios.post(`/user/register`, {
+                name: data.name,
+                email: data.email,
+                password: data.password,
+            });
             console.log(response);
         } catch (error) {
             console.log(error);
