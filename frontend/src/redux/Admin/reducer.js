@@ -1,5 +1,5 @@
 import {
-    REGISTER_REQUEST,
+    LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     LOGIN_LOGOUT,
@@ -7,7 +7,6 @@ import {
 import { saveData, loadData } from "../localStorage";
 const initStore = {
     authToken: loadData("userToken") || null,
-    isRegister: false
 };
 
 const authReducer = (state = initStore, { type, payload }) => {
@@ -31,19 +30,6 @@ const authReducer = (state = initStore, { type, payload }) => {
                 ...state,
                 authToken: null,
             };
-        case REGISTER_REQUEST:
-                return {
-                    ...state
-                };
-        case REGISTER_SUCCESS:
-                return {
-                    ...state,
-                    isRegister:true
-                };
-        case REGISTER_FAILURE:
-                return {
-                    ...state,
-                };
         default:
             return state;
     }

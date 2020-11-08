@@ -1,8 +1,6 @@
 import React from 'react';
-import {useDispatch,useSelector} from 'react-redux'
 import { Button, Grid, TextField, Box, Checkbox, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { registerAdmin } from '../redux/Admin/action';
 const useStyles = makeStyles({
 	mainLogin: {
 		display: 'flex',
@@ -24,19 +22,7 @@ const useStyles = makeStyles({
 		margin: 'auto'
 	}
 });
-
-
 function Register(props) {
-	const [email, setEmail] = useState("")
-	const [password, setPassword] = useState("")
-	const [name,setName]=useState("")
-	const [Phone,setPhone]=useState("")
-	const dispatch = useDispatch()
-	const {isRegister} = useSelector((state) => state.user)
-
-	const handleClick = () =>{
-		dispatch(registerAdmin({name,email,password,phone}))
-	}
 	const classes = useStyles(props);
 	return (
 		<div>
@@ -54,12 +40,12 @@ function Register(props) {
 					<div />
 					<div className={classes.mainLogin}>
 						<Box className={classes.loginHeading}>Register as new user</Box>
-						<TextField label="Name" margin="normal" variant="outlined" value={name} onChange={(e)=>setName(e.target.value)} />
-						<TextField label="Email" margin="normal" variant="outlined" value={email} onChange={(e)=>setEmail(e.target.value)} />
-						<TextField label="Phone Number" margin="normal" variant="outlined"  value={Phone} onChange={(e)=>setPhone(e.target.value)}/>
-						<TextField label="Password" type="password" margin="normal" variant="outlined" value={Password} onChange={(e)=>setPassword(e.target.value)}/>
+						<TextField label="Name" margin="normal" variant="outlined" />
+						<TextField label="Email" margin="normal" variant="outlined" />
+						<TextField label="Phone Number" margin="normal" variant="outlined" />
+						<TextField label="Password" type="password" margin="normal" variant="outlined" />
 						<div style={{ height: 20 }} />
-						<Button color="primary" variant="contained" onClick={handleClick}>
+						<Button color="primary" variant="contained">
 							Register
 						</Button>
 					</div>
