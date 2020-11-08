@@ -7,6 +7,7 @@ const {
     registerValidator,
     loginValidator,
     restaurantValidator,
+    restaurantArrayValidator,
 } = require("../validators/userValidator");
 const { restaurantDataParser } = require("./restaurantController");
 
@@ -113,6 +114,34 @@ const setRestaurant = async (req, res) => {
     }
 };
 
+const setUserCompetitors = async (req, res) => {
+    try {
+        const { error } = restaurantArrayValidator(req.body);
+
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
+
+        const { email } = req.user;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            throw new Error("Account doesn't exists");
+        }
+        user.competitor = req.body;
+        user.save();
+
+        res.json({
+            message: "restaurant competitors updated",
+            competitor: user.competitor,
+        });
+    } catch (error) {
+        res.status(401).json({
+            message: error.message,
+        });
+    }
+};
+
 const competitors = async (req, res) => {
     try {
         const { data } = await axiosZomato.get("/search", {
@@ -132,4 +161,10 @@ const competitors = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, competitors, setRestaurant };
+module.exports = {
+    registerUser,
+    loginUser,
+    competitors,
+    setRestaurant,
+    setUserCompetitors,
+};

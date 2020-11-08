@@ -4,6 +4,7 @@ const {
     loginUser,
     setRestaurant,
     competitors,
+    setUserCompetitors,
 } = require("../controllers/userController");
 
 const userAuthCheck = require("../middleware/userAuthCheck");
@@ -18,6 +19,7 @@ router.use(userAuthCheck);
 router.use(userVerifiedAndPaidCheck);
 
 router.get("/competitors", competitors);
+router.post("/competitors", setUserCompetitors);
 router.post("/restaurant", setRestaurant);
 
 module.exports = router;
