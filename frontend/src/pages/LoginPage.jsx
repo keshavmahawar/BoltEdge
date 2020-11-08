@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { Formik, Form, useField } from "formik";
+import * as yup from "yup";
 import {
     Button,
     Grid,
@@ -35,13 +37,37 @@ const useStyles = makeStyles({
         margin: "auto",
     },
 });
+
+const MyTextField = ({ placeholder, label, required, type, ...props }) => {
+    const [field, meta] = useField(props);
+    const errorText = meta.error && meta.touched ? meta.error : "";
+    return (
+        <TextField
+            type={type}
+            margin="normal"
+            variant="outlined"
+            placeholder={placeholder}
+            required={required}
+            {...field}
+            helperText={errorText}
+            error={!!errorText}
+        />
+    );
+};
+
+const validationSchema = yup.object({
+    email: yup.string().email("Invalid email").required("Required"),
+    password: yup
+        .string()
+        .min(6, "Password should have miniumum 6 characters!")
+        .required("Required"),
+});
+
 function LoginPage(props) {
     const classes = useStyles(props);
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const dispatch = useDispatch();
-    const handleLogin = () => {
-        dispatch(userLogin({ email, password }));
+    const handleLogin = async (data) => {
+        dispatch(userLogin(data));
     };
 
     return (
@@ -59,41 +85,58 @@ function LoginPage(props) {
                     justify="space-between"
                     style={{ padding: 10 }}
                 >
-                    <div />
-                    <div className={classes.mainLogin}>
-                        <Box className={classes.loginHeading}>
-                            Login to your account
-                        </Box>
-                        <TextField
-                            label="Email or Username"
-                            margin="normal"
-                            variant="outlined"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <TextField
-                            label="Password"
-                            margin="normal"
-                            variant="outlined"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                        <FormControlLabel
-                            value="Remember me"
-                            control={<Checkbox color="primary" />}
-                            label="Remember me"
-                            labelPlacement="end"
-                        />
-                        <div style={{ height: 20 }} />
-                        <Button
-                            color="primary"
-                            variant="contained"
-                            onClick={handleLogin}
-                        >
-                            Log in
-                        </Button>
-                    </div>
-                    <div />
+                    {/* <div /> */}
+
+                    <Formik
+                        initialValues={{
+                            email: "",
+                            password: "",
+                        }}
+                        validationSchema={validationSchema}
+                        onSubmit={async (data, { setSubmitting }) => {
+                            setSubmitting(true);
+                            await handleLogin(data);
+                            console.log("submit: ", data);
+                            setSubmitting(false);
+                        }}
+                    >
+                        {({ values, errors, isSubmitting }) => (
+                            <Form className={classes.mainLogin}>
+                                <Box className={classes.loginHeading}>
+                                    Login to your account
+                                </Box>
+                                <MyTextField
+                                    label="Email or Username"
+                                    margin="normal"
+                                    variant="outlined"
+                                    value="email"
+                                    required={true}
+                                />
+                                <MyTextField
+                                    label="Password"
+                                    margin="normal"
+                                    variant="outlined"
+                                    value="password"
+                                    required={true}
+                                />
+                                <FormControlLabel
+                                    value="Remember me"
+                                    control={<Checkbox color="primary" />}
+                                    label="Remember me"
+                                    labelPlacement="end"
+                                />
+                                <div style={{ height: 20 }} />
+                                <Button
+                                    disabled={isSubmitting}
+                                    color="primary"
+                                    variant="contained"
+                                >
+                                    Log in
+                                </Button>
+                            </Form>
+                        )}
+                    </Formik>
+                    {/* <div /> */}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <img
