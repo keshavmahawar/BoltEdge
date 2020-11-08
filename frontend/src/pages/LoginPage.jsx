@@ -38,18 +38,18 @@ const useStyles = makeStyles({
     },
 });
 
-const MyTextField = ({ placeholder, label, required, type, ...props }) => {
+const MyTextField = ({ label, type, placeholder, ...props }) => {
     const [field, meta] = useField(props);
     const errorText = meta.error && meta.touched ? meta.error : "";
     return (
         <TextField
+            {...field}
             type={type}
+            helperText={errorText}
+            label={label}
+            placeholder={placeholder}
             margin="normal"
             variant="outlined"
-            placeholder={placeholder}
-            required={required}
-            {...field}
-            helperText={errorText}
             error={!!errorText}
         />
     );
@@ -107,23 +107,14 @@ function LoginPage(props) {
                                 </Box>
                                 <MyTextField
                                     label="Email or Username"
-                                    margin="normal"
-                                    variant="outlined"
-                                    value="email"
+                                    name="email"
                                     required={true}
                                 />
                                 <MyTextField
                                     label="Password"
-                                    margin="normal"
-                                    variant="outlined"
-                                    value="password"
+                                    name="password"
                                     required={true}
-                                />
-                                <FormControlLabel
-                                    value="Remember me"
-                                    control={<Checkbox color="primary" />}
-                                    label="Remember me"
-                                    labelPlacement="end"
+                                    type="password"
                                 />
                                 <div style={{ height: 20 }} />
                                 <Button
