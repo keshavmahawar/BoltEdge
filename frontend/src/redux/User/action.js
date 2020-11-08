@@ -8,6 +8,7 @@ import {
     SET_RESTAURANT_SUCCESS,
     SET_RESTAURANT_FAILURE,
 } from "./actionTypes";
+import { toast } from "react-toastify";
 
 const loginRequest = (payload) => {
     return {
@@ -66,6 +67,9 @@ const userLogin = (payload) => (dispatch) => {
         })
         .catch((err) => {
             dispatch(loginFailure(err?.response?.data?.message));
+            toast.error(
+                err?.response?.data?.message || "unknown error while login"
+            );
         });
 };
 
@@ -80,9 +84,11 @@ const setRestaurant = (payload) => (dispatch, getState) => {
                 },
             });
             dispatch(setRestaurantSuccess(data.restaurant));
+            toast.success("Restaurant updated successfully");
             resolve();
         } catch (err) {
             dispatch(setRestaurantFailure(err?.response?.data?.message));
+            toast.error(err?.response?.data?.message || "Could not be updated");
             reject();
         }
     });

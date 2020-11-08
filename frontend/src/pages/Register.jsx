@@ -2,9 +2,11 @@ import React from "react";
 import { Button, Grid, TextField, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Formik, Form, useField } from "formik";
+import { useHistory } from "react-router-dom";
 import * as yup from "yup";
 import axios from "../requests/request";
 import Navbar from "../components/Navbar";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles({
     mainLogin: {
@@ -59,7 +61,7 @@ const validationSchema = yup.object({
 
 function Register(props) {
     const classes = useStyles(props);
-
+    const history = useHistory();
     const handleRegister = async (data) => {
         try {
             const response = await axios.post(`/user/register`, {
@@ -67,9 +69,12 @@ function Register(props) {
                 email: data.email,
                 password: data.password,
             });
-            console.log(response);
+            toast.success(response?.data?.message);
+            history.push("/login");
         } catch (error) {
-            console.log(error);
+            toast.error(
+                error.response?.data?.message || "Could not register user"
+            );
         }
     };
 
