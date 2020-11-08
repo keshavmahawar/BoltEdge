@@ -4,7 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
-
+BoltEdge/backend/node_modules
+BoltEdge/frontend/node_modules
 # testing
 /coverage
 

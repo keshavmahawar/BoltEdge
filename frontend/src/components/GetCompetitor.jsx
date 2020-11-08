@@ -3,14 +3,16 @@ import axios from '../requests/request'
 import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Checkbox } from '@material-ui/core'
-import { usersetCompetitor } from '../redux/User/action'
+// import { usersetCompetitor } from '../redux/User/action'
 
 export default function GetCompetitor() {
     const { authToken } = useSelector((state) => state.user)
     const [isLoading, setIsLoading] = useState(true)
     const [allCompetitors, setAllCompetitors] = useState([])
-    const [checked, setChecked] = useState(false);
+
     const [topCompetitor, setTopCompetitor] = useState([])
+    const [topCompetitorIDs, setTopCompetitorIDs] = useState([])
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -24,43 +26,70 @@ export default function GetCompetitor() {
         }).catch((err) => console.log(err?.response?.data?.message))
     }, [])
 
-    const handleCheckBox = (id) => {
-        if (checked == true) {
-            allCompetitors.find((item) => item.id === id ? setTopCompetitor([...topCompetitor, item]) : null)
+    const handleCheckBox = (e, id) => {
+        if (e.target.checked == true) {
+            if (topCompetitor.length >= 5) {
+                e.target.checked = false
+                console.log("Max 5")
+                return;
+            }
+            allCompetitors.forEach((item) => item.id == id ? handleTopCompetitor(item) : null)
         }
         else {
-            allCompetitors.filter((item) => item.id !== id)
+            let newArray = [...topCompetitor]
+            let tempArray = [...topCompetitorIDs]
+            topCompetitor.forEach((item, index) => {
+                if (item.id == id) {
+                    newArray.splice(index, 1)
+                    tempArray.splice(index, 1)
+                }
+            })
+            setTopCompetitor(newArray)
+            setTopCompetitorIDs(tempArray)
         }
+        console.log(e.target.checked, id, topCompetitor)
 
+    }
+
+    const handleTopCompetitor = (item) => {
+        setTopCompetitor([...topCompetitor, item]);
+        setTopCompetitorIDs([...topCompetitorIDs, item.id])
     }
 
     const handleSave = () => {
         console.log(topCompetitor)
-        dispatch(usersetCompetitor(topCompetitor))
+        // dispatch(usersetCompetitor(topCompetitor))
     }
     return (
+
         <>
             {isLoading ? (<h1>Loading...</h1>) :
                 (
-                    allCompetitors.map((item) => {
-                        return (
-                            <>
-                                <div key={item.id}>
-                                    <div>
-                                        <Checkbox
-                                            value={checked}
-                                            color="primary"
-                                            onChange={() => handleCheckBox(item.id)}
-                                        />
-                                    </div>
-                                    <div>{item.name}</div>
-                                    <div><a href={item.url}>View Site</a></div>
-                                </div>
-                                <button onClick={handleSave}>Save</button>
-                            </>
-                        )
-                    })
+                    <div>
+                        {
+                            allCompetitors.map((item) => {
+                                return (
+                                    <>
+                                        <div key={item.id}>
+                                            <div>
+                                                <Checkbox
+                                                    checked={topCompetitorIDs.includes(item.id) ? true : false}
+                                                    color="primary"
+                                                    onChange={(e) => handleCheckBox(e, item.id)}
+                                                />
+                                            </div>
+                                            <div>{item.name}</div>
+                                            <div><a href={item.url}>View Site</a></div>
+                                        </div>
+
+                                    </>
+                                )
+                            })
+                        }
+                        <button onClick={handleSave}>Save</button>
+                    </div>
                 )}
+
         </>
     )
 }
