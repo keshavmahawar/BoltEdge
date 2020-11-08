@@ -4,6 +4,9 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     LOGIN_LOGOUT,
+    SET_COMPETITOR_REQUEST,
+    SET_COMPETITOR_SUCCESS,
+    SET_COMPETITOR_FAILURE,
 } from "./actionTypes";
 
 const loginRequest = (payload) => {
@@ -44,14 +47,54 @@ const userLogin = (payload) => (dispatch) => {
         });
 };
 
+const setCompetitorRequest = (payload) => {
+    return {
+        type: SET_COMPETITOR_REQUEST,
+        payload,
+    };
+};
+
+const setCompetitorSuccess = (payload) => {
+    return {
+        type: SET_COMPETITOR_SUCCESS,
+        payload,
+    };
+};
+
+const setCompetitorFailure = (payload) => {
+    return {
+        type: SET_COMPETITOR_FAILURE,
+        payload,
+    };
+};
+
+const usersetCompetitor = (payload) => (dispatch) => {
+    dispatch(setCompetitorRequest(payload));
+    return axios
+        .post("/user/competitors", payload)
+        .then((res) => {
+            dispatch(setCompetitorSuccess(res.data));
+        })
+        .catch((err) => {
+            dispatch(setCompetitorFailure(err?.response?.data?.message));
+        });
+};
+
 export {
     userLogin,
     loginFailure,
     loginRequest,
     loginSuccess,
     loginLogout,
+    usersetCompetitor,
+    setCompetitorFailure,
+    setCompetitorRequest,
+    setCompetitorSuccess,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     LOGIN_LOGOUT,
+    SET_COMPETITOR_REQUEST,
+    SET_COMPETITOR_SUCCESS,
+    SET_COMPETITOR_FAILURE,
 };
