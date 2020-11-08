@@ -1,10 +1,12 @@
 import React from "react";
 import MainRouter from "./route/MainRouter";
-// import Alerts from "./components/Alerts";
+import "axios-progress-bar/dist/nprogress.css";
+import Register from "./pages/Register";
 
 function App() {
     return (
         <>
+            {/* <Register /> */}
             <MainRouter />
             {/* <Alerts /> */}
         </>
