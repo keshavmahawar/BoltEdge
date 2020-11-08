@@ -1,5 +1,5 @@
 import React from "react";
-import MainRouter from "./route/MainRouter";
+// import MainRouter from "./route/MainRouter";
 import MapInt from "./components/MapInt";
 // import Alerts from "./components/Alerts";
 
