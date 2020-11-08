@@ -2,27 +2,19 @@ import React, { useEffect, userState } from "react";
 import { useState } from "react";
 import "../index.css";
 import axios from "axios";
-import { makeStyles, InputBase, Button, Grid } from "@material-ui/core";
+import { makeStyles, InputBase, Button, Grid, Box } from "@material-ui/core";
 import Cards from "./CardComponents/Cards";
 
 const useStyles = makeStyles((theme) => ({
-    grid: {
-        width: "80%",
-        margin: "10px",
-    },
-
     InputBase: {
         border: "1px solid black",
+        padding: "0px 5px",
         borderRadius: theme.spacing.borderRadius,
-        width: "26.5%",
-        background: "white",
         fontSize: "larger",
-    },
-    restInput: {
-        margin: "60px 0 0 25%",
+        margin: "10px",
     },
     Button: {
-        marginTop: "10px",
+        margin: "10px",
     },
     cardContainer: {
         alignItems: "center",
@@ -64,8 +56,8 @@ function MapIntegration() {
                 var map = new mapboxgl.Map({
                     container: "map",
                     style: "mapbox://styles/mapbox/streets-v11",
-                    center: [-79.4512, 43.6568],
-                    zoom: 13,
+                    center: [77.1, 28.7],
+                    zoom: 7,
                 });
                 var geocoder = new MapboxGeocoder({
                     accessToken: mapboxgl.accessToken,
@@ -95,54 +87,53 @@ function MapIntegration() {
     console.log(result);
     return (
         <>
-            {result.length > 0 ? (
-                <>
-                    <Grid container spacing={2} className={classes.grid}>
-                        {result.map((item) => (
-                            <Grid item xs={12} sm={12} md={6} lg={6}>
-                                <Cards data={item} />
-                            </Grid>
-                        ))}
-                    </Grid>
-                </>
+            {loading ? (
+                <div>loading Map</div>
             ) : (
                 <>
-                    {loading ? (
-                        <div>loading Map</div>
+                    <Box
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        <div
+                            id="geocoder"
+                            className="geocoder"
+                            ref={gecodeRef}
+                        ></div>
+                        <div>
+                            <InputBase
+                                type="text"
+                                placeholder="Restaruant Name"
+                                variant="outlined"
+                                className={classes.InputBase}
+                                value={name}
+                                name="name"
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className={classes.Button}
+                                onClick={restaurantsDetails}
+                            >
+                                Search
+                            </Button>
+                        </div>
+                    </Box>
+
+                    {result.length == 0 ? (
+                        <div id="map" style={{ height: "500px" }}></div>
                     ) : (
-                        <>
-                            <div
-                                id="geocoder"
-                                className="geocoder"
-                                ref={gecodeRef}
-                            ></div>
-                            <div className={classes.restInput}>
-                                <div>
-                                    <InputBase
-                                        type="text"
-                                        placeholder="Restaruant Name"
-                                        variant="outlined"
-                                        className={classes.InputBase}
-                                        value={name}
-                                        name="name"
-                                        onChange={(e) =>
-                                            setName(e.target.value)
-                                        }
-                                    />
-                                </div>
-                                <div>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.Button}
-                                        onClick={restaurantsDetails}
-                                    >
-                                        Search
-                                    </Button>
-                                </div>
-                            </div>
-                            <div id="map" style={{ height: "500px" }}></div>
-                        </>
+                        <Grid container spacing={2} className={classes.grid}>
+                            {result.map((item) => (
+                                <Grid item xs={12} sm={12} md={6} lg={4}>
+                                    <Cards data={item} />
+                                </Grid>
+                            ))}
+                        </Grid>
                     )}
                 </>
             )}

@@ -1,27 +1,16 @@
 * {
-    padding: 0;
-    margin: 0;
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
 }
 #map {
-    position: absolute;
-    top: 0;
-    bottom: 0;
     width: 100%;
 }
 .geocoder {
-    position: absolute;
-    z-index: 1;
-    width: 20%;
-    left: 50%;
-    margin-left: -25%;
-    top: 10px;
     border: 1px solid black;
 }
 .mapboxgl-ctrl-geocoder {
     min-width: 100%;
-}
-#map {
-    margin-top: 180px;
 }
 
 body {

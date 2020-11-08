@@ -1,13 +1,11 @@
 import React from "react";
-// import MainRouter from "./route/MainRouter";
-import MapInt from "./components/MapInt";
+import MainRouter from "./route/MainRouter";
 // import Alerts from "./components/Alerts";
 
 function App() {
     return (
         <>
-            <MapInt />
-            {/* <MainRouter /> */}
+            <MainRouter />
             {/* <Alerts /> */}
         </>
     );
