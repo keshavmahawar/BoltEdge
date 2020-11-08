@@ -1,7 +1,7 @@
-import React, { useEffect, userState } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import "../index.css";
-import axios from "axios";
+import axios from "../requests/request";
 import { makeStyles, InputBase, Button, Grid, Box } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -76,17 +76,12 @@ function MapIntegration() {
     const restaurantsDetails = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(
-                `http://localhost:5000/restaurant/search`,
-                {
-                    restaurant: name,
-                    address: gecode._typeahead.data[0].place_name,
-                }
-            );
+            const response = await axios.post(`/restaurant/search`, {
+                restaurant: name,
+                address: gecode._typeahead.data[0].place_name,
+            });
             setResult(response.data);
-        } catch (error) {
-            console.log(error);
-        }
+        } catch (error) {}
     };
     const clickHandler = (data) => {
         dispatch(setRestaurant(data)).then(() =>
