@@ -1,16 +1,10 @@
 import React from "react";
-import {
-    Button,
-    Grid,
-    TextField,
-    Box,
-    Checkbox,
-    FormControlLabel,
-} from "@material-ui/core";
+import { Button, Grid, TextField, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
 import axios from "axios";
+import Navbar from "../components/Navbar";
 
 const useStyles = makeStyles({
     mainLogin: {
@@ -59,7 +53,7 @@ const validationSchema = yup.object({
     email: yup.string().email("Invalid email").required("Required"),
     password: yup
         .string()
-        .min(6, "Password should have miniumum 2 characters!")
+        .min(6, "Password should have miniumum 6 characters!")
         .required("Required"),
 });
 
@@ -85,6 +79,7 @@ function Register(props) {
     return (
         <div>
             <Grid container style={{ minHeight: "100vh" }}>
+                <Navbar />
                 <Grid
                     container
                     item
