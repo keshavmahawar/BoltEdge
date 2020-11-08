@@ -1,14 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
-function PrivateRouting(props) {
-    const authToken = useSelector((state) => state.user.authToken);
+function PaidRoute(props) {
+    const isPaid = useSelector((state) => state.user.isPaid);
     const { children, ...others } = props;
     return (
         <Route
             {...others}
             render={({ location }) =>
-                !authToken ? (
+                !isPaid ? (
                     <Redirect
                         to={{
                             pathname: "/login",
@@ -23,4 +23,4 @@ function PrivateRouting(props) {
     );
 }
 
-export default PrivateRouting;
+export default PaidRoute;
