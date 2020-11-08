@@ -3,20 +3,21 @@ import { useSelector } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 function VerifiedRoute(props) {
     const isVerified = useSelector((state) => state.user.isVerified);
-    const { children, ...others } = props;
+    const isPaid = useSelector((state) => state.user.isPaid);
+    const { component: Component, ...others } = props;
     return (
         <Route
             {...others}
             render={({ location }) =>
-                !isVerified ? (
+                !isVerified || !isPaid ? (
                     <Redirect
                         to={{
-                            pathname: "/login",
+                            pathname: "dashboard/demo",
                             state: { from: location },
                         }}
                     />
                 ) : (
-                    children
+                    <Component />
                 )
             }
         />

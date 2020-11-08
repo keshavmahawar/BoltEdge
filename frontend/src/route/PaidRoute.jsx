@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 function PaidRoute(props) {
     const isPaid = useSelector((state) => state.user.isPaid);
-    const { children, ...others } = props;
+    const { component: Component, ...others } = props;
     return (
         <Route
             {...others}
@@ -11,12 +11,12 @@ function PaidRoute(props) {
                 !isPaid ? (
                     <Redirect
                         to={{
-                            pathname: "/login",
+                            pathname: "dashboard/pay",
                             state: { from: location },
                         }}
                     />
                 ) : (
-                    children
+                    <Component />
                 )
             }
         />

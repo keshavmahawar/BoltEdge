@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Redirect } from "react-router-dom";
 import {
     Button,
     Grid,
@@ -11,6 +12,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { userLogin } from "../redux/User/action";
 import Navbar from "../components/Navbar";
+import NonPrivateRoute from "../route/NonPrivateRoute";
 
 const useStyles = makeStyles({
     mainLogin: {
@@ -38,13 +40,13 @@ function LoginPage(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
-
     const handleLogin = () => {
         dispatch(userLogin({ email, password }));
     };
 
     return (
         <div>
+            <NonPrivateRoute />
             <Grid container style={{ minHeight: "100vh" }}>
                 <Navbar />
                 <Grid
