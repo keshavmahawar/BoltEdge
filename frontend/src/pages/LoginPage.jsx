@@ -85,7 +85,7 @@ function LoginPage(props) {
                     justify="space-between"
                     style={{ padding: 10 }}
                 >
-                    {/* <div /> */}
+                    <div />
 
                     <Formik
                         initialValues={{
@@ -121,13 +121,14 @@ function LoginPage(props) {
                                     disabled={isSubmitting}
                                     color="primary"
                                     variant="contained"
+                                    type="submit"
                                 >
                                     Log in
                                 </Button>
                             </Form>
                         )}
                     </Formik>
-                    {/* <div /> */}
+                    <div />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <img
