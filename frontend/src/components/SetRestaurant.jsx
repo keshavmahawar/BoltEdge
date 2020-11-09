@@ -85,7 +85,7 @@ function MapIntegration() {
     };
     const clickHandler = (data) => {
         dispatch(setRestaurant(data)).then(() =>
-            history.replace("/dashboard/demo")
+            history.replace("/dashboard/restaurant/competitors")
         );
     };
     console.log(result);

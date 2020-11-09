@@ -66,7 +66,6 @@ const userLogin = (payload) => (dispatch) => {
     return axios
         .post("/user/login", payload)
         .then((res) => {
-            console.log(res)
             dispatch(loginSuccess(res.data));
         })
         .catch((err) => {
@@ -101,18 +100,23 @@ const setCompetitorFailure = (payload) => {
 const usersetCompetitor = (payload) => (dispatch) => {
     dispatch(setCompetitorRequest(payload));
     return axios
-        .post("/user/competitors",
-            payload.topCompetitor,
-            {
-                headers: {
-                    Authorization: payload.authToken,
-                }
-            })
+        .post("/user/competitors", payload.topCompetitor, {
+            headers: {
+                Authorization: payload.authToken,
+            },
+        })
         .then((res) => {
+            toast.success(res.data.message);
             dispatch(setCompetitorSuccess(res.data.competitor));
         })
         .catch((err) => {
             dispatch(setCompetitorFailure(err?.response?.data?.message));
+            toast.error(
+                err?.response?.data?.message ||
+                    "Competitors could not be updated"
+            );
+
+            throw err;
         });
 };
 
