@@ -10,3 +10,7 @@ export function loadData(key) {
 export function saveData(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
 }
+
+export function removeData(key) {
+    localStorage.removeItem(key);
+}

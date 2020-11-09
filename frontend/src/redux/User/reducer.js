@@ -3,11 +3,14 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     LOGIN_LOGOUT,
+    SET_RESTAURANT_REQUEST,
+    SET_RESTAURANT_SUCCESS,
+    SET_RESTAURANT_FAILURE,
 } from "./action";
-import { saveData, loadData } from "../localStorage";
+import { saveData, loadData, removeData } from "../localStorage";
 
 const initStore = {
-    authToken: loadData("authToken") || null,
+    authToken: null,
     isVerified: false,
     isPaid: false,
     restaurant: null,
@@ -17,16 +20,17 @@ const initStore = {
     competitor: [],
 };
 
-const userReducer = (state = initStore, { type, payload }) => {
+const userReducer = (
+    state = loadData("userData") || initStore,
+    { type, payload }
+) => {
     switch (type) {
         case LOGIN_REQUEST:
             return {
                 ...state,
             };
         case LOGIN_SUCCESS:
-            saveData("authToken", "Bearer " + payload.authToken);
-            return {
-                ...state,
+            let userData = {
                 authToken: "Bearer " + payload.authToken,
                 isVerified: payload.user.isVerified,
                 isPaid: payload.user.isPaid,
@@ -36,14 +40,33 @@ const userReducer = (state = initStore, { type, payload }) => {
                 name: payload.user.name,
                 competitor: payload.user.competitor,
             };
+            saveData("userData", userData);
+            return {
+                ...state,
+                ...userData,
+            };
         case LOGIN_FAILURE:
             return {
                 ...state,
             };
         case LOGIN_LOGOUT:
+            removeData("userData");
             return {
                 ...state,
-                authToken: null,
+                ...initStore,
+            };
+        case SET_RESTAURANT_REQUEST:
+            return {
+                ...state,
+            };
+        case SET_RESTAURANT_SUCCESS:
+            return {
+                ...state,
+                restaurant: payload,
+            };
+        case SET_RESTAURANT_FAILURE:
+            return {
+                ...state,
             };
         default:
             return state;

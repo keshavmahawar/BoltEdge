@@ -1,20 +1,12 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { Formik, Form, useField } from "formik";
-import * as yup from "yup";
-import {
-    Button,
-    Grid,
-    TextField,
-    Box,
-    Checkbox,
-    FormControlLabel,
-} from "@material-ui/core";
+import React from "react";
+import { Button, Grid, TextField, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { userLogin } from "../redux/User/action";
+import { Formik, Form, useField } from "formik";
+import { useHistory } from "react-router-dom";
+import * as yup from "yup";
+import axios from "../requests/request";
 import Navbar from "../components/Navbar";
-import NonPrivateRoute from "../route/NonPrivateRoute";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles({
     mainLogin: {
@@ -30,8 +22,8 @@ const useStyles = makeStyles({
         color: "#333333",
         marginBottom: "20px",
     },
-    loginPageImage: {
-        width: "90%",
+    signUpImage: {
+        width: "80%",
         height: "100%",
         objectFit: "cover",
         margin: "auto",
@@ -56,6 +48,10 @@ const MyTextField = ({ label, type, placeholder, ...props }) => {
 };
 
 const validationSchema = yup.object({
+    name: yup
+        .string()
+        .min(4, "First name should be miniumum 2 characters!")
+        .required("Required"),
     email: yup.string().email("Invalid email").required("Required"),
     password: yup
         .string()
@@ -63,16 +59,27 @@ const validationSchema = yup.object({
         .required("Required"),
 });
 
-function LoginPage(props) {
+function Register(props) {
     const classes = useStyles(props);
-    const dispatch = useDispatch();
-    const handleLogin = async (data) => {
-        dispatch(userLogin(data));
+    const history = useHistory();
+    const handleRegister = async (data) => {
+        try {
+            const response = await axios.post(`/user/register`, {
+                name: data.name,
+                email: data.email,
+                password: data.password,
+            });
+            toast.success(response?.data?.message);
+            history.push("/login");
+        } catch (error) {
+            toast.error(
+                error.response?.data?.message || "Could not register user"
+            );
+        }
     };
 
     return (
         <div>
-            <NonPrivateRoute />
             <Grid container style={{ minHeight: "100vh" }}>
                 <Navbar />
                 <Grid
@@ -86,16 +93,16 @@ function LoginPage(props) {
                     style={{ padding: 10 }}
                 >
                     <div />
-
                     <Formik
                         initialValues={{
+                            name: "",
                             email: "",
                             password: "",
                         }}
                         validationSchema={validationSchema}
                         onSubmit={async (data, { setSubmitting }) => {
                             setSubmitting(true);
-                            await handleLogin(data);
+                            await handleRegister(data);
                             console.log("submit: ", data);
                             setSubmitting(false);
                         }}
@@ -103,18 +110,31 @@ function LoginPage(props) {
                         {({ values, errors, isSubmitting }) => (
                             <Form className={classes.mainLogin}>
                                 <Box className={classes.loginHeading}>
-                                    Login to your account
+                                    Register as new user
                                 </Box>
                                 <MyTextField
-                                    label="Email or Username"
-                                    name="email"
-                                    required={true}
+                                    label="Name"
+                                    name="name"
+                                    margin="normal"
+                                    variant="outlined"
                                 />
+                                <MyTextField
+                                    label="Email"
+                                    margin="normal"
+                                    name="email"
+                                    variant="outlined"
+                                />
+                                {/* <MyTextField
+                                label="Phone Number"
+                                margin="normal"
+                                variant="outlined"
+                            /> */}
                                 <MyTextField
                                     label="Password"
                                     name="password"
-                                    required={true}
                                     type="password"
+                                    margin="normal"
+                                    variant="outlined"
                                 />
                                 <div style={{ height: 20 }} />
                                 <Button
@@ -123,7 +143,7 @@ function LoginPage(props) {
                                     variant="contained"
                                     type="submit"
                                 >
-                                    Log in
+                                    Register
                                 </Button>
                             </Form>
                         )}
@@ -132,8 +152,8 @@ function LoginPage(props) {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <img
-                        src="undraw_data_xmfy (1).svg"
-                        className={classes.loginPageImage}
+                        src="signup-page.png"
+                        className={classes.signUpImage}
                         alt="brand"
                     />
                 </Grid>
@@ -142,4 +162,4 @@ function LoginPage(props) {
     );
 }
 
-export default LoginPage;
+export default Register;

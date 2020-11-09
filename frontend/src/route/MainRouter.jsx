@@ -2,6 +2,8 @@ import { Route, Switch } from "react-router-dom";
 import React from "react";
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
+import Register from "../pages/Register";
+import Dashboard from "../pages/Dashboard";
 import PrivateRouting from "./PrivateRouting";
 
 function MainRouter(props) {
@@ -10,7 +12,10 @@ function MainRouter(props) {
             <Switch>
                 <Route path="/" exact component={LandingPage} />
                 <Route path="/login" exact component={LoginPage} />
-                <PrivateRouting path="/dashboard"></PrivateRouting>
+                <Route path="/signup" exact component={Register} />
+                <PrivateRouting path="/dashboard">
+                    <Route path="/dashboard/" component={Dashboard} />
+                </PrivateRouting>
             </Switch>
         </>
     );
