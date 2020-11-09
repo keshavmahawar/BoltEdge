@@ -37,6 +37,10 @@ const User = new Schema({
         required: false,
         default: "",
     },
+    phoneNo: {
+        type: Number,
+        default: 1234567890,
+    },
     isVerified: { type: Boolean, default: false },
     isPaid: { type: Boolean, default: false },
     restaurant: {

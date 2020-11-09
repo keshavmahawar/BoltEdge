@@ -20,6 +20,7 @@ import InsertChartTwoToneIcon from "@material-ui/icons/InsertChartTwoTone";
 import AssignmentTwoToneIcon from "@material-ui/icons/AssignmentTwoTone";
 import PlayCircleOutlineTwoToneIcon from "@material-ui/icons/PlayCircleOutlineTwoTone";
 import PaidRoute from "../route/PaidRoute";
+import UserDetails from "./UserDetails";
 import PaidAndVerifiedRoute from "../route/PaidAndVerifiedRoute";
 import { Route, Switch } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -114,7 +115,7 @@ export default function Dashboard() {
             <CssBaseline />
             <AppBar
                 position="fixed"
-                color="transparent"
+                color="white"
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: open,
                 })}
@@ -228,7 +229,7 @@ export default function Dashboard() {
                     />
                     <PaidRoute
                         path="/dashboard/details"
-                        component={() => <div>details </div>}
+                        component={UserDetails}
                     />
                     <PaidAndVerifiedRoute
                         path="/dashboard/restaurant/add"
