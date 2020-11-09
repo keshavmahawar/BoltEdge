@@ -1,88 +1,52 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { Grid, Container } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
 
-const useStyles = makeStyles({
-	mainLogin: {
-		display: 'flex',
-		flexDirection: 'column',
-		maxWidth: 500,
-		minWidth: 400
-	},
-	loginHeading: {
-		textAlign: 'left',
-		fontSize: '50px',
-		fontWeight: '300',
-		color: '#333333',
-		marginBottom: '10px'
-	},
+const useStyles = makeStyles((theme) => ({
 	root: {
-		flexGrow: 2
+		flexGrow: 2,
+		background: '#63C986'
 	},
 	nav: {
 		marginLeft: 10,
 		padding: 5
 	},
-	cardroot1: {
-		minWidth: 25,
-		display: 'flex',
-		flexWrap: 'wrap',
-		margin: 30,
-		width: 430,
-		height: 200,
-		background: '#F2F3F4'
+	root1: {
+		flexGrow: 1,
+		margin: 30
 	},
-	cardroot2: {
-		minWidth: 25,
-		display: 'flex',
-		flexWrap: 'wrap',
-		margin: 30,
-		width: 480,
-		height: 460,
-		background: '#F2F3F4'
+	paper1: {
+		height: theme.spacing(15),
+		width: theme.spacing(45),
+		textAlign: 'center',
+		color: theme.palette.text.secondary,
+		background: '##7E5109',
+		borderRadius: '10%',
+		fontWeight: 'bold'
 	},
-	cardroot3: {
-		minWidth: 25,
-		display: 'flex',
-		flexWrap: 'wrap',
-		margin: 30,
-		width: 185,
-		height: 200,
-		background: '#F2F3F4'
+	paper2: {
+		height: theme.spacing(40),
+		width: theme.spacing(32.5),
+		textAlign: 'center',
+		color: theme.palette.text.secondary,
+		background: '##7E5109',
+		borderRadius: '30%',
+		fontWeight: 'bold'
 	},
-	cardroot4: {
-		minWidth: 25,
-		display: 'flex',
-		flexWrap: 'wrap',
-		margin: 30,
-		marginLeft: 165,
-		width: 1200,
-		height: 200,
-		background: '#F2F3F4'
-	},
-	title: {
-		fontSize: 14
-	},
-	container: {
-		display: 'flex'
-	},
-	mainContainer: {
-		display: 'flex'
-	},
-	xyz: {
-		display: 'flex',
-		flexDirection: 'column'
-	},
-	pqr: {
-		display: 'flex',
-		flexDirection: 'row'
+	paper3: {
+		height: theme.spacing(40),
+		width: theme.spacing(70),
+		textAlign: 'center',
+		color: theme.palette.text.secondary,
+		background: '##7E5109',
+		fontWeight: 'bold'
 	}
-});
-export default function UserReports() {
+}));
+export default function UserReport() {
 	const classes = useStyles();
 
 	return (
@@ -98,79 +62,43 @@ export default function UserReports() {
 					</Typography>
 				</Toolbar>
 			</AppBar>
-			<div className={classes.mainContainer}>
-				<div className={classes.xyz}>
-					<Card className={classes.cardroot1}>
-						<CardContent>
-							<Typography className={classes.title} color="textSecondary" gutterBottom>
-								Word of the Day
-							</Typography>
-						</CardContent>
-					</Card>
-					<div className={classes.pqr}>
-						<Card className={classes.cardroot3}>
-							<CardContent>
-								<Typography className={classes.title} color="textSecondary" gutterBottom>
-									Word of the Day
-								</Typography>
-							</CardContent>
-						</Card>
-
-						<Card className={classes.cardroot3}>
-							<CardContent>
-								<Typography className={classes.title} color="textSecondary" gutterBottom>
-									Word of the Day
-								</Typography>
-							</CardContent>
-						</Card>
-					</div>
+			<Container>
+				<div className={classes.root1}>
+					<Grid container spacing={3}>
+						<Grid item xs>
+							<Paper className={classes.paper1}>No. Of Items</Paper>
+						</Grid>
+						<Grid item xs>
+							<Paper className={classes.paper1}>Rating Comparison</Paper>
+						</Grid>
+						<Grid item xs>
+							<Paper className={classes.paper1}>Review Comparison</Paper>
+						</Grid>
+					</Grid>
+					<Grid container spacing={3}>
+						<Grid item xs>
+							<Paper className={classes.paper2}>Discount</Paper>
+						</Grid>
+						<Grid item xs={6}>
+							<Paper className={classes.paper3}>Sales Trend Chart</Paper>
+						</Grid>
+						<Grid item xs>
+							<Paper className={classes.paper2}>Selling Comparison</Paper>
+						</Grid>
+					</Grid>
+					<Grid container spacing={3}>
+						<Grid item xs>
+							<Paper className={classes.paper1}>Average Order Value</Paper>
+						</Grid>
+						<Grid item xs>
+							<Paper className={classes.paper1}>Average Discount Gap</Paper>
+						</Grid>
+						<Grid item xs>
+							<Paper className={classes.paper1}>Average Burn</Paper>
+						</Grid>
+					</Grid>
 				</div>
-				<div className={classes.container}>
-					<Card className={classes.cardroot2}>
-						<CardContent>
-							<Typography className={classes.title} color="textSecondary" gutterBottom>
-								Word of the Day
-							</Typography>
-						</CardContent>
-					</Card>
-				</div>
-				<div className={classes.xyz}>
-					<Card className={classes.cardroot1}>
-						<CardContent>
-							<Typography className={classes.title} color="textSecondary" gutterBottom>
-								Word of the Day
-							</Typography>
-						</CardContent>
-					</Card>
-					<div className={classes.pqr}>
-						<Card className={classes.cardroot3}>
-							<CardContent>
-								<Typography className={classes.title} color="textSecondary" gutterBottom>
-									Word of the Day
-								</Typography>
-							</CardContent>
-						</Card>
-
-						<Card className={classes.cardroot3}>
-							<CardContent>
-								<Typography className={classes.title} color="textSecondary" gutterBottom>
-									Word of the Day
-								</Typography>
-							</CardContent>
-						</Card>
-					</div>
-				</div>
-			</div>
-
-			<div className={classes.container}>
-				<Card className={classes.cardroot4}>
-					<CardContent>
-						<Typography className={classes.title} color="textSecondary" gutterBottom>
-							Word of the Day
-						</Typography>
-					</CardContent>
-				</Card>
-			</div>
+			</Container>
 		</div>
 	);
 }
