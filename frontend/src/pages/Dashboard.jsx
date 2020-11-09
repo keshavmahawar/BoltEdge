@@ -112,7 +112,7 @@ export default function Dashboard() {
             <CssBaseline />
             <AppBar
                 position="fixed"
-                color="transparent"
+                color="white"
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: open,
                 })}
