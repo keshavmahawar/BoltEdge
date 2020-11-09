@@ -30,7 +30,7 @@
     background: rgb(85 108 214 / 10%);
 }
 
-.detailsCardBox .cardDiv:hover .title h1,
+.detailsCardBox .cardDiv:hover .title h3,
 .detailsCardBox .cardDiv:hover .description p,
 .detailsCardBox .cardDiv:hover .description .address {
     color: #fff;
@@ -67,21 +67,24 @@
     color: #309df0;
 }
 
-.cardDiv .title h1 {
+.cardDiv .title h3 {
     color: #212121;
     margin-top: 13px;
+    font-weight: bolder;
+    text-transform: capitalize;
     margin-bottom: 13px;
 }
 
 .cardDiv .description .address {
     color: #212121;
-    font-size: 1.3rem;
+    font-size: 1rem;
+    font-weight: bolder;
     margin-top: 13px;
     margin-bottom: 13px;
 }
 
 .cardDiv .description p {
-    font-size: 20px;
+    font-size: 15px;
     margin-top: 10px;
 }
 
@@ -98,12 +101,6 @@
     font-weight: 500;
     font-size: 1rem;
     padding: 5px 16px;
-}
-
-h1 {
-    text-transform: capitalize;
-    margin-bottom: 1rem;
-    font-size: 2.5rem;
 }
 
 .hoverBubble {
