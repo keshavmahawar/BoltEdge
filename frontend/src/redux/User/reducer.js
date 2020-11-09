@@ -14,6 +14,9 @@ const initStore = {
     _id: "",
     email: "",
     name: "",
+    phoneNo: "",
+    gstNo: "",
+    fssaiNo: "",
     competitor: [],
 };
 
@@ -36,6 +39,9 @@ const userReducer = (
                 email: payload.user.email,
                 name: payload.user.name,
                 competitor: payload.user.competitor,
+                phoneNo: payload.user.phoneNo,
+                gstNo: payload.user.gstNo,
+                fssaiNo: payload.user.fssaiNo,
             };
             saveData("userData", userData);
             return {
