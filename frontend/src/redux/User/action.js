@@ -4,6 +4,9 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     LOGIN_LOGOUT,
+    SET_COMPETITOR_REQUEST,
+    SET_COMPETITOR_SUCCESS,
+    SET_COMPETITOR_FAILURE,
     SET_RESTAURANT_REQUEST,
     SET_RESTAURANT_SUCCESS,
     SET_RESTAURANT_FAILURE,
@@ -73,6 +76,50 @@ const userLogin = (payload) => (dispatch) => {
         });
 };
 
+const setCompetitorRequest = (payload) => {
+    return {
+        type: SET_COMPETITOR_REQUEST,
+        payload,
+    };
+};
+
+const setCompetitorSuccess = (payload) => {
+    return {
+        type: SET_COMPETITOR_SUCCESS,
+        payload,
+    };
+};
+
+const setCompetitorFailure = (payload) => {
+    return {
+        type: SET_COMPETITOR_FAILURE,
+        payload,
+    };
+};
+
+const usersetCompetitor = (payload) => (dispatch) => {
+    dispatch(setCompetitorRequest(payload));
+    return axios
+        .post("/user/competitors", payload.topCompetitor, {
+            headers: {
+                Authorization: payload.authToken,
+            },
+        })
+        .then((res) => {
+            toast.success(res.data.message);
+            dispatch(setCompetitorSuccess(res.data.competitor));
+        })
+        .catch((err) => {
+            dispatch(setCompetitorFailure(err?.response?.data?.message));
+            toast.error(
+                err?.response?.data?.message ||
+                    "Competitors could not be updated"
+            );
+
+            throw err;
+        });
+};
+
 const setRestaurant = (payload) => (dispatch, getState) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -100,11 +147,18 @@ export {
     loginRequest,
     loginSuccess,
     loginLogout,
+    usersetCompetitor,
+    setCompetitorFailure,
+    setCompetitorRequest,
+    setCompetitorSuccess,
     setRestaurant,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     LOGIN_LOGOUT,
+    SET_COMPETITOR_REQUEST,
+    SET_COMPETITOR_SUCCESS,
+    SET_COMPETITOR_FAILURE,
     SET_RESTAURANT_REQUEST,
     SET_RESTAURANT_SUCCESS,
     SET_RESTAURANT_FAILURE,

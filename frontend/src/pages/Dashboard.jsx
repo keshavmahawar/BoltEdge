@@ -26,6 +26,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { loginLogout } from "../redux/User/action";
 import SetRestaurant from "../components/SetRestaurant";
+import GetCompetitor from "../components/GetCompetitor";
 
 const drawerWidth = 240;
 
@@ -232,6 +233,10 @@ export default function Dashboard() {
                     <PaidAndVerifiedRoute
                         path="/dashboard/restaurant/add"
                         component={SetRestaurant}
+                    />
+                    <PaidAndVerifiedRoute
+                        path="/dashboard/restaurant/competitors"
+                        component={GetCompetitor}
                     />
                     <PaidAndVerifiedRoute
                         path="/dashboard/insight"

@@ -6,6 +6,9 @@ import {
     SET_RESTAURANT_REQUEST,
     SET_RESTAURANT_SUCCESS,
     SET_RESTAURANT_FAILURE,
+    SET_COMPETITOR_REQUEST,
+    SET_COMPETITOR_SUCCESS,
+    SET_COMPETITOR_FAILURE,
 } from "./action";
 import { saveData, loadData, removeData } from "../localStorage";
 
@@ -63,8 +66,22 @@ const userReducer = (
             return {
                 ...state,
                 restaurant: payload,
+                competitor: [],
             };
         case SET_RESTAURANT_FAILURE:
+            return {
+                ...state,
+            };
+        case SET_COMPETITOR_REQUEST:
+            return {
+                ...state,
+            };
+        case SET_COMPETITOR_SUCCESS:
+            return {
+                ...state,
+                competitor: payload,
+            };
+        case SET_COMPETITOR_FAILURE:
             return {
                 ...state,
             };
