@@ -1,8 +1,27 @@
-const fs = require("fs");
 const axios = require("axios");
-const flatten = require("flat");
+// const flatten = require("flat");
 // const cheerio = require("cheerio");
 // const request = require("reques");
+function findTextAndReturnRemainder(target, variable) {
+    const chopFront = target.substring(
+        target.indexOf(variable) + variable.length,
+        target.length
+    );
+
+    let jsonData = chopFront.substring(0, chopFront.indexOf('")'));
+
+    let replaceString;
+    replaceString = `\\\\"`;
+
+    let replacer = new RegExp(replaceString, "g");
+    jsonData = jsonData.replace(replacer, '"');
+    replaceString = `\\\\\\\\`;
+    replacer = new RegExp(replaceString, "g");
+    jsonData = jsonData.replace(replacer, "\\");
+
+    const result = JSON.parse(jsonData);
+    return result;
+}
 
 const zomatoOrderPageScraper = async (url) => {
     try {
@@ -14,26 +33,6 @@ const zomatoOrderPageScraper = async (url) => {
                 "accept-language": "en-US,en;q=0.9",
             },
         });
-        function findTextAndReturnRemainder(target, variable) {
-            const chopFront = target.substring(
-                target.indexOf(variable) + variable.length,
-                target.length
-            );
-
-            let jsonData = chopFront.substring(0, chopFront.indexOf('")'));
-
-            let replaceString;
-            replaceString = `\\\\"`;
-
-            let replacer = new RegExp(replaceString, "g");
-            jsonData = jsonData.replace(replacer, '"');
-            replaceString = `\\\\\\\\`;
-            replacer = new RegExp(replaceString, "g");
-            jsonData = jsonData.replace(replacer, "\\");
-
-            const result = JSON.parse(jsonData);
-            return result;
-        }
 
         const pageJsonData = findTextAndReturnRemainder(
             data,
@@ -42,6 +41,7 @@ const zomatoOrderPageScraper = async (url) => {
         return pageJsonData;
     } catch (err) {
         console.log(err);
+        return err;
     }
 
     // console.log(response.headers);
@@ -84,6 +84,8 @@ const zomatoOrderPageScraper = async (url) => {
     // console.log("test")
 };
 
+const getNoFromString = (string) => string.match(/\d/g).join("");
+
 const orderPageDataSelector = async (url) => {
     const data = await zomatoOrderPageScraper(url);
     // console.log(flatten(data));
@@ -94,32 +96,49 @@ const orderPageDataSelector = async (url) => {
     const menus = restaurant.order.menuList.menus;
     const bestSeller = [];
     const discounts = [];
+    const newUserDiscount = [];
     let totalItems = 0;
 
-    for (let i = 0; i < promosOnMenu.length; i++) {
-        const off = promosOnMenu[i].title1.text;
+    for (let i = 0; i < promosOnMenu.length; i += 1) {
+        // console.log(promosOnMenu[i]);
+        const off = getNoFromString(promosOnMenu[i].title1.text);
         const voucher = promosOnMenu[i].voucher_code;
         let discount = { off, voucher };
         const terms = promosOnMenu[i].terms;
-        for (let i = 0; i < terms.length; i++) {
-            if (terms[i].includes("Maximum")) {
-                discount = { ...discount, max: terms[i] };
+        if (promosOnMenu[i].sub_title.includes("above")) {
+            discount = {
+                ...discount,
+                minCap: getNoFromString(promosOnMenu[i].sub_title),
+            };
+        }
+        if (promosOnMenu[i].title.includes("up to")) {
+            discount = {
+                ...discount,
+                maxCap: getNoFromString(
+                    promosOnMenu[i].title.split("up to")[1]
+                ),
+            };
+        }
+        for (let j = 0; j < terms.length; j += 1) {
+            if (terms[j].includes("Maximum")) {
+                discount = { ...discount, maxCap: getNoFromString(terms[j]) };
             }
         }
+        if (voucher.includes("WELCOME")) newUserDiscount.push(discount);
         discounts.push(discount);
     }
-    for (let i = 1; i < menus.length; i++) {
+    for (let i = 1; i < menus.length; i += 1) {
         const items = menus[i].menu.categories[0].category.items;
         totalItems += items.length;
 
-        for (let j = 0; j < items.length; j++) {
+        for (let j = 0; j < items.length; j += 1) {
             if (items[j].item.tag_slugs.includes("bestseller")) {
                 bestSeller.push(items[j].item.name);
             }
         }
     }
 
-    return { totalItems, bestSeller, discounts };
+    return { totalItems, bestSeller, discounts, newUserDiscount };
 };
 
 module.exports = { orderPageDataSelector };
