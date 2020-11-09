@@ -5,45 +5,63 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Container } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
+import ListIcon from '@material-ui/icons/List';
+import StarsIcon from '@material-ui/icons/Stars';
+import RateReviewIcon from '@material-ui/icons/RateReview';
+import EuroIcon from '@material-ui/icons/Euro';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import RestaurantIcon from '@material-ui/icons/Restaurant';
+import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		flexGrow: 2,
-		background: '#63C986'
+		flexGrow: 2
 	},
 	nav: {
 		marginLeft: 10,
 		padding: 5
 	},
 	root1: {
-		flexGrow: 1,
-		margin: 30
+		display: 'flex',
+		flexWrap: 'wrap',
+		'& > *': {
+			margin: theme.spacing(2),
+			width: theme.spacing(40),
+			height: theme.spacing(18)
+		}
 	},
-	paper1: {
-		height: theme.spacing(15),
-		width: theme.spacing(45),
-		textAlign: 'center',
-		color: theme.palette.text.secondary,
-		background: '##7E5109',
-		borderRadius: '5%',
-		fontWeight: 'bold'
+	root2: {
+		display: 'flex',
+		flexWrap: 'wrap',
+		'& > *': {
+			margin: theme.spacing(2),
+			width: theme.spacing(84),
+			height: theme.spacing(58)
+		}
 	},
-	paper2: {
-		height: theme.spacing(40),
-		width: theme.spacing(32.5),
-		textAlign: 'center',
-		color: theme.palette.text.secondary,
-		background: '##7E5109',
-		borderRadius: '30%',
-		fontWeight: 'bold'
+	root3: {
+		display: 'flex',
+		flexWrap: 'wrap',
+		'& > *': {
+			margin: theme.spacing(2),
+			width: theme.spacing(84),
+			height: theme.spacing(58)
+		}
 	},
-	paper3: {
-		height: theme.spacing(40),
-		width: theme.spacing(70),
-		textAlign: 'center',
-		color: theme.palette.text.secondary,
-		background: '##7E5109',
-		fontWeight: 'bold'
+	root4: {
+		display: 'flex',
+		flexWrap: 'wrap',
+		'& > *': {
+			margin: theme.spacing(2),
+			width: theme.spacing(38),
+			height: theme.spacing(20)
+		}
+	},
+	size: {
+		margin: theme.spacing(2),
+		width: theme.spacing(4),
+		height: theme.spacing(4)
 	}
 }));
 export default function UserReport() {
@@ -62,43 +80,112 @@ export default function UserReport() {
 					</Typography>
 				</Toolbar>
 			</AppBar>
-			<Container>
-				<div className={classes.root1}>
-					<Grid container spacing={3}>
-						<Grid item xs>
-							<Paper className={classes.paper1}>No. Of Items</Paper>
-						</Grid>
-						<Grid item xs>
-							<Paper className={classes.paper1}>Rating Comparison</Paper>
-						</Grid>
-						<Grid item xs>
-							<Paper className={classes.paper1}>Review Comparison</Paper>
-						</Grid>
-					</Grid>
-					<Grid container spacing={3}>
-						<Grid item xs>
-							<Paper className={classes.paper2}>Discount</Paper>
-						</Grid>
-						<Grid item xs={6}>
-							<Paper className={classes.paper3}>Sales Trend Chart</Paper>
-						</Grid>
-						<Grid item xs>
-							<Paper className={classes.paper2}>Selling Comparison</Paper>
-						</Grid>
-					</Grid>
-					<Grid container spacing={3}>
-						<Grid item xs>
-							<Paper className={classes.paper1}>Average Order Value</Paper>
-						</Grid>
-						<Grid item xs>
-							<Paper className={classes.paper1}>Average Discount Gap</Paper>
-						</Grid>
-						<Grid item xs>
-							<Paper className={classes.paper1}>Average Burn</Paper>
-						</Grid>
-					</Grid>
+			<div className={classes.root1}>
+				<Paper elevation={5} style={{ background: '#F1F1F1' }}>
+					<div style={{ display: 'flex' }}>
+						<ListIcon className={classes.size} />
+						<h3>No. of items</h3>
+					</div>
+					<div style={{ textAlign: 'center' }}>
+						<h1>5000</h1>
+					</div>
+				</Paper>
+				<Paper elevation={5} style={{ background: '#F1F1F1' }}>
+					<div style={{ display: 'flex' }}>
+						<StarsIcon className={classes.size} />
+						<h3>Rating Comparison</h3>
+					</div>
+					<div style={{ textAlign: 'center' }}>
+						<h1>5000</h1>
+					</div>
+				</Paper>
+				<Paper elevation={5} style={{ background: '#F1F1F1' }}>
+					<div style={{ display: 'flex' }}>
+						<RateReviewIcon className={classes.size} />
+						<h3>Review Comparison</h3>
+					</div>
+					<div style={{ textAlign: 'center' }}>
+						<h1>5000</h1>
+					</div>
+				</Paper>
+				<Paper elevation={5} style={{ background: '#F1F1F1' }}>
+					<div style={{ display: 'flex' }}>
+						<EuroIcon className={classes.size} />
+						<h3>Discounts</h3>
+					</div>
+					<div style={{ textAlign: 'center' }}>
+						<h1>5000</h1>
+					</div>
+				</Paper>
+			</div>
+			<div style={{ display: 'flex', flexWrap: 'wrap' }}>
+				<div className={classes.root2}>
+					<Paper elevation={5} style={{ background: '#F1F1F1' }}>
+						<div style={{ display: 'flex' }}>
+							<TrendingUpIcon className={classes.size} />
+							<h3>Sales Trend Chart</h3>
+						</div>
+						<div>
+							<img
+								style={{ width: 670 }}
+								src="https://pbs.twimg.com/media/DlDgB8BU4AAXoGq.jpg"
+								alt="Charts"
+							/>
+						</div>
+					</Paper>
 				</div>
-			</Container>
+				<div className={classes.root3}>
+					<Paper elevation={5} style={{ background: 'white smoke' }}>
+						<div style={{ display: 'flex' }}>
+							<RestaurantIcon className={classes.size} />
+							<h3>Resturant Average Comparison</h3>
+						</div>
+						<div className={classes.root4}>
+							<Paper elevation={5} style={{ background: '#F1F1F1' }}>
+								<div style={{ display: 'flex' }}>
+									<RestaurantMenuIcon className={classes.size} />
+									<h3>Average Order Value</h3>
+								</div>
+								<div style={{ textAlign: 'center' }}>
+									<AttachMoneyIcon />
+									<h1>255</h1>
+								</div>
+							</Paper>
+							<Paper elevation={5} style={{ background: '#F1F1F1' }}>
+								<div style={{ display: 'flex' }}>
+									<RestaurantMenuIcon className={classes.size} />
+									<h3>Average Discount Gap</h3>
+								</div>
+								<div style={{ textAlign: 'center' }}>
+									<AttachMoneyIcon />
+									<h1>25</h1>
+								</div>
+							</Paper>
+						</div>
+						<div className={classes.root4}>
+							<Paper elevation={5} style={{ background: '#F1F1F1' }}>
+								<div style={{ display: 'flex' }}>
+									<RestaurantMenuIcon className={classes.size} />
+									<h3>Average Burn</h3>
+								</div>
+								<div style={{ textAlign: 'center' }}>
+									<AttachMoneyIcon />
+									<h1>50</h1>
+								</div>
+							</Paper>
+							<Paper elevation={5} style={{ background: '#F1F1F1' }}>
+								<div style={{ display: 'flex' }}>
+									<RestaurantMenuIcon className={classes.size} />
+									<h3>Selling Comparison</h3>
+								</div>
+								<div style={{ textAlign: 'center' }}>
+									<h1>Chinese</h1>
+								</div>
+							</Paper>
+						</div>
+					</Paper>
+				</div>
+			</div>
 		</div>
 	);
 }
