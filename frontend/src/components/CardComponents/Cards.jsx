@@ -26,13 +26,14 @@ function Cards({ data, clickHandler }) {
                                 More Details
                             </a>
                         </button>
-                        <button
+                        {clickHandler ? (<button
                             type="button"
                             className={styles.button}
                             onClick={() => clickHandler(data)}
                         >
                             Select Restaurant
-                        </button>
+                        </button>) : null}
+
                     </div>
                 </div>
             </div>

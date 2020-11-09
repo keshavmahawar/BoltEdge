@@ -26,6 +26,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { loginLogout } from "../redux/User/action";
 import SetRestaurant from "../components/SetRestaurant";
+import GetRestaurant from "../components/GetCompetitor"
 
 const drawerWidth = 240;
 
@@ -163,8 +164,8 @@ export default function Dashboard() {
                         {theme.direction === "rtl" ? (
                             <ChevronRightIcon />
                         ) : (
-                            <ChevronLeftIcon />
-                        )}
+                                <ChevronLeftIcon />
+                            )}
                     </IconButton>
                 </div>
                 <Divider />

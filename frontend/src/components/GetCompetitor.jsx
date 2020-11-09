@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import axios from '../requests/request'
 import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { Checkbox } from '@material-ui/core'
-// import { usersetCompetitor } from '../redux/User/action'
+import { Switch, Grid, Button } from '@material-ui/core'
+import { usersetCompetitor } from '../redux/User/action'
+import Card from './CardComponents/Cards'
 
 export default function GetCompetitor() {
     const { authToken } = useSelector((state) => state.user)
@@ -18,7 +19,7 @@ export default function GetCompetitor() {
     useEffect(() => {
         axios.get("/user/competitors", {
             headers: {
-                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc1ZlcmlmaWVkIjp0cnVlLCJpc1BhaWQiOnRydWUsImVtYWlsIjoia2VzbWFoYXdhckBnbWFpbC5jb20iLCJpYXQiOjE2MDQ3NTkyOTJ9.9f6ggejOeXl4fJy6fzVbsASCCJqoUk_sobBXW9ChFVE`
+                'Authorization': authToken
             }
         }).then((res) => {
             setIsLoading(false)
@@ -30,6 +31,7 @@ export default function GetCompetitor() {
         if (e.target.checked == true) {
             if (topCompetitor.length >= 5) {
                 e.target.checked = false
+                alert("Max 5 Competitors Only")
                 console.log("Max 5")
                 return;
             }
@@ -58,7 +60,7 @@ export default function GetCompetitor() {
 
     const handleSave = () => {
         console.log(topCompetitor)
-        // dispatch(usersetCompetitor(topCompetitor))
+        dispatch(usersetCompetitor({ topCompetitor, authToken }))
     }
     return (
 
@@ -66,30 +68,38 @@ export default function GetCompetitor() {
             {isLoading ? (<h1>Loading...</h1>) :
                 (
                     <div>
-                        {
-                            allCompetitors.map((item) => {
+                        <h1 style={{ textAlign: "center", color: "#14C3C8" }}>Top 20 Competitors</h1>
+                        <Button onClick={handleSave} variant="contained" color="secondary" style={{ float: "right" }}>Save Competitors</Button>
+
+                        <Grid container spacing={2}>
+                            {allCompetitors.map((item) => {
                                 return (
                                     <>
-                                        <div key={item.id}>
-                                            <div>
-                                                <Checkbox
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            sm={12}
+                                            md={6}
+                                            lg={4}
+                                            key={item.id}
+                                        >
+                                            <Card data={item}>
+
+                                            </Card>
+                                            <div>Select:
+                                                <Switch
                                                     checked={topCompetitorIDs.includes(item.id) ? true : false}
                                                     color="primary"
                                                     onChange={(e) => handleCheckBox(e, item.id)}
                                                 />
                                             </div>
-                                            <div>{item.name}</div>
-                                            <div><a href={item.url}>View Site</a></div>
-                                        </div>
-
+                                        </Grid>
                                     </>
                                 )
-                            })
-                        }
-                        <button onClick={handleSave}>Save</button>
+                            })}
+                        </Grid>
                     </div>
                 )}
-
         </>
     )
 }

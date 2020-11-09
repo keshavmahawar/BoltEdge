@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 export default function SetCompetitor() {
     const { restaurant } = useSelector((state) => state.user)
 
+
     if (restaurant == null)
         return <Redirect to=""></Redirect>
 

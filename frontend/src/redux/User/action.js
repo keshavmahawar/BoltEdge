@@ -66,6 +66,7 @@ const userLogin = (payload) => (dispatch) => {
     return axios
         .post("/user/login", payload)
         .then((res) => {
+            console.log(res)
             dispatch(loginSuccess(res.data));
         })
         .catch((err) => {
@@ -100,9 +101,15 @@ const setCompetitorFailure = (payload) => {
 const usersetCompetitor = (payload) => (dispatch) => {
     dispatch(setCompetitorRequest(payload));
     return axios
-        .post("/user/competitors", payload)
+        .post("/user/competitors",
+            payload.topCompetitor,
+            {
+                headers: {
+                    Authorization: payload.authToken,
+                }
+            })
         .then((res) => {
-            dispatch(setCompetitorSuccess(res.data));
+            dispatch(setCompetitorSuccess(res.data.competitor));
         })
         .catch((err) => {
             dispatch(setCompetitorFailure(err?.response?.data?.message));
