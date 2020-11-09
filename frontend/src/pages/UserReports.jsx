@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'center',
 		color: theme.palette.text.secondary,
 		background: '##7E5109',
-		borderRadius: '10%',
+		borderRadius: '5%',
 		fontWeight: 'bold'
 	},
 	paper2: {
