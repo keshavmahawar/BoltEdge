@@ -6,6 +6,7 @@ const restaurantSchema = new Schema({
     id: Number,
     name: String,
     cuisines: String,
+    address: String,
     url: String,
     lat: Number,
     lon: Number,
@@ -36,6 +37,10 @@ const User = new Schema({
         type: String,
         required: false,
         default: "",
+    },
+    phoneNo: {
+        type: Number,
+        default: 1234567890,
     },
     isVerified: { type: Boolean, default: false },
     isPaid: { type: Boolean, default: false },

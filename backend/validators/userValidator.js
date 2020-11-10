@@ -5,6 +5,7 @@ const restaurantSchema = Joi.object({
     cuisines: Joi.string().required(),
     name: Joi.string().required(),
     url: Joi.string().required(),
+    address: Joi.string().required(),
     lat: Joi.number().required(),
     lon: Joi.number().required(),
 });
