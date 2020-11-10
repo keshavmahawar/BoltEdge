@@ -39,9 +39,38 @@ const loginValidator = (data) => {
     return schema.validate(data);
 };
 
+const passwordValidator = (data) => {
+    const schema = Joi.object({
+        email: Joi.string().required().email(),
+        oldPassword: Joi.string().min(6).required(),
+        newPassword: Joi.string().min(6).required(),
+    });
+    return schema.validate(data);
+};
+
+const phoneNoValidator = (data) => {
+    const schema = Joi.object({
+        email: Joi.string().required().email(),
+        phoneNo: Joi.string().min(10).required(),
+    });
+    return schema.validate(data);
+};
+
+const bussinessDetailsValidator = (data) => {
+    const schema = Joi.object({
+        email: Joi.string().required().email(),
+        gstNo: Joi.string().min(15).required(),
+        fssaiNo: Joi.string().min(14).required(),
+    });
+    return schema.validate(data);
+};
+
 module.exports = {
     registerValidator,
     loginValidator,
     restaurantValidator,
     restaurantArrayValidator,
+    passwordValidator,
+    phoneNoValidator,
+    bussinessDetailsValidator,
 };
