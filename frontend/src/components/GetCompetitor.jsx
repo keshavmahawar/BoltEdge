@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "../requests/request";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Switch, Grid, Button } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 import { usersetCompetitor } from "../redux/User/action";
 import Card from "./CardComponents/Cards";
 
 export default function GetCompetitor() {
-    const { authToken } = useSelector((state) => state.user);
+    const authToken = useSelector((state) => state.user.authToken);
+    const restaurant = useSelector((state) => state.user.restaurant);
     const [isLoading, setIsLoading] = useState(true);
     const [allCompetitors, setAllCompetitors] = useState([]);
 
@@ -65,6 +66,8 @@ export default function GetCompetitor() {
             history.push("/dashboard")
         );
     };
+    if (restaurant == null)
+        return <Redirect to="/dashboard/restaurant/add"></Redirect>;
     return (
         <>
             {isLoading ? (
@@ -95,23 +98,19 @@ export default function GetCompetitor() {
                                         lg={4}
                                         key={item.id}
                                     >
-                                        <Card data={item}></Card>
-                                        <div>
-                                            Select:
-                                            <Switch
-                                                checked={
-                                                    topCompetitorIDs.includes(
-                                                        item.id
-                                                    )
-                                                        ? true
-                                                        : false
-                                                }
-                                                color="primary"
-                                                onChange={(e) =>
-                                                    handleCheckBox(e, item.id)
-                                                }
-                                            />
-                                        </div>
+                                        <Card
+                                            data={item}
+                                            checked={
+                                                topCompetitorIDs.includes(
+                                                    item.id
+                                                )
+                                                    ? true
+                                                    : false
+                                            }
+                                            onChange={(e) =>
+                                                handleCheckBox(e, item.id)
+                                            }
+                                        ></Card>
                                     </Grid>
                                 </>
                             );
