@@ -215,7 +215,7 @@ const passwordChangeFailure = (payload) => {
 const passwordChange = (payload) => (dispatch) => {
     dispatch(passwordChangeRequest(payload));
     return axios
-        .post("/user/updatePassword",
+        .put("/user/updatePassword",
             {
                 "email": payload.email,
                 "oldPassword": payload.oldPassword,
