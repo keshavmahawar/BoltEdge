@@ -72,6 +72,7 @@ const userReducer = (
             return {
                 ...state,
                 restaurant: payload,
+                competitor: [],
             };
         case SET_RESTAURANT_FAILURE:
             return {
@@ -84,7 +85,7 @@ const userReducer = (
         case SET_COMPETITOR_SUCCESS:
             return {
                 ...state,
-                competitor: payload
+                competitor: payload,
             };
         case SET_COMPETITOR_FAILURE:
             return {
