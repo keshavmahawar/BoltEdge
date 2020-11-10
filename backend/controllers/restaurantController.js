@@ -20,7 +20,7 @@ const restaurantDataParser = (data) => {
             name,
             cuisines,
             url,
-            location: { latitude, longitude },
+            location: { latitude, longitude, address },
         } = restaurants[i].restaurant;
 
         response.push({
@@ -28,6 +28,7 @@ const restaurantDataParser = (data) => {
             id,
             cuisines,
             url,
+            address,
             lat: latitude,
             lon: longitude,
         });
