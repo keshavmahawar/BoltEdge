@@ -9,7 +9,7 @@ function Cards({ data, clickHandler }) {
                 <div className={styles.cardDiv}>
                     <div className={styles.hoverBubble}></div>
                     <div className={styles.title}>
-                        <h1>{data.name}</h1>
+                        <h3>{data.name}</h3>
                     </div>
                     <div className={styles.description}>
                         <p>Cuisines: {data.cuisines}</p>
