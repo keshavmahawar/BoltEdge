@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "../requests/request";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import { Grid, Button } from "@material-ui/core";
 import { usersetCompetitor } from "../redux/User/action";
 import Card from "./CardComponents/Cards";
