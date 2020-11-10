@@ -10,6 +10,15 @@ import {
     SET_RESTAURANT_REQUEST,
     SET_RESTAURANT_SUCCESS,
     SET_RESTAURANT_FAILURE,
+    PASSWORD_CHANGE_REQUEST,
+    PASSWORD_CHANGE_SUCCESS,
+    PASSWORD_CHANGE_FAILURE,
+    NUMBER_CHANGE_REQUEST,
+    NUMBER_CHANGE_SUCCESS,
+    NUMBER_CHANGE_FAILURE,
+    RESTAURANT_CHANGE_REQUEST,
+    RESTAURANT_CHANGE_SUCCESS,
+    RESTAURANT_CHANGE_FAILURE
 } from "./actionTypes";
 import { toast } from "react-toastify";
 
@@ -137,6 +146,89 @@ const setRestaurant = (payload) => (dispatch, getState) => {
     });
 };
 
+const numChangeRequest = (payload) => {
+    return {
+        type: NUMBER_CHANGE_REQUEST,
+        payload,
+    };
+};
+
+const numChangeSuccess = (payload) => {
+    return {
+        type: NUMBER_CHANGE_SUCCESS,
+        payload,
+    };
+};
+
+const numChangeFailure = (payload) => {
+    return {
+        type: NUMBER_CHANGE_FAILURE,
+        payload,
+    };
+};
+
+const numberChange = (payload) => (dispatch) => {
+    dispatch(numChangeRequest(payload));
+    return axios
+        .post("/user/number",
+            {
+                "phone": payload.newPhoneNum
+            },
+            {
+                headers: {
+                    Authorization: payload.authToken,
+                }
+            })
+        .then((res) => {
+            dispatch(numChangeSuccess(res.data));
+        })
+        .catch((err) => {
+            dispatch(numChangeFailure(err?.response?.data?.message));
+        });
+};
+
+const passwordChangeRequest = (payload) => {
+    return {
+        type: PASSWORD_CHANGE_REQUEST,
+        payload,
+    };
+};
+
+const passwordChangeSuccess = (payload) => {
+    return {
+        type: PASSWORD_CHANGE_SUCCESS,
+        payload,
+    };
+};
+
+const passwordChangeFailure = (payload) => {
+    return {
+        type: PASSWORD_CHANGE_FAILURE,
+        payload,
+    };
+};
+
+const passwordChange = (payload) => (dispatch) => {
+    dispatch(passwordChangeRequest(payload));
+    return axios
+        .post("/user/password",
+            {
+                "oldPassword": payload.oldPassword,
+                "newPassword": payload.newPassword
+            },
+            {
+                headers: {
+                    Authorization: payload.authToken,
+                }
+            })
+        .then((res) => {
+            dispatch(passwordChangeSuccess(res.data));
+        })
+        .catch((err) => {
+            dispatch(passwordChangeFailure(err?.response?.data?.message));
+        });
+};
+
 export {
     userLogin,
     loginFailure,
@@ -148,6 +240,8 @@ export {
     setCompetitorRequest,
     setCompetitorSuccess,
     setRestaurant,
+    numberChange,
+    passwordChange,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
@@ -158,4 +252,10 @@ export {
     SET_RESTAURANT_REQUEST,
     SET_RESTAURANT_SUCCESS,
     SET_RESTAURANT_FAILURE,
+    PASSWORD_CHANGE_REQUEST,
+    PASSWORD_CHANGE_SUCCESS,
+    PASSWORD_CHANGE_FAILURE,
+    NUMBER_CHANGE_REQUEST,
+    NUMBER_CHANGE_SUCCESS,
+    NUMBER_CHANGE_FAILURE
 };

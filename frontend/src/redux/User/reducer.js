@@ -9,6 +9,12 @@ import {
     SET_COMPETITOR_REQUEST,
     SET_COMPETITOR_SUCCESS,
     SET_COMPETITOR_FAILURE,
+    PASSWORD_CHANGE_REQUEST,
+    PASSWORD_CHANGE_SUCCESS,
+    PASSWORD_CHANGE_FAILURE,
+    NUMBER_CHANGE_REQUEST,
+    NUMBER_CHANGE_SUCCESS,
+    NUMBER_CHANGE_FAILURE
 } from "./action";
 import { saveData, loadData, removeData } from "../localStorage";
 
@@ -81,6 +87,31 @@ const userReducer = (
                 competitor: payload
             };
         case SET_COMPETITOR_FAILURE:
+            return {
+                ...state,
+            };
+        case NUMBER_CHANGE_REQUEST:
+            return {
+                ...state,
+            };
+        case NUMBER_CHANGE_SUCCESS:
+            return {
+                ...state,
+                phone: payload
+            };
+        case NUMBER_CHANGE_FAILURE:
+            return {
+                ...state,
+            };
+        case PASSWORD_CHANGE_REQUEST:
+            return {
+                ...state,
+            };
+        case PASSWORD_CHANGE_SUCCESS:
+            return {
+                ...state,
+            };
+        case PASSWORD_CHANGE_FAILURE:
             return {
                 ...state,
             };

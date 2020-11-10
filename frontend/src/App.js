@@ -3,7 +3,7 @@ import MainRouter from "./route/MainRouter";
 import "axios-progress-bar/dist/nprogress.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import GetCompetitor from "./components/GetCompetitor";
+// import GetCompetitor from "./components/GetCompetitor";
 
 function App() {
     return (
@@ -11,7 +11,7 @@ function App() {
             <MainRouter />
             {/* <Alerts /> */}
             <ToastContainer position="bottom-center" />
-            <GetCompetitor />
+            {/* <GetCompetitor /> */}
         </>
     );
 }
