@@ -5,6 +5,9 @@ const {
     setRestaurant,
     competitors,
     setUserCompetitors,
+    updatePassword,
+    updatePhoneNo,
+    updateBussinessDetails,
 } = require("../controllers/userController");
 
 const userAuthCheck = require("../middleware/userAuthCheck");
@@ -14,6 +17,9 @@ const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
+router.put("/updatePassword", updatePassword);
+router.post("/updatePhoneNo", updatePhoneNo);
+router.post("/updateBussinessDetails", updateBussinessDetails);
 
 router.use(userAuthCheck);
 router.use(userVerifiedAndPaidCheck);
