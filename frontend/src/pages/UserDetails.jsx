@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from 'react-redux'
+import { passwordChange, numberChange, gst_fssai_Change } from '../redux/User/action'
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -30,7 +32,25 @@ const useStyles = makeStyles({
 });
 export default function UserDetails() {
     const classes = useStyles();
+    const { email, authToken } = useSelector((state) => state.user)
+    const dispatch = useDispatch()
+    const [oldPassword, setOldPassword] = useState("")
+    const [newPassword, setNewPassword] = useState("")
+    const [newPhoneNum, setNewPhoneNum] = useState("")
+    const [gst, setGst] = useState("")
+    const [fssai, setFssai] = useState("")
 
+    const handlePasswordChange = () => {
+        dispatch(passwordChange({ oldPassword, newPassword, authToken, email }))
+    }
+
+    const handleNewPhoneNum = () => {
+        dispatch(numberChange({ newPhoneNum, authToken, email }))
+    }
+
+    const handleGstFssai = () => {
+        dispatch(gst_fssai_Change({ gst, fssai, email }))
+    }
     return (
         <div className={classes.root}>
             <div>
@@ -51,6 +71,7 @@ export default function UserDetails() {
                                 User Login
                             </Box>
                             <TextField
+                                value={email}
                                 label="Email"
                                 margin="normal"
                                 variant="outlined"
@@ -60,9 +81,11 @@ export default function UserDetails() {
                                 label="Phone no"
                                 margin="normal"
                                 variant="outlined"
+                                type="number"
+                                onChange={(e) => setNewPhoneNum(e.target.value)}
                             />
                             <div style={{ height: 12 }} />
-                            <Button color="primary" variant="contained">
+                            <Button color="primary" variant="contained" onClick={handleNewPhoneNum}>
                                 Update No
                             </Button>
                         </div>
@@ -90,14 +113,16 @@ export default function UserDetails() {
                                 label=" Old Password"
                                 margin="normal"
                                 variant="outlined"
+                                onChange={(e) => setOldPassword(e.target.value)}
                             />
                             <TextField
                                 label=" New Password"
                                 margin="normal"
                                 variant="outlined"
+                                onChange={(e) => setNewPassword(e.target.value)}
                             />
                             <div style={{ height: 12 }} />
-                            <Button color="primary" variant="contained">
+                            <Button color="primary" variant="contained" onClick={handlePasswordChange}>
                                 Update
                             </Button>
                         </div>
@@ -150,14 +175,16 @@ export default function UserDetails() {
                                 label="GST Details"
                                 margin="normal"
                                 variant="outlined"
+                                onChange={(e) => setGst(e.target.value)}
                             />
                             <TextField
                                 label="Fssi Details"
                                 margin="normal"
                                 variant="outlined"
+                                onChange={(e) => setFssai(e.target.value)}
                             />
                             <div style={{ height: 12 }} />
-                            <Button color="primary" variant="contained">
+                            <Button color="primary" variant="contained" onClick={handleGstFssai}>
                                 Update Details
                             </Button>
                         </div>

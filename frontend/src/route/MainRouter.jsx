@@ -5,6 +5,7 @@ import LoginPage from "../pages/LoginPage";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import PrivateRouting from "./PrivateRouting";
+import UserDetails from "../pages/UserDetails";
 
 function MainRouter(props) {
     return (
@@ -15,6 +16,7 @@ function MainRouter(props) {
                 <Route path="/signup" exact component={Register} />
                 <PrivateRouting path="/dashboard">
                     <Route path="/dashboard/" component={Dashboard} />
+                    <Route path="/dashboard/details" component={UserDetails} />
                 </PrivateRouting>
             </Switch>
         </>
