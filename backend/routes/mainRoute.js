@@ -17,11 +17,12 @@ const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.put("/updatePassword", updatePassword);
-router.post("/updatePhoneNo", updatePhoneNo);
-router.post("/updateBussinessDetails", updateBussinessDetails);
 
 router.use(userAuthCheck);
+router.post("/updatePhoneNo", updatePhoneNo);
+router.put("/updatePassword", updatePassword);
+router.post("/updateBusinessDetails", updateBussinessDetails);
+
 router.use(userVerifiedAndPaidCheck);
 
 router.get("/competitors", competitors);

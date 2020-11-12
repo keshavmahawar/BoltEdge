@@ -22,7 +22,7 @@ import PlayCircleOutlineTwoToneIcon from "@material-ui/icons/PlayCircleOutlineTw
 import PaidRoute from "../route/PaidRoute";
 import UserDetails from "./UserDetails";
 import PaidAndVerifiedRoute from "../route/PaidAndVerifiedRoute";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { loginLogout } from "../redux/User/action";
@@ -171,7 +171,7 @@ export default function Dashboard() {
                 </div>
                 <Divider />
                 <List>
-                    {["User Details"].map((text, index) => (
+                    {["Insight"].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon>
                                 <DetailsTwoToneIcon />
@@ -182,14 +182,16 @@ export default function Dashboard() {
                 </List>
                 <Divider />
                 <List>
-                    {["Insight"].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                <InsertChartTwoToneIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
+                    <Link to="/dashboard/details">
+                        {["User Details"].map((text, index) => (
+                            <ListItem button key={text}>
+                                <ListItemIcon>
+                                    <InsertChartTwoToneIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        ))}
+                    </Link>
                 </List>
                 <Divider />
                 <List>
@@ -227,10 +229,7 @@ export default function Dashboard() {
                         path="/dashboard/pay"
                         render={() => <div>pay</div>}
                     />
-                    <PaidRoute
-                        path="/dashboard/details"
-                        component={UserDetails}
-                    />
+                    <Route path="/dashboard/details" component={UserDetails} />
                     <PaidAndVerifiedRoute
                         path="/dashboard/restaurant/add"
                         component={SetRestaurant}

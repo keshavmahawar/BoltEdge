@@ -172,7 +172,8 @@ const updatePassword = async (req, res) => {
             throw new Error(error.details[0].message);
         }
 
-        const { email, oldPassword, newPassword } = req.body;
+        const { oldPassword, newPassword } = req.body;
+        const { email } = req.user;
         const user = await User.findOne({ email });
 
         if (!user) {
@@ -208,7 +209,8 @@ const updatePhoneNo = async (req, res) => {
             throw new Error(error.details[0].message);
         }
 
-        const { email, phoneNo } = req.body;
+        const { phoneNo } = req.body;
+        const { email } = req.user;
         const user = await User.findOne({ email });
 
         if (!user) {
@@ -218,6 +220,7 @@ const updatePhoneNo = async (req, res) => {
             user.save();
             res.json({
                 message: "Phone Number Updated Successfully",
+                phoneNo,
             });
         }
     } catch (error) {
@@ -235,7 +238,8 @@ const updateBussinessDetails = async (req, res) => {
             throw new Error(error.details[0].message);
         }
 
-        const { email, gstNo, fssaiNo } = req.body;
+        const { gstNo, fssaiNo } = req.body;
+        const { email } = req.user;
         const user = await User.findOne({ email });
 
         if (!user) {
@@ -246,6 +250,10 @@ const updateBussinessDetails = async (req, res) => {
             user.save();
             res.json({
                 message: "Bussiness Detais Updated Successfully",
+                details: {
+                    gstNo,
+                    fssaiNo,
+                },
             });
         }
     } catch (error) {

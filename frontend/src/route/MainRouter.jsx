@@ -16,7 +16,6 @@ function MainRouter(props) {
                 <Route path="/signup" exact component={Register} />
                 <PrivateRouting path="/dashboard">
                     <Route path="/dashboard/" component={Dashboard} />
-                    <Route path="/dashboard/details" component={UserDetails} />
                 </PrivateRouting>
             </Switch>
         </>
