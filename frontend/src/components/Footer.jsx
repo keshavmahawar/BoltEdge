@@ -11,12 +11,13 @@ const useStyles = makeStyles({
     },
     mainBox: {
         display: "flex",
+        flexWrap: "nowrap"
     },
     footerHeadings: {
         flex: 1,
         fontSize: 16,
         marginTop: 70,
-        marginLeft: 100,
+        marginLeft: "10%",
         fontWeight: "bold",
     },
     contentStyle: {
