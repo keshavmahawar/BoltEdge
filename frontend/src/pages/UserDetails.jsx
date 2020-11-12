@@ -1,6 +1,10 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from 'react-redux'
-import { passwordChange, numberChange, gst_fssai_Change } from '../redux/User/action'
+import { useSelector, useDispatch } from "react-redux";
+import {
+    passwordChange,
+    numberChange,
+    gst_fssai_Change,
+} from "../redux/User/action";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -32,25 +36,27 @@ const useStyles = makeStyles({
 });
 export default function UserDetails() {
     const classes = useStyles();
-    const { email, authToken } = useSelector((state) => state.user)
-    const dispatch = useDispatch()
-    const [oldPassword, setOldPassword] = useState("")
-    const [newPassword, setNewPassword] = useState("")
-    const [newPhoneNum, setNewPhoneNum] = useState("")
-    const [gst, setGst] = useState("")
-    const [fssai, setFssai] = useState("")
+    const { email, authToken, phoneNo, gstNo, fssaiNo } = useSelector(
+        (state) => state.user
+    );
+    const dispatch = useDispatch();
+    const [oldPassword, setOldPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [newPhoneNum, setNewPhoneNum] = useState(phoneNo);
+    const [gst, setGst] = useState(gstNo);
+    const [fssai, setFssai] = useState(fssaiNo);
 
     const handlePasswordChange = () => {
-        dispatch(passwordChange({ oldPassword, newPassword, authToken, email }))
-    }
+        dispatch(passwordChange({ oldPassword, newPassword, authToken }));
+    };
 
     const handleNewPhoneNum = () => {
-        dispatch(numberChange({ newPhoneNum, authToken, email }))
-    }
+        dispatch(numberChange({ newPhoneNum, authToken, email }));
+    };
 
     const handleGstFssai = () => {
-        dispatch(gst_fssai_Change({ gst, fssai, email }))
-    }
+        dispatch(gst_fssai_Change({ gst, fssai, authToken }));
+    };
     return (
         <div className={classes.root}>
             <div>
@@ -82,10 +88,15 @@ export default function UserDetails() {
                                 margin="normal"
                                 variant="outlined"
                                 type="number"
+                                value={newPhoneNum}
                                 onChange={(e) => setNewPhoneNum(e.target.value)}
                             />
                             <div style={{ height: 12 }} />
-                            <Button color="primary" variant="contained" onClick={handleNewPhoneNum}>
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                onClick={handleNewPhoneNum}
+                            >
                                 Update No
                             </Button>
                         </div>
@@ -122,7 +133,11 @@ export default function UserDetails() {
                                 onChange={(e) => setNewPassword(e.target.value)}
                             />
                             <div style={{ height: 12 }} />
-                            <Button color="primary" variant="contained" onClick={handlePasswordChange}>
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                onClick={handlePasswordChange}
+                            >
                                 Update
                             </Button>
                         </div>
@@ -175,16 +190,22 @@ export default function UserDetails() {
                                 label="GST Details"
                                 margin="normal"
                                 variant="outlined"
+                                value={gst}
                                 onChange={(e) => setGst(e.target.value)}
                             />
                             <TextField
                                 label="Fssi Details"
                                 margin="normal"
                                 variant="outlined"
+                                value={fssai}
                                 onChange={(e) => setFssai(e.target.value)}
                             />
                             <div style={{ height: 12 }} />
-                            <Button color="primary" variant="contained" onClick={handleGstFssai}>
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                onClick={handleGstFssai}
+                            >
                                 Update Details
                             </Button>
                         </div>
