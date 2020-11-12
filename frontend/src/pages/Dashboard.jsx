@@ -25,6 +25,7 @@ import { Route, Switch } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { loginLogout } from "../redux/User/action";
+import UserReports from "./UserReports";
 
 const drawerWidth = 240;
 
@@ -234,7 +235,7 @@ export default function Dashboard() {
                     />
                     <PaidAndVerifiedRoute
                         path="/dashboard/report"
-                        component={() => <div>report </div>}
+                        component={UserReports}
                     />
                 </Switch>
             </main>
