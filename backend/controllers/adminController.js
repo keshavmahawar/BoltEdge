@@ -3,7 +3,26 @@ const User = require("../models/userModel");
 const userDetails = async (req, res) => {
     try {
         const user = await User.find();
-        res.json(user);
+        res.json({
+            user,
+            message: "user details",
+        });
+    } catch (error) {
+        res.status(401).json({
+            message: error.message,
+        });
+    }
+};
+
+const viewDetails = async (req, res) => {
+    const { id } = req.body;
+    try {
+        const user = await User.findById(id);
+        if (!user) {
+            throw new Error("No data found");
+        } else {
+            res.json(user);
+        }
     } catch (error) {
         res.status(401).json({
             message: error.message,
@@ -12,11 +31,11 @@ const userDetails = async (req, res) => {
 };
 
 const editIsVerified = async (req, res) => {
-    const { id, isVerifed } = req.body.id;
+    const { id, isVerifed } = req.body;
     try {
         const user = await User.findById(id);
         if (!user) {
-            throw new Error("Account doesn't exists");
+            throw new Error("Error while updating");
         } else {
             user.isVerifed = isVerifed;
             user.save();
@@ -57,4 +76,4 @@ const pagination = async (req, res) => {
     }
 };
 
-module.exports = { userDetails, editIsVerified, pagination };
+module.exports = { userDetails, editIsVerified, pagination, viewDetails };
