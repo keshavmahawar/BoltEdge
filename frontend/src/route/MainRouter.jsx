@@ -5,7 +5,7 @@ import LoginPage from "../pages/LoginPage";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import PrivateRouting from "./PrivateRouting";
-import UserDetails from "../pages/UserDetails";
+import Admin from "../pages/Admin";
 
 function MainRouter(props) {
     return (
@@ -17,6 +17,7 @@ function MainRouter(props) {
                 <PrivateRouting path="/dashboard">
                     <Route path="/dashboard/" component={Dashboard} />
                 </PrivateRouting>
+                <Route path="/admin" exact component={Admin} />
             </Switch>
         </>
     );
