@@ -88,7 +88,6 @@ function MapIntegration() {
             history.replace("/dashboard/restaurant/competitors")
         );
     };
-    console.log(result);
     return (
         <>
             {loading ? (

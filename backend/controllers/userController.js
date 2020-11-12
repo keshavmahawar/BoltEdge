@@ -8,6 +8,9 @@ const {
     loginValidator,
     restaurantValidator,
     restaurantArrayValidator,
+    passwordValidator,
+    phoneNoValidator,
+    bussinessDetailsValidator,
 } = require("../validators/userValidator");
 const { restaurantDataParser } = require("./restaurantController");
 
@@ -92,15 +95,15 @@ const setRestaurant = async (req, res) => {
             throw new Error(error.details[0].message);
         }
 
-        const { id, cuisines, url, lat, lon, name } = req.body;
+        const { id, cuisines, url, lat, lon, name, address } = req.body;
 
         const { email } = req.user;
         const user = await User.findOne({ email });
-
         if (!user) {
             throw new Error("Account doesn't exists");
         }
-        user.restaurant = { id, cuisines, url, lat, lon, name };
+        user.restaurant = { id, cuisines, url, lat, lon, name, address };
+
         user.save();
 
         res.json({
@@ -161,10 +164,112 @@ const competitors = async (req, res) => {
     }
 };
 
+const updatePassword = async (req, res) => {
+    try {
+        const { error } = passwordValidator(req.body);
+
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
+
+        const { oldPassword, newPassword } = req.body;
+        const { email } = req.user;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            throw new Error("Account doesn't exists");
+        }
+
+        const passwordCheck = await bcrypt.compare(oldPassword, user.password);
+        if (passwordCheck) {
+            const encryptedPassword = await bcrypt.hash(
+                newPassword,
+                await bcrypt.genSalt(10)
+            );
+            user.password = encryptedPassword;
+            user.save();
+            res.json({
+                message: "Password Updated Successfully",
+            });
+        } else {
+            throw new Error("Wrong password");
+        }
+    } catch (error) {
+        res.status(401).json({
+            message: error.message,
+        });
+    }
+};
+
+const updatePhoneNo = async (req, res) => {
+    try {
+        const { error } = phoneNoValidator(req.body);
+
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
+
+        const { phoneNo } = req.body;
+        const { email } = req.user;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            throw new Error("Account doesn't exists");
+        } else {
+            user.phoneNo = phoneNo;
+            user.save();
+            res.json({
+                message: "Phone Number Updated Successfully",
+                phoneNo,
+            });
+        }
+    } catch (error) {
+        res.status(401).json({
+            message: error.message,
+        });
+    }
+};
+
+const updateBussinessDetails = async (req, res) => {
+    try {
+        const { error } = bussinessDetailsValidator(req.body);
+
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
+
+        const { gstNo, fssaiNo } = req.body;
+        const { email } = req.user;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            throw new Error("Account doesn't exists");
+        } else {
+            user.gstNo = gstNo;
+            user.fssaiNo = fssaiNo;
+            user.save();
+            res.json({
+                message: "Bussiness Detais Updated Successfully",
+                details: {
+                    gstNo,
+                    fssaiNo,
+                },
+            });
+        }
+    } catch (error) {
+        res.status(401).json({
+            message: error.message,
+        });
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
     competitors,
     setRestaurant,
     setUserCompetitors,
+    updatePassword,
+    updatePhoneNo,
+    updateBussinessDetails,
 };

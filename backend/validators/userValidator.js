@@ -5,6 +5,7 @@ const restaurantSchema = Joi.object({
     cuisines: Joi.string().required(),
     name: Joi.string().required(),
     url: Joi.string().required(),
+    address: Joi.string().required(),
     lat: Joi.number().required(),
     lon: Joi.number().required(),
 });
@@ -39,9 +40,35 @@ const loginValidator = (data) => {
     return schema.validate(data);
 };
 
+const passwordValidator = (data) => {
+    const schema = Joi.object({
+        oldPassword: Joi.string().min(6).required(),
+        newPassword: Joi.string().min(6).required(),
+    });
+    return schema.validate(data);
+};
+
+const phoneNoValidator = (data) => {
+    const schema = Joi.object({
+        phoneNo: Joi.string().min(10).required(),
+    });
+    return schema.validate(data);
+};
+
+const bussinessDetailsValidator = (data) => {
+    const schema = Joi.object({
+        gstNo: Joi.string().min(15).required(),
+        fssaiNo: Joi.string().min(14).required(),
+    });
+    return schema.validate(data);
+};
+
 module.exports = {
     registerValidator,
     loginValidator,
     restaurantValidator,
     restaurantArrayValidator,
+    passwordValidator,
+    phoneNoValidator,
+    bussinessDetailsValidator,
 };

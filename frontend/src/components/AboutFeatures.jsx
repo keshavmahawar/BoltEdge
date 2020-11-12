@@ -12,35 +12,41 @@ const ReviewSection = styled.div`
 `;
 
 const ReviewCard = styled.div`
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    flex-direction: row;
     flex-basis: auto;
     width: 100%;
-    height: 200px;
+    height: 250px;
     border-bottom: 2px solid #dee2e6;
     border-radius: 5px;
     background-color: white;
     margin: 10px;
     padding: 25px 25px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     h4 {
         margin-top: 10px;
         margin-bottom: 10px;
     }
+
+    @media only screen and (max-width: 1000px) {
+        flex-direction: column;
+      }
 `;
 
 const Heading = styled.h2`
     font-size: 45px;
     text-align: center;
     font-weight: 300;
-    line-height: 50px;
+    margin-top: 30px;
 `;
 
 const SubHeading = styled.h3`
-    margin-top: 10px;
+    margin-top: 20px;
     font-size: 25px;
     text-align: center;
     font-weight: 250;
-    line-height: 3 0px;
     color: gray;
     margin-bottom: 30px;
 `;
@@ -56,7 +62,7 @@ const Text = styled.p`
 
 const Button = styled.div`
     width: 300px;
-    height: 50px;
+    height: 60px;
     padding-top: 15px;
     background-color: #f4a72d;
     color: white;
@@ -207,11 +213,11 @@ export default function AboutFeatures() {
                         <img
                             src="https://cdn1.spyfu.com/dist/img/glasses-ppc.svg"
                             alt="logo"
-                            style={{ margin: "15px" }}
+                            style={{ margin: "15px 15px 0 15px" }}
                         />
                         Adwords Competitor Keyword Bolt Tool
                     </h4>
-                    <p style={{ margin: "15px" }}>
+                    <p style={{ margin: "15px 15px 15px 53px" }}>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Maiores earum iusto laborum similique culpa suscipit
                         officia at id dolor. Quam repellendus expedita atque
@@ -225,11 +231,11 @@ export default function AboutFeatures() {
                         <img
                             src="https://cdn1.spyfu.com/dist/img/glasses-ppc.svg"
                             alt="logo"
-                            style={{ margin: "15px" }}
+                            style={{ margin: "15px 15px 0 15px" }}
                         />
                         Adwords Competitor Keyword Bolt Tool
                     </h4>
-                    <p style={{ margin: "15px" }}>
+                    <p style={{ margin: "15px 15px 15px 53px" }}>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Maiores earum iusto laborum similique culpa suscipit
                         officia at id dolor. Quam repellendus expedita atque
@@ -243,11 +249,11 @@ export default function AboutFeatures() {
                         <img
                             src="https://cdn1.spyfu.com/dist/img/group-ppc.svg"
                             alt="logo"
-                            style={{ margin: "15px" }}
+                            style={{ margin: "15px 15px 0 15px" }}
                         />
                         Adwords Competitor Keyword Bolt Tool
                     </h4>
-                    <p style={{ margin: "15px" }}>
+                    <p style={{ margin: "15px 15px 15px 53px" }}>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Maiores earum iusto laborum similique culpa suscipit
                         officia at id dolor. Quam repellendus expedita atque

@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "./style.module.css";
+import { Switch } from "@material-ui/core";
 
-function Cards({ data, clickHandler }) {
+function Cards({ data, clickHandler, checked, onChange }) {
     return (
         <>
             {" "}
@@ -13,10 +14,7 @@ function Cards({ data, clickHandler }) {
                     </div>
                     <div className={styles.description}>
                         <p>Cuisines: {data.cuisines}</p>
-                        <div className={styles.address}>
-                            Address:143\\/A, 60 Feet Road, Koramangala 5th
-                            Block, Bangalore
-                        </div>
+                        <div className={styles.address}>{data.address}</div>
                         <button>
                             <a
                                 target="_blank"
@@ -26,14 +24,21 @@ function Cards({ data, clickHandler }) {
                                 More Details
                             </a>
                         </button>
-                        {clickHandler ? (<button
-                            type="button"
-                            className={styles.button}
-                            onClick={() => clickHandler(data)}
-                        >
-                            Select Restaurant
-                        </button>) : null}
-
+                        {clickHandler ? (
+                            <button
+                                type="button"
+                                className={styles.button}
+                                onClick={() => clickHandler(data)}
+                            >
+                                Select Restaurant
+                            </button>
+                        ) : (
+                            <Switch
+                                checked={checked}
+                                color="primary"
+                                onChange={onChange}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

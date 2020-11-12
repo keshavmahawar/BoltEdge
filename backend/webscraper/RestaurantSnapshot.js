@@ -53,4 +53,4 @@ const getRestaurantSnapShot = async (id) => {
         return err;
     }
 };
-getRestaurantSnapShot(18880815);
+getRestaurantSnapShot(18883026);

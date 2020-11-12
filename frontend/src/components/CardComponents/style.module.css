@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: center;
     z-index: -1;
+    height: 100%;
 }
 .detailsCardBox .cardDiv {
     flex: 0 50%;
@@ -15,7 +16,7 @@
     position: relative;
     z-index: 0;
     overflow: hidden;
-    min-height: 265px;
+    min-height: 100%;
     transition: 0.7s;
 }
 
@@ -49,7 +50,7 @@
     position: absolute;
     background: rgb(85 108 214 / 5%);
     width: 170px;
-    height: 400px;
+    height: 100%;
     z-index: -1;
     transform: rotate(42deg);
     right: -56px;
