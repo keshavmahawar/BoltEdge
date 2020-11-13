@@ -6,8 +6,9 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import AdminNavbar from '../components/AdminNavbar'
 import CallIcon from '@material-ui/icons/Call';
 import Pagination from '@material-ui/lab/Pagination'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Paper, Button, Container } from '@material-ui/core'
+import { useSelector } from 'react-redux';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,15 +45,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Admin() {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
     const [allUsers, setAllUsers] = useState([])
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const { isAuth } = useSelector((state) => state.admin)
 
     useEffect(() => {
         axios.get('/admin/userDetails')
@@ -68,40 +62,44 @@ export default function Admin() {
     return (
 
         <>
-            <AdminNavbar />
-            <Pagination count={10} color="secondary" className={classes.pagination} />
-            <Container>
-                <div className={classes.root}>
-                    {
-                        allUsers.map((item) => {
-                            return (
+            {isAuth ? (
+                <>
+                    <AdminNavbar />
+                    <Pagination count={10} color="secondary" className={classes.pagination} />
+                    <Container>
+                        <div className={classes.root}>
+                            {
+                                allUsers.map((item) => {
+                                    return (
 
-                                <Paper elevation={5} className={classes.content}>
-                                    <div>
-                                        <div style={{ display: 'flex' }}>
-                                            <div style={{ margin: '15px 10px 15px 15px' }}><RestaurantIcon></RestaurantIcon></div>
-                                            <h2 className={classes.heading} >{item.name}</h2>
-                                        </div>
+                                        <Paper elevation={5} className={classes.content}>
+                                            <div>
+                                                <div style={{ display: 'flex' }}>
+                                                    <div style={{ margin: '15px 10px 15px 15px' }}><RestaurantIcon></RestaurantIcon></div>
+                                                    <h2 className={classes.heading} >{item.name}</h2>
+                                                </div>
 
-                                        <div style={{ display: 'flex', margin: '5px 5px 0 15px' }}>
-                                            <MailOutlineIcon></MailOutlineIcon>
-                                            <h5 style={{ marginLeft: '15px' }}>{item.email}</h5>
-                                        </div>
-                                        <div style={{ display: 'flex', margin: '5px 5px 0 15px' }}>
-                                            <CallIcon></CallIcon>
-                                            <h5 style={{ marginLeft: '15px' }}>{item.phoneNo}</h5>
-                                        </div>
+                                                <div style={{ display: 'flex', margin: '5px 5px 0 15px' }}>
+                                                    <MailOutlineIcon></MailOutlineIcon>
+                                                    <h5 style={{ marginLeft: '15px' }}>{item.email}</h5>
+                                                </div>
+                                                <div style={{ display: 'flex', margin: '5px 5px 0 15px' }}>
+                                                    <CallIcon></CallIcon>
+                                                    <h5 style={{ marginLeft: '15px' }}>{item.phoneNo}</h5>
+                                                </div>
 
-                                        <Button type="button" className={classes.button} onClick={() => handleDetails(item._id)}>
-                                            <Link to={`/admin/${item._id}`}>View Details</Link>
-                                        </Button>
-                                    </div>
-                                </Paper>
-                            )
-                        })
-                    }
-                </div>
-            </Container>
+                                                <Button type="button" className={classes.button} onClick={() => handleDetails(item._id)}>
+                                                    <Link to={`/admin/${item._id}`}>View Details</Link>
+                                                </Button>
+                                            </div>
+                                        </Paper>
+                                    )
+                                })
+                            }
+                        </div>
+                    </Container>
+                </>
+            ) : <Redirect to="/adminlogin" />}
         </>
     )
 }

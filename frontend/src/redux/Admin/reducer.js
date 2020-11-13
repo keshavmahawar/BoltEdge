@@ -7,11 +7,12 @@ import {
 import { saveData, loadData, removeData } from "../localStorage";
 
 const initState = {
-    adminAuthToken: null
+    authToken: null,
+    isAuth: false
 }
 
 const adminReducer = (
-    state = loadData("adminAuthToken") || initState,
+    state = loadData("authToken") || initState,
     { type, payload }
 ) => {
     switch (type) {
@@ -20,21 +21,22 @@ const adminReducer = (
                 ...state,
             };
         case ADMIN_LOGIN_SUCCESS:
-            let adminAuthToken = "Bearer" + payload.adminAuthToken
-            saveData("adminAuthToken", adminAuthToken);
+            let authToken = "Bearer" + payload.authToken
+            saveData("authToken", authToken);
             return {
                 ...state,
-                adminAuthToken: adminAuthToken,
+                authToken: authToken,
+                isAuth: true
             };
         case ADMIN_LOGIN_FAILURE:
             return {
                 ...state,
             };
         case ADMIN_LOGIN_LOGOUT:
-            removeData("adminAuthToken");
+            removeData("authToken");
             return {
                 ...state,
-                adminAuthToken: adminAuthToken,
+                authToken: authToken,
             };
         default: {
             return state
