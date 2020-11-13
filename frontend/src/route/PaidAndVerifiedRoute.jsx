@@ -12,7 +12,9 @@ function VerifiedRoute(props) {
                 !isVerified || !isPaid ? (
                     <Redirect
                         to={{
-                            pathname: "/dashboard/pay",
+                            pathname: !isPaid
+                                ? "/dashboard/pay"
+                                : "/dashboard/verification",
                             state: { from: location },
                         }}
                     />

@@ -14,6 +14,7 @@ const {
 } = require("../controllers/userController");
 
 const userAuthCheck = require("../middleware/userAuthCheck");
+const userPaidCheck = require("../middleware/userPaidCheck");
 const userVerifiedAndPaidCheck = require("../middleware/userVerifiedAndPaidCheck");
 
 const router = express.Router();
@@ -29,10 +30,11 @@ router.get("/refresh", refreshUser);
 router.put("/updatePassword", updatePassword);
 router.post("/updateBusinessDetails", updateBussinessDetails);
 
-router.use(userVerifiedAndPaidCheck);
+router.use(userPaidCheck);
+router.post("/restaurant", setRestaurant);
 
+router.use(userVerifiedAndPaidCheck);
 router.get("/competitors", competitors);
 router.post("/competitors", setUserCompetitors);
-router.post("/restaurant", setRestaurant);
 
 module.exports = router;
