@@ -28,6 +28,7 @@ import { useDispatch } from "react-redux";
 import { loginLogout } from "../redux/User/action";
 import SetRestaurant from "../components/SetRestaurant";
 import GetCompetitor from "../components/GetCompetitor";
+import Payment from "../components/Payment";
 
 const drawerWidth = 240;
 
@@ -223,12 +224,9 @@ export default function Dashboard() {
                     <Route
                         path="/dashboard/"
                         exact
-                        render={() => <div>demo</div>}
+                        component={() => <div>demo</div>}
                     />
-                    <Route
-                        path="/dashboard/pay"
-                        render={() => <div>pay</div>}
-                    />
+                    <Route path="/dashboard/pay" component={Payment} />
                     <Route path="/dashboard/details" component={UserDetails} />
                     <PaidAndVerifiedRoute
                         path="/dashboard/restaurant/add"
