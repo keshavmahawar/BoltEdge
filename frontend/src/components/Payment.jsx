@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { refreshUser } from "../redux/User/action";
+import { history, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -26,6 +27,7 @@ function Payment(props) {
     const dispatch = useDispatch();
     const authToken = useSelector((state) => state.user.authToken);
     const classes = useStyles();
+    const history = useHistory();
     const [planType, setPlanType] = useState(1);
     const paymentSuccess = async (response) => {
         try {
@@ -35,7 +37,8 @@ function Payment(props) {
                 },
             });
             toast.success("Payment successful");
-            dispatch(refreshUser());
+            await dispatch(refreshUser());
+            history.replace("/dashboard/restaurant/add");
         } catch (err) {
             console.log(err);
             toast.error(

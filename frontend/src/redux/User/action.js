@@ -78,7 +78,6 @@ const userLogin = (payload) => (dispatch) => {
     return axios
         .post("/user/login", payload)
         .then((res) => {
-            console.log(res);
             dispatch(loginSuccess(res.data));
         })
         .catch((err) => {
@@ -99,7 +98,6 @@ const refreshUser = () => (dispatch, getState) => {
                 },
             })
             .then((res) => {
-                console.log(res);
                 dispatch(loginSuccess(res.data));
             })
             .catch((err) => {

@@ -12,6 +12,9 @@
 .mapboxgl-ctrl-geocoder {
     min-width: 100%;
 }
+#nprogress .bar {
+    z-index: 1203 !important;
+}
 
 body {
     margin: 0;
