@@ -31,13 +31,13 @@ const viewDetails = async (req, res) => {
 };
 
 const editIsVerified = async (req, res) => {
-    const { id, isVerifed } = req.body;
+    const { id, isVerified } = req.body;
     try {
         const user = await User.findById(id);
         if (!user) {
             throw new Error("Error while updating");
         } else {
-            user.isVerifed = isVerifed;
+            user.isVerified = isVerified;
             user.save();
             res.json({
                 message: "User verifed status updated successfully",
