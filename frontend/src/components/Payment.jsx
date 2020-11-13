@@ -1,88 +1,101 @@
-import React from 'react';
-import axios from '../requests/request';
-// import { openSnackbar } from '../redux/app/actions';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
+import axios from "../requests/request";
+import { useSelector, useDispatch } from "react-redux";
+import { Button, Box, Select, MenuItem } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { refreshUser } from "../redux/User/action";
 
 const useStyles = makeStyles(() => ({
     root: {
-        flexGrow: 1,
-        padding: '20px'
+        width: "max-content",
+        textAlign: "center",
+        margin: "0px auto",
     },
-    button: {
-        width: '100%',
-        background: '#c80764',
-        margin: '10px'
-    }
+    heading: {
+        textAlign: "left",
+        fontSize: "50px",
+        fontWeight: "300",
+        color: "#333333",
+        marginBottom: "10px",
+    },
 }));
 
-const Payment = (props) => {
+function Payment(props) {
     const dispatch = useDispatch();
     const authToken = useSelector((state) => state.user.authToken);
     const classes = useStyles();
+    const [planType, setPlanType] = useState(1);
+    const paymentSuccess = async (response) => {
+        try {
+            const captureResponse = await axios.post("user/paid", response, {
+                headers: {
+                    authorization: authToken,
+                },
+            });
+            toast.success("Payment successful");
+            dispatch(refreshUser());
+        } catch (err) {
+            console.log(err);
+            toast.error(
+                "Payment failed, if amount deducted then will be refunded"
+            );
+        }
+    };
+
     const paymentHandler = async (e) => {
         e.preventDefault();
 
-        const API_URL = 'user/payment/';
-        const orderUrl = `${API_URL}order`;
-        const response = await axios({
-            method: 'GET',
-            url: orderUrl,
-            headers: {
-                authorization: `Bearer ${authToken}`
+        const response = await axios.post(
+            "user/order",
+            { type: planType },
+            {
+                headers: {
+                    authorization: authToken,
+                },
             }
-        });
+        );
+
         const { data } = response;
+
         const options = {
-            name: 'Masai RazorPay',
-            description: 'Integration of Razorpay',
+            name: "Bolt Edge Payment",
+            description: "Bolt Edge Premium Plan",
             order_id: data.id,
-            handler: async (response) => {
-                try {
-                    const paymentId = response.razorpay_payment_id;
-                    const url = `${API_URL}capture/${paymentId}`;
-                    const captureResponse = await axios({
-                        method: 'POST',
-                        url: url,
-                        headers: {
-                            authorization: `Bearer ${authToken}`
-                        }
-                    });
-                    const successObj = JSON.parse(captureResponse.data);
-                    const captured = successObj.captured;
-                    if (captured) {
-                        console.log("successfull")
-                        // dispatch(
-                        //     openSnackbar({
-                        //         message: 'Payment successful!',
-                        //         severity: 'success'
-                        //     })
-                        // );
-                    }
-                } catch (err) {
-                    console.log(err)
-                    // dispatch(
-                    //     openSnackbar({
-                    //         message: err,
-                    //         severity: 'error'
-                    //     })
-                    // );
-                }
-            },
+            handler: paymentSuccess,
             theme: {
-                color: '#c6203d'
-            }
+                color: "#c6203d",
+            },
         };
         const rzp1 = new window.Razorpay(options);
         rzp1.open();
     };
 
     return (
-        <Button onClick={paymentHandler} className={classes.button} variant="contained">
-            Place Order
-        </Button>
+        <div className={classes.root}>
+            <Box className={classes.heading}>Buy Premium Plan</Box>
+            <Box margin={4}>
+                <Select
+                    labelId="Plan Type"
+                    value={planType}
+                    onChange={(event) => setPlanType(event.target.value)}
+                >
+                    <MenuItem value={1}>Monthly Plan(Rs. 200)</MenuItem>
+                    <MenuItem value={2}>Yearly Plan(Rs. 2000)</MenuItem>
+                </Select>
+            </Box>
+
+            <Button
+                onClick={paymentHandler}
+                variant="contained"
+                color="secondary"
+                size="large"
+            >
+                Place Order
+            </Button>
+        </div>
     );
-};
+}
 
 export default Payment;

@@ -89,6 +89,25 @@ const userLogin = (payload) => (dispatch) => {
         });
 };
 
+const refreshUser = () => (dispatch, getState) => {
+    const authToken = getState().user.authToken;
+    if (authToken) {
+        return axios
+            .get("/user/refresh", {
+                headers: {
+                    Authorization: authToken,
+                },
+            })
+            .then((res) => {
+                console.log(res);
+                dispatch(loginSuccess(res.data));
+            })
+            .catch((err) => {
+                console.log("some error occurred");
+            });
+    }
+};
+
 const setCompetitorRequest = (payload) => {
     return {
         type: SET_COMPETITOR_REQUEST,
@@ -316,6 +335,7 @@ export {
     loginRequest,
     loginSuccess,
     loginLogout,
+    refreshUser,
     usersetCompetitor,
     setCompetitorFailure,
     setCompetitorRequest,

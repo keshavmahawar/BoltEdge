@@ -8,6 +8,9 @@ const {
     updatePassword,
     updatePhoneNo,
     updateBussinessDetails,
+    placeOrders,
+    refreshUser,
+    captureOrders,
 } = require("../controllers/userController");
 
 const userAuthCheck = require("../middleware/userAuthCheck");
@@ -20,6 +23,9 @@ router.post("/login", loginUser);
 
 router.use(userAuthCheck);
 router.post("/updatePhoneNo", updatePhoneNo);
+router.post("/order", placeOrders);
+router.post("/paid", captureOrders);
+router.get("/refresh", refreshUser);
 router.put("/updatePassword", updatePassword);
 router.post("/updateBusinessDetails", updateBussinessDetails);
 

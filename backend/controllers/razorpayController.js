@@ -1,16 +1,4 @@
-const { v4: uuidv4 } = require("uuid");
-const Razorpay = require("razorpay");
-const dotenv = require("dotenv");
-const request = require("request");
-
-dotenv.config();
-
-const instance = new Razorpay({
-    key_id: process.env.RAZOR_PAY_KEY_ID,
-    key_secret: process.env.RAZOR_PAY_KEY_SECRET,
-});
-
-const getOrders = async (req, res) => {
+const placeOrders = async (req, res) => {
     try {
         const options = {
             amount: 10 * 100,
@@ -28,7 +16,7 @@ const getOrders = async (req, res) => {
         });
     } catch (err) {
         return res.status(500).json({
-            message: "Somethig Went Wrong Again!",
+            message: "Something Went Wrong Again!",
         });
     }
 };

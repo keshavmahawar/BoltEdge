@@ -11,7 +11,7 @@ function PaidRoute(props) {
                 !isPaid ? (
                     <Redirect
                         to={{
-                            pathname: "dashboard/pay",
+                            pathname: "/dashboard/pay",
                             state: { from: location },
                         }}
                     />
