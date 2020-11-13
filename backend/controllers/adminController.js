@@ -67,4 +67,37 @@ const userDetails = async (req, res) => {
     }
 }
 
-module.exports = { userDetails, editIsVerified, viewDetails };
+const searchByName = async (req, res) => {
+    const { userName } = req.query;
+    try {
+        const user = await User.find({ name: userName });
+        if (!user) {
+            throw new Error("User not found");
+        } else {
+            res.json(user);
+        }
+    } catch (error) {
+        res.status(401).json({
+            message: error.message,
+        });
+    }
+};
+
+const filterByIsverified = async (req, res) => {
+    const { userIsVerifed } = req.query;
+    try {
+        const user = await User.find({ isVerified: { $eq: userIsVerifed } });
+        if (!user) {
+            throw new Error("User not found");
+        } else {
+            res.json(user);
+        }
+    } catch (error) {
+        res.status(401).json({
+            message: error.message,
+        });
+    }
+};
+
+module.exports = { userDetails, editIsVerified, viewDetails, searchByName,
+    filterByIsverified, };
