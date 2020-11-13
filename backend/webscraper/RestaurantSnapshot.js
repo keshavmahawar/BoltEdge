@@ -54,6 +54,10 @@ const getRestaurantSnapShot = async (id) => {
         return err;
     }
 };
+<<<<<<< HEAD
 
 module.exports = getRestaurantSnapShot;
 // getRestaurantSnapShot(18880815);
+=======
+getRestaurantSnapShot(18883026);
+>>>>>>> e583fdb466ddda17c7617f306e8cb1b01f0fe66f

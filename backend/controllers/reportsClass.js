@@ -8,7 +8,7 @@ class Report {
         this.endRangeDate = endRangeDate;
     }
 
-    async getBrandSnapshots() {
+    async getSnapshots() {
         this.brandSnapshotArray = await RestaurantSnapshot.find({
             id: this.brandId,
             date: { $lte: this.endRangeDate, $gte: this.startRangeDate },
@@ -19,3 +19,5 @@ class Report {
         }).sort({ date: 1 });
     }
 }
+
+module.exports = Report;
