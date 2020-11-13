@@ -1,28 +1,81 @@
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const Admin = require("../models/adminModel");
 
-exports.getAdmin = async (req, res) => {
-    try {
-        const admin = await Admin.findByCredentials(
-            req.body.email,
-            req.body.password
-        );
-        const token = await admin.generateAuthToken();
+const {
+    loginValidator,
+    registerValidator,
+} = require("../validators/userValidator");
 
-        res.send({ admin, token });
-    } catch (e) {
-        res.status(400).send();
+exports.loginAdmin = async (req, res) => {
+    try {
+        const { error } = loginValidator(req.body);
+
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
+
+        const { email, password } = req.body;
+        const admin = await Admin.findOne({ email });
+
+        if (!admin) {
+            throw new Error("Account doesn't exists");
+        }
+
+        const passwordCheck = await bcrypt.compare(password, admin.password);
+
+        if (passwordCheck) {
+            const { isVerified, isPaid, email: emailDb } = admin;
+            const data = { isVerified, isPaid, email: emailDb };
+            const authToken = jwt.sign(data, process.env.JWT_HASH);
+            res.json({
+                authToken,
+                admin,
+                message: "Logged in successfully",
+            });
+        } else {
+            throw new Error("Wrong password");
+        }
+    } catch (error) {
+        res.status(401).json({
+            message: error.message,
+        });
     }
 };
 
-exports.addAdmin = async (req, res) => {
-    const admin = new Admin(req.body);
-    console.log(admin);
+exports.registerAdmin = async (req, res) => {
     try {
-        await admin.save();
-        const token = await admin.generateAuthToken();
-        console.log(token);
-        res.status(201).send({ admin, token });
-    } catch (e) {
-        res.status(400).send(e);
+        const { error } = registerValidator(req.body);
+
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
+
+        const { email, password, name } = req.body;
+        const userExists = await Admin.findOne({ email });
+
+        const encryptedPassword = await bcrypt.hash(
+            password,
+            await bcrypt.genSalt(10)
+        );
+        if (userExists) {
+            throw new Error("Account already exists");
+        }
+
+        const newUser = await new Admin({
+            email,
+            password: encryptedPassword,
+            name,
+        });
+        await newUser.save();
+
+        res.json({
+            message: `${name} registered Successfully`,
+            email,
+        });
+    } catch (error) {
+        res.status(400).json({
+            message: error.message,
+        });
     }
 };
