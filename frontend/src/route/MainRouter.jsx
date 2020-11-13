@@ -6,6 +6,8 @@ import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import PrivateRouting from "./PrivateRouting";
 import Admin from "../pages/Admin";
+import EachUserDetails from "../components/EachUserDetails";
+import AdminLoginPage from '../pages/AdminLogin'
 
 function MainRouter(props) {
     return (
@@ -18,6 +20,9 @@ function MainRouter(props) {
                     <Route path="/dashboard/" component={Dashboard} />
                 </PrivateRouting>
                 <Route path="/admin" exact component={Admin} />
+                <Route path={`/admin/:id`}
+                    render={(props) => <EachUserDetails {...props} />} />
+                <Route path="/adminlogin" exact component={AdminLoginPage} />
             </Switch>
         </>
     );
