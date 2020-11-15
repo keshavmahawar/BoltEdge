@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 import ListIcon from "@material-ui/icons/List";
 import StarsIcon from "@material-ui/icons/Stars";
 import RateReviewIcon from "@material-ui/icons/RateReview";
@@ -8,14 +10,13 @@ import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
 import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
+import ComparisonCard from "../components/ComparisonCard";
+import DataCard from "../components/DataCard";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import axios from "../requests/request";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 2,
-        background: "#F4F4F8",
-    },
     nav: {
         marginLeft: 10,
         padding: 5,
@@ -91,84 +92,80 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function UserReports() {
     const classes = useStyles();
+    const [competitorSelect, setCompetitorSelect] = useState(0);
+    const [data, setData] = useState(null);
     const restaurant = useSelector((state) => state.user.restaurant);
     const competitor = useSelector((state) => state.user.competitor);
+    const authToken = useSelector((state) => state.user.authToken);
+    useEffect(() => {
+        const request = async () => {
+            setData(null);
+            try {
+                const { data: report } = await axios.get("/user/report", {
+                    params: {
+                        competitorNo: competitorSelect,
+                    },
+                    headers: {
+                        Authorization: authToken,
+                    },
+                });
+                console.log(report);
+
+                setData(report);
+            } catch (error) {
+                console.log(error.response);
+            }
+        };
+        request();
+    }, [competitorSelect]);
     if (!restaurant) return <Redirect to="/dashboard/restaurant/add" />;
     else if (!competitor.length)
         return <Redirect to="/dashboard/restaurant/competitors" />;
     return (
         <div className={classes.root}>
-            <div className={classes.root1}>
-                <Paper elevation={5} style={{ background: "#FFFFFF" }}>
-                    <div style={{ display: "flex" }}>
-                        <ListIcon className={classes.size} />
-                        <h3>No. of items</h3>
-                    </div>
-                    <div style={{ textAlign: "center" }}>
-                        <h1 style={{ marginTop: "-1px" }}>5000</h1>
-                    </div>
-                </Paper>
-                <Paper elevation={5} style={{ background: "#FFFFFF" }}>
-                    <div style={{ display: "flex" }}>
-                        <StarsIcon className={classes.size} />
-                        <h3>Rating Comparison</h3>
-                    </div>
-                    <div className={classes.root5}>
-                        <Paper elevation={5} style={{ background: "#F4F4F8" }}>
-                            <div style={{ textAlign: "center" }}>
-                                <strong>Yours</strong>
-                                <h1 style={{ marginTop: "-1px" }}>255</h1>
-                            </div>
-                        </Paper>
-                        <Paper elevation={5} style={{ background: "#F4F4F8" }}>
-                            <div style={{ textAlign: "center" }}>
-                                <strong>Competitor</strong>
-                                <h1 style={{ marginTop: "-1px" }}>255</h1>
-                            </div>
-                        </Paper>
-                    </div>
-                </Paper>
-                <Paper elevation={5} style={{ background: "#FFFFFF" }}>
-                    <div style={{ display: "flex" }}>
-                        <RateReviewIcon className={classes.size} />
-                        <h3>Review Comparison</h3>
-                    </div>
-                    <div className={classes.root5}>
-                        <Paper elevation={5} style={{ background: "#F4F4F8" }}>
-                            <div style={{ textAlign: "center" }}>
-                                <strong>Yours</strong>
-                                <h1 style={{ marginTop: "-1px" }}>255</h1>
-                            </div>
-                        </Paper>
-                        <Paper elevation={5} style={{ background: "#F4F4F8" }}>
-                            <div style={{ textAlign: "center" }}>
-                                <strong>Competitor</strong>
-                                <h1 style={{ marginTop: "-1px" }}>255</h1>
-                            </div>
-                        </Paper>
-                    </div>
-                </Paper>
-                <Paper elevation={5} style={{ background: "#FFFFFF" }}>
-                    <div style={{ display: "flex" }}>
-                        <LocalOfferIcon className={classes.size} />
-                        <h3>Discount</h3>
-                    </div>
-                    <div className={classes.root5}>
-                        <Paper elevation={5} style={{ background: "#F4F4F8" }}>
-                            <div style={{ textAlign: "center" }}>
-                                <strong>Yours</strong>
-                                <h1 style={{ marginTop: "-1px" }}>25%</h1>
-                            </div>
-                        </Paper>
-                        <Paper elevation={5} style={{ background: "#F4F4F8" }}>
-                            <div style={{ textAlign: "center" }}>
-                                <strong>Competitor</strong>
-                                <h1 style={{ marginTop: "-1px" }}>20%</h1>
-                            </div>
-                        </Paper>
-                    </div>
-                </Paper>
+            <div>
+                Select Competitor:
+                <Select
+                    labelId="Plan Type"
+                    value={competitorSelect}
+                    onChange={(event) =>
+                        setCompetitorSelect(event.target.value)
+                    }
+                >
+                    {competitor.map(({ name }, index) => (
+                        <MenuItem value={index} key={index}>
+                            {name}
+                        </MenuItem>
+                    ))}
+                </Select>
             </div>
+
+            {data ? (
+                <div className={classes.root1}>
+                    <ComparisonCard
+                        heading="No Of Items"
+                        data={data.noOfItems}
+                        icon={ListIcon}
+                    />
+                    <ComparisonCard
+                        heading="Rating Comparison"
+                        data={data.rating}
+                        icon={StarsIcon}
+                    />
+                    <ComparisonCard
+                        heading="Review Comparison"
+                        data={data.votes}
+                        icon={RateReviewIcon}
+                    />
+                    <ComparisonCard
+                        heading="Discount comparison"
+                        data={data.discount}
+                        icon={LocalOfferIcon}
+                    />
+                </div>
+            ) : (
+                <div>Loading...</div>
+            )}
             <div style={{ display: "flex", flexWrap: "wrap" }}>
                 <div className={classes.root2}>
                     <Paper elevation={5} style={{ background: "#FFFFFF" }}>
@@ -187,69 +184,38 @@ export default function UserReports() {
                 </div>
                 <div className={classes.root3}>
                     <Paper elevation={5} style={{ background: "#FFFFFF" }}>
-                        <div style={{ display: "flex" }}>
+                        <div style={{ display: "flex", alignItems: "center" }}>
                             <RestaurantIcon className={classes.size} />
-                            <h3>Resturant Average Comparison</h3>
+                            <h3>Competitor Comparison</h3>
                         </div>
                         <div className={classes.root4}>
-                            <Paper
-                                elevation={10}
-                                style={{ background: "#F4F4F8" }}
-                            >
-                                <div style={{ display: "flex" }}>
-                                    <RestaurantMenuIcon
-                                        className={classes.size}
-                                    />
-                                    <h3>Average Order Value</h3>
-                                </div>
-                                <div style={{ textAlign: "center" }}>
-                                    <h1>₹255</h1>
-                                </div>
-                            </Paper>
-                            <Paper
-                                elevation={10}
-                                style={{ background: "#F4F4F8" }}
-                            >
-                                <div style={{ display: "flex" }}>
-                                    <RestaurantMenuIcon
-                                        className={classes.size}
-                                    />
-                                    <h3>Average Discount Gap</h3>
-                                </div>
-                                <div style={{ textAlign: "center" }}>
-                                    <h1>₹255</h1>
-                                </div>
-                            </Paper>
+                            <DataCard
+                                heading="Average Order Value"
+                                icon={RestaurantMenuIcon}
+                                data={data?.aov?.c}
+                            />
+                            <DataCard
+                                heading="Discount Gap"
+                                icon={RestaurantMenuIcon}
+                                data={
+                                    data?.discountGap === 0
+                                        ? "Same Discounts"
+                                        : data?.discountGap
+                                }
+                            />
                         </div>
                         <div className={classes.root4}>
-                            <Paper
-                                elevation={10}
-                                style={{ background: "#F4F4F8" }}
-                            >
-                                <div style={{ display: "flex" }}>
-                                    <RestaurantMenuIcon
-                                        className={classes.size}
-                                    />
-                                    <h3>Average Burn</h3>
-                                </div>
-                                <div style={{ textAlign: "center" }}>
-                                    <h1>₹255</h1>
-                                </div>
-                            </Paper>
-                            <Paper
-                                elevation={10}
-                                style={{ background: "#F4F4F8" }}
-                            >
-                                <div style={{ display: "flex" }}>
-                                    <RestaurantMenuIcon
-                                        className={classes.size}
-                                    />
-                                    <h3>Best Selling Comparison</h3>
-                                </div>
-                                <div style={{ textAlign: "center" }}>
-                                    <h1>Chinese</h1>
-                                </div>
-                            </Paper>
+                            <DataCard
+                                heading="Average Burn"
+                                icon={RestaurantMenuIcon}
+                                data={data?.burn}
+                            />
+                            <DataCard
+                                heading="Cuisines Type"
+                                icon={RestaurantMenuIcon}
+                                data={data?.cuisines?.c}
+                                fontSmall={true}
+                            />
                         </div>
                     </Paper>
                 </div>
@@ -274,13 +240,21 @@ export default function UserReports() {
                         <Paper elevation={5} style={{ background: "#F4F4F8" }}>
                             <div style={{ textAlign: "center" }}>
                                 <strong>Yours</strong>
-                                <h1 style={{ marginTop: "-1px" }}>255</h1>
+                                {data &&
+                                    data.bestSellers &&
+                                    data.bestSellers.b.map((item, index) => (
+                                        <h3 key={item + index}>{item}</h3>
+                                    ))}
                             </div>
                         </Paper>
                         <Paper elevation={5} style={{ background: "#F4F4F8" }}>
                             <div style={{ textAlign: "center" }}>
                                 <strong>Competitor</strong>
-                                <h1 style={{ marginTop: "-1px" }}>255</h1>
+                                {data &&
+                                    data.bestSellers &&
+                                    data.bestSellers.c.map((item, index) => (
+                                        <h3 key={item + index}>{item}</h3>
+                                    ))}
                             </div>
                         </Paper>
                     </div>

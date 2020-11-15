@@ -3,15 +3,19 @@
     margin: 0px;
     box-sizing: border-box;
 }
+
 #map {
     width: 100%;
 }
+
 .geocoder {
     border: 1px solid black;
 }
+
 .mapboxgl-ctrl-geocoder {
     min-width: 100%;
 }
+
 #nprogress .bar {
     z-index: 1203 !important;
 }
@@ -25,7 +29,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-        monospace;
+a {
+    text-decoration: none;
+    color: inherit;
 }

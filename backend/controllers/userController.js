@@ -6,6 +6,7 @@ const request = require("request");
 const dotenv = require("dotenv");
 const User = require("../models/userModel");
 const Transaction = require("../models/transactionsModel");
+const Report = require("./reportsClass");
 
 dotenv.config();
 const instance = new Razorpay({
@@ -185,7 +186,7 @@ const setRestaurant = async (req, res) => {
             throw new Error("Account doesn't exists");
         }
         user.restaurant = { id, cuisines, url, lat, lon, name, address };
-
+        user.competitor = [];
         user.save();
 
         res.json({
@@ -229,14 +230,38 @@ const setUserCompetitors = async (req, res) => {
 
 const competitors = async (req, res) => {
     try {
+        const { email } = req.user;
+        const { restaurant } = await User.findOne({ email });
+        if (restaurant === null) throw Error("Restaurant doesn't exist");
+
+        const { lat, lon, cuisines } = restaurant;
+        const cuisinesArray = cuisines.split(", ");
+        const {
+            data: { cuisines: cuisinesData },
+        } = await axiosZomato.get("/cuisines", {
+            params: {
+                lat,
+                lon,
+            },
+        });
+        const cuisinesArrayKey = [];
+        for (let i = 0; i < cuisinesArray.length; i += 1) {
+            for (let j = 0; j < cuisinesData.length; j += 1) {
+                const cuisine = cuisinesData[j].cuisine;
+                if (cuisinesArray[i] === cuisine.cuisine_name)
+                    cuisinesArrayKey.push(cuisine.cuisine_id);
+            }
+        }
+
         const { data } = await axiosZomato.get("/search", {
             params: {
                 count: 20,
-                lat: 12.937254,
-                lon: 77.626938,
+                lat,
+                lon,
                 radius: 5000,
                 sort: "rating",
                 order: "desc",
+                cuisines: cuisinesArrayKey.join(","),
             },
         });
 
@@ -441,6 +466,49 @@ const captureOrders = async (req, res) => {
     }
 };
 
+const userReport = async (req, res) => {
+    try {
+        const { competitorNo } = req.query;
+        const { email } = req.user;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            throw new Error("Account doesn't exists");
+        }
+        const brandId = user.restaurant.id;
+        const competitorId = user.competitor[competitorNo].id;
+        const end = new Date();
+        const start = new Date();
+        start.setDate(start.getDate() - 7);
+        const report = new Report(brandId, competitorId, start, end);
+        await report.getSnapshots();
+        // console.log(report);
+        if (!report.dataAvailable()) {
+            res.json({ dataAvailable: false });
+            return;
+        }
+        const data = {
+            dataAvailable: true,
+            rating: report.getRating(),
+            bestSellers: report.getBestSeller(),
+            votes: report.getVotes(),
+            noOfItems: report.getNoOfItems(),
+            cuisines: report.getCuisinesType(),
+            aov: report.getAverageOrderValue(),
+            discount: report.getDiscount(),
+            discountGap: report.getDiscountGap(),
+            noOfDaysData: report.getNoOfDaysData(),
+            burn: report.getCompetitorAverageBurn(),
+            isCompetitorOnline: report.getIsCompetitorOnline(),
+        };
+        res.json(data);
+    } catch (error) {
+        res.status(400).json({
+            message: error.message,
+        });
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
@@ -453,4 +521,5 @@ module.exports = {
     placeOrders,
     captureOrders,
     refreshUser,
+    userReport,
 };

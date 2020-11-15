@@ -1,7 +1,7 @@
 ###
 POST http://localhost:5000/restaurant/search
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc1ZlcmlmaWVkIjp0cnVlLCJpc1BhaWQiOnRydWUsImVtYWlsIjoia2VzbWFoYXdhckBnbWFpbC5jb20iLCJpYXQiOjE2MDQ2NjYyMjB9.LJkhn27UUD3mUEU8blOMpSIWiI1CRvyOsKeHfOGB7Oo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc1ZlcmlmaWVkIjp0cnVlLCJpc1BhaWQiOnRydWUsImVtYWlsIjoia2VzLm1haGF3YXJAZ21haWwuY29tIiwiaWF0IjoxNjA1MjY5OTI0fQ.JGn4Q4eNcOpknsIUoQkvFXE_Zi9BN8R8cU7bkjt9Lok
 
 {
     "restaurant":"pizza",
@@ -12,6 +12,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc1ZlcmlmaWVkIjp0c
 GET http://localhost:5000/user/competitors
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc1ZlcmlmaWVkIjp0cnVlLCJpc1BhaWQiOnRydWUsImVtYWlsIjoia2VzbWFoYXdhckBnbWFpbC5jb20iLCJpYXQiOjE2MDQ2NjYyMjB9.LJkhn27UUD3mUEU8blOMpSIWiI1CRvyOsKeHfOGB7Oo
 
+###
+GET http://localhost:5000/user/report?competitorNo=4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc1ZlcmlmaWVkIjp0cnVlLCJpc1BhaWQiOnRydWUsImVtYWlsIjoia2VzLm1haGF3YXJAZ21haWwuY29tIiwiaWF0IjoxNjA1MjY5OTI0fQ.JGn4Q4eNcOpknsIUoQkvFXE_Zi9BN8R8cU7bkjt9Lok
 ###
 POST http://localhost:5000/user/competitors
 Content-Type: application/json
@@ -79,7 +82,7 @@ POST http://localhost:5000/user/login
 Content-Type: application/json
 
 {
-    "email": "kesmahawar@gmail.com",
+    "email": "kes.mahawar@gmail.com",
     "password": "pass1234"
 }
 

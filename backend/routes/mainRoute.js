@@ -11,6 +11,7 @@ const {
     placeOrders,
     refreshUser,
     captureOrders,
+    userReport,
 } = require("../controllers/userController");
 
 const userAuthCheck = require("../middleware/userAuthCheck");
@@ -35,6 +36,7 @@ router.post("/restaurant", setRestaurant);
 
 router.use(userVerifiedAndPaidCheck);
 router.get("/competitors", competitors);
+router.get("/report", userReport);
 router.post("/competitors", setUserCompetitors);
 
 module.exports = router;
