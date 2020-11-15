@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import '../index.css'
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { Formik, Form, useField } from "formik";
@@ -56,56 +57,64 @@ const validationSchema = yup.object({
 
 function AdminLoginPage(props) {
     const classes = useStyles(props);
+    const { isAuth } = useSelector((state) => state.admin)
     const dispatch = useDispatch();
     const handleLogin = async (data) => {
         dispatch(adminUserLogin(data));
     };
 
     return (
-        <div>
-            <Formik
-                initialValues={{
-                    email: "",
-                    password: "",
-                }}
-                validationSchema={validationSchema}
-                onSubmit={async (data, { setSubmitting }) => {
-                    setSubmitting(true);
-                    await handleLogin(data);
-                    console.log("submit: ", data);
-                    setSubmitting(false);
-                }}
-            >
-                {({ values, errors, isSubmitting }) => (
-                    <Form className={classes.mainLogin}>
-                        <Box className={classes.loginHeading}>
-                            Login to Admin Page
+        <div style={{
+            backgroundColor: '#F5F5F5', height: '100%', boxSizing: 'border-box'
+        }}>
+            {isAuth ? <Redirect to="/admin" /> :
+
+                <div>
+                    <Formik
+                        initialValues={{
+                            email: "",
+                            password: "",
+                        }}
+                        validationSchema={validationSchema}
+                        onSubmit={async (data, { setSubmitting }) => {
+                            setSubmitting(true);
+                            await handleLogin(data);
+                            console.log("submit: ", data);
+                            setSubmitting(false);
+                        }}
+                    >
+                        {({ values, errors, isSubmitting }) => (
+                            <Form className={classes.mainLogin}>
+                                <Box className={classes.loginHeading}>
+                                    Login to Admin Page
                                 </Box>
-                        <MyTextField
-                            label="Email or Username"
-                            name="email"
-                            required={true}
-                        />
-                        <MyTextField
-                            label="Password"
-                            name="password"
-                            required={true}
-                            type="password"
-                        />
-                        <div style={{ height: 20 }} />
-                        <Button
-                            disabled={isSubmitting}
-                            color="primary"
-                            variant="contained"
-                            type="submit"
-                        >
-                            Log in
+                                <MyTextField
+                                    label="Email or Username"
+                                    name="email"
+                                    required={true}
+                                />
+                                <MyTextField
+                                    label="Password"
+                                    name="password"
+                                    required={true}
+                                    type="password"
+                                />
+                                <div style={{ height: 20 }} />
+                                <Button
+                                    disabled={isSubmitting}
+                                    color="primary"
+                                    variant="contained"
+                                    type="submit"
+                                >
+                                    Log in
                                 </Button>
-                    </Form>
-                )}
-            </Formik>
-            <div />
-        </div >
+                            </Form>
+                        )}
+                    </Formik>
+                    <div />
+                </div >
+            }
+        </div>
     );
 }
 

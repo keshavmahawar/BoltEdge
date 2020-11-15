@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-        backgroundColor: '#F2F2F2',
         '& > *': {
             margin: theme.spacing(4),
             width: theme.spacing(70),
@@ -39,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
     pagination: {
         width: '300px',
-        margin: '35px auto'
+        margin: '20px auto'
     },
     link: {
         color: 'white',
@@ -54,7 +53,7 @@ export default function Admin() {
     const { isAuth } = useSelector((state) => state.admin)
 
     useEffect(() => {
-        axios.get('/admin/userDetails?page=1&limit=4')
+        axios.get('/admin/userDetails?page=1&limit=6')
             .then((res) => {
                 console.log(res)
                 setAllUsers([...res.data.current, ...allUsers])
@@ -63,7 +62,7 @@ export default function Admin() {
     }, [])
 
     const handlePageChange = (event, value) => {
-        axios.get(`/admin/userDetails?page=${value}&limit=4`)
+        axios.get(`/admin/userDetails?page=${value}&limit=6`)
             .then(res => {
                 setAllUsers([...res.data.current])
                 setTotalCount(res.data.totalCount)
@@ -71,11 +70,11 @@ export default function Admin() {
     }
     return (
 
-        <>
+        <div style={{ backgroundColor: '#F5F5F5', height: '100%' }}>
             {isAuth ? (
                 <>
                     <AdminNavbar />
-                    <Pagination count={Math.ceil(totalCount / 4)} color="secondary" className={classes.pagination} onChange={handlePageChange} />
+                    <Pagination count={Math.ceil(totalCount / 6)} color="secondary" className={classes.pagination} onChange={handlePageChange} />
                     <Container>
                         <div className={classes.root}>
                             {
@@ -110,7 +109,7 @@ export default function Admin() {
                     </Container>
                 </>
             ) : <Redirect to="/adminlogin" />}
-        </>
+        </div>
     )
 }
 
