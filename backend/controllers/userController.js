@@ -7,6 +7,9 @@ const dotenv = require("dotenv");
 const User = require("../models/userModel");
 const Transaction = require("../models/transactionsModel");
 const Report = require("./reportsClass");
+const {
+    restaurantSnapshotsSave,
+} = require("../webscraper/restaurantDataScripts");
 
 dotenv.config();
 const instance = new Razorpay({
@@ -221,6 +224,11 @@ const setUserCompetitors = async (req, res) => {
             message: "restaurant competitors updated",
             competitor: user.competitor,
         });
+        let competitorIdList = user.competitor.map(
+            (restaurant) => restaurant.id
+        );
+        competitorIdList = [...competitorIdList, user.restaurant.id];
+        restaurantSnapshotsSave(competitorIdList);
     } catch (error) {
         res.status(401).json({
             message: error.message,

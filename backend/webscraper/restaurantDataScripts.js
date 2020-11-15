@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+// const mongoose = require("mongoose");
+// const dotenv = require("dotenv");
 const User = require("../models/userModel");
 const RestaurantSnapshot = require("../models/restaurantSnapshot");
 const getRestaurantSnapshot = require("./RestaurantSnapshot");
 
-dotenv.config({ path: "../.env" });
+// dotenv.config({ path: "../.env" });
 
 const restaurantList = async () => {
     try {
@@ -43,9 +43,9 @@ const restaurantList = async () => {
     }
 };
 
-const restaurant = async () => {
+const restaurantSnapshotsSave = async (list) => {
     try {
-        const list = [18883826];
+        // const list = [18883826];
         // await restaurantList();
         // console.log(list);
         const today = new Date().toLocaleDateString("en-IN");
@@ -61,40 +61,42 @@ const restaurant = async () => {
                 { id: restaurantId },
                 { date: 1, votesCount: 1 }
             ).sort({ date: -1 });
-            let oldVotes;
-            let oldDate;
-            console.log(oldSnapshot);
+            // let oldVotes;
+            // let oldDate;
+            // console.log(oldSnapshot);
             if (oldSnapshot) {
                 let { date } = oldSnapshot;
                 date = new Date(date).toLocaleDateString("en-IN");
                 if (date === today) {
                     continue;
                 }
-                oldDate = date;
-                oldVotes = oldSnapshot.votesCount;
+                // oldDate = date;
+                // oldVotes = oldSnapshot.votesCount;
             }
-            console.log(oldDate);
             const snapshot = await getRestaurantSnapshot(restaurantId);
-            if (oldDate === yesterday) {
-                snapshot.sales = snapshot.votesCount - oldVotes;
-            }
-            // const newSnapshot = new RestaurantSnapshot(snapshot);
-            // newSnapshot.save();
+            // if (oldDate === yesterday) {
+            //     snapshot.sales = snapshot.votesCount - oldVotes;
+            // }
+            // console.log(snapshot);
+            const newSnapshot = new RestaurantSnapshot(snapshot);
+            newSnapshot.save();
         }
         // console.log(await RestaurantSnapshot.find({ id: 18883826 }));
     } catch (error) {
         console.log(error);
     }
 };
+
+module.exports = { restaurantSnapshotsSave, restaurantList };
 // restaurant();
-mongoose.connect(
-    process.env.MONGO_URL,
-    { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
-    (error) => {
-        if (error) console.log(`error connecting database : ${error}`);
-        else {
-            console.log("Database connected");
-            restaurant();
-        }
-    }
-);
+// mongoose.connect(
+//     process.env.MONGO_URL,
+//     { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
+//     (error) => {
+//         if (error) console.log(`error connecting database : ${error}`);
+//         else {
+//             console.log("Database connected");
+//             restaurant();
+//         }
+//     }
+// );

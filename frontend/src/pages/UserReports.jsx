@@ -12,9 +12,35 @@ import RestaurantIcon from "@material-ui/icons/Restaurant";
 import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
 import ComparisonCard from "../components/ComparisonCard";
 import DataCard from "../components/DataCard";
+import { Line } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import axios from "../requests/request";
+
+const data1 = {
+    labels: ["1", "2", "3", "4", "5", "6"],
+    datasets: [
+        {
+            label: "# of Votes",
+            data: [12, 19, 3, 5, 2, 3],
+            fill: false,
+            backgroundColor: "rgb(255, 99, 132)",
+            borderColor: "rgba(255, 99, 132, 0.2)",
+        },
+    ],
+};
+
+const options = {
+    scales: {
+        yAxes: [
+            {
+                ticks: {
+                    beginAtZero: true,
+                },
+            },
+        ],
+    },
+};
 
 const useStyles = makeStyles((theme) => ({
     nav: {
@@ -174,11 +200,7 @@ export default function UserReports() {
                             <h3>Sales Trend Chart</h3>
                         </div>
                         <div>
-                            <img
-                                style={{ width: 670 }}
-                                src="https://pbs.twimg.com/media/DlDgB8BU4AAXoGq.jpg"
-                                alt="Charts"
-                            />
+                            <Line data={data1} options={options} />
                         </div>
                     </Paper>
                 </div>
