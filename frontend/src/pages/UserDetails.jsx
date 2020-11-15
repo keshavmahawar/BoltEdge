@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import {
     passwordChange,
     numberChange,
@@ -36,9 +37,14 @@ const useStyles = makeStyles({
 });
 export default function UserDetails() {
     const classes = useStyles();
-    const { email, authToken, phoneNo, gstNo, fssaiNo } = useSelector(
-        (state) => state.user
-    );
+    const {
+        email,
+        authToken,
+        phoneNo,
+        gstNo,
+        fssaiNo,
+        restaurant,
+    } = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -161,10 +167,14 @@ export default function UserDetails() {
                             <Box className={classes.loginHeading}>
                                 Restaurant
                             </Box>
-                            restaurant Details
-                            <Button color="primary" variant="contained">
-                                Change restaurant
-                            </Button>
+                            {restaurant
+                                ? restaurant.name
+                                : "Not Picked any restaurant choose one"}
+                            <Link to="/dashboard/restaurant/add">
+                                <Button color="primary" variant="contained">
+                                    Pick New Restaurant
+                                </Button>
+                            </Link>
                         </div>
                         <div />
                     </Grid>

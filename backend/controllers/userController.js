@@ -6,6 +6,7 @@ const request = require("request");
 const dotenv = require("dotenv");
 const User = require("../models/userModel");
 const Transaction = require("../models/transactionsModel");
+const Report = require("./reportsClass");
 
 dotenv.config();
 const instance = new Razorpay({
@@ -465,6 +466,49 @@ const captureOrders = async (req, res) => {
     }
 };
 
+const userReport = async (req, res) => {
+    try {
+        const { competitorNo } = req.query;
+        const { email } = req.user;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            throw new Error("Account doesn't exists");
+        }
+        const brandId = user.restaurant.id;
+        const competitorId = user.competitor[competitorNo].id;
+        const end = new Date();
+        const start = new Date();
+        start.setDate(start.getDate() - 7);
+        const report = new Report(brandId, competitorId, start, end);
+        await report.getSnapshots();
+        // console.log(report);
+        if (!report.dataAvailable()) {
+            res.json({ dataAvailable: false });
+            return;
+        }
+        const data = {
+            dataAvailable: true,
+            rating: report.getRating(),
+            bestSellers: report.getBestSeller(),
+            votes: report.getVotes(),
+            noOfItems: report.getNoOfItems(),
+            cuisines: report.getCuisinesType(),
+            aov: report.getAverageOrderValue(),
+            discount: report.getDiscount(),
+            discountGap: report.getDiscountGap(),
+            noOfDaysData: report.getNoOfDaysData(),
+            burn: report.getCompetitorAverageBurn(),
+            isCompetitorOnline: report.getIsCompetitorOnline(),
+        };
+        res.json(data);
+    } catch (error) {
+        res.status(400).json({
+            message: error.message,
+        });
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
@@ -477,4 +521,5 @@ module.exports = {
     placeOrders,
     captureOrders,
     refreshUser,
+    userReport,
 };
