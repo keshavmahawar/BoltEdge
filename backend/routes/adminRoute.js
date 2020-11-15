@@ -5,6 +5,7 @@ const {
     viewDetails,
     searchByName,
     filterByIsverified,
+    loginAdmin
 } = require("../controllers/adminController");
 
 const userAuthCheck = require("../middleware/userAuthCheck");
@@ -17,6 +18,7 @@ router.put("/editIsVerified", editIsVerified);
 router.post("/viewDetails", viewDetails);
 router.get("/searchByName", searchByName);
 router.get("/filterByIsverified", filterByIsverified);
+router.post("/login", loginAdmin);
 
 router.use(userAuthCheck);
 router.use(userVerifiedAndPaidCheck);
