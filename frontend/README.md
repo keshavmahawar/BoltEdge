@@ -38,10 +38,10 @@ Once everything has been installed, go to root folder. In the terminal type:
 
 👤 **Richa Singh**
 
-- Github: [@KeshavMahawar](https://github.com/KeshavMahawar)
-- Twitter: [@kesmahawar](https://twitter.com/kesmahawar)
-- Linkedin: [Keshav Mahawar](https://www.linkedin.com/in/keshav-m-191a8b131)
-- Email: (kes.mahawar@gmail.com)
+- Github: [@RichaSingh](https://github.com/Richa-24)
+- Hackerrank: [@RichaSingh](https://www.hackerrank.com/richa_24)
+- Linkedin: [@RichaSingh](https://www.linkedin.com/in/richa-singh-227286190/)
+- Email: (singhricha0724@gmail.com)
 
 👤 **Keshav Mahawar**
 
