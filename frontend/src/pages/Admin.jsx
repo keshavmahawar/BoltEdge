@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'wrap',
         backgroundColor: '#F2F2F2',
         '& > *': {
-            margin: theme.spacing(2),
+            margin: theme.spacing(4),
             width: theme.spacing(70),
             height: theme.spacing(22),
         },
@@ -38,26 +38,36 @@ const useStyles = makeStyles((theme) => ({
         margin: '15px auto 10px auto'
     },
     pagination: {
-        width: '400px',
-        margin: '25px auto'
-    }
+        width: '300px',
+        margin: '35px auto'
+    },
+    link: {
+        color: 'white',
+        textDecoration: 'none'
+    },
 }));
 
 export default function Admin() {
     const classes = useStyles();
     const [allUsers, setAllUsers] = useState([])
+    const [totalCount, setTotalCount] = useState("")
     const { isAuth } = useSelector((state) => state.admin)
 
     useEffect(() => {
-        axios.get('/admin/userDetails')
+        axios.get('/admin/userDetails?page=1&limit=4')
             .then((res) => {
                 console.log(res)
-                setAllUsers([...res.data.user, ...allUsers])
+                setAllUsers([...res.data.current, ...allUsers])
+                setTotalCount(res.data.totalCount)
             }).catch((err) => console.log(err))
     }, [])
 
-    const handleDetails = (id) => {
-
+    const handlePageChange = (event, value) => {
+        axios.get(`/admin/userDetails?page=${value}&limit=4`)
+            .then(res => {
+                setAllUsers([...res.data.current])
+                setTotalCount(res.data.totalCount)
+            }).catch(err => console.log(err))
     }
     return (
 
@@ -65,7 +75,7 @@ export default function Admin() {
             {isAuth ? (
                 <>
                     <AdminNavbar />
-                    <Pagination count={10} color="secondary" className={classes.pagination} />
+                    <Pagination count={Math.ceil(totalCount / 4)} color="secondary" className={classes.pagination} onChange={handlePageChange} />
                     <Container>
                         <div className={classes.root}>
                             {
@@ -88,8 +98,8 @@ export default function Admin() {
                                                     <h5 style={{ marginLeft: '15px' }}>{item.phoneNo}</h5>
                                                 </div>
 
-                                                <Button type="button" className={classes.button} onClick={() => handleDetails(item._id)}>
-                                                    <Link to={`/admin/${item._id}`}>View Details</Link>
+                                                <Button type="button" className={classes.button}>
+                                                    <Link to={`/admin/${item._id}`} className={classes.link}>View Details</Link>
                                                 </Button>
                                             </div>
                                         </Paper>

@@ -8,7 +8,7 @@ import { saveData, loadData, removeData } from "../localStorage";
 
 const initState = {
     authToken: null,
-    isAuth: false
+    isAuth: true
 }
 
 const adminReducer = (
