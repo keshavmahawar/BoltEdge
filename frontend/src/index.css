@@ -1,11 +1,29 @@
-
-  *{
+*{
+    padding: 0px;
+    margin: 0px;
     box-sizing: border-box;
-    padding: 0;
+}
+
+#map {
+    width: 100%;
+}
+
+.geocoder {
+    border: 1px solid black;
+}
+
+.mapboxgl-ctrl-geocoder {
+    min-width: 100%;
+}
+
+#nprogress .bar {
+    z-index: 1203 !important;
+}
+
+body {
     margin: 0;
   }
-
-  body{
-    background-color: #F5F5F5;
-  }
-  
+a {
+    text-decoration: none;
+    color: inherit;
+}

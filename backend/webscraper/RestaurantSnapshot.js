@@ -23,7 +23,9 @@ const getRestaurantSnapShot = async (id) => {
             all_reviews_count: reviewCount,
             url,
         } = data;
+
         const snapshot = {
+            id,
             date: new Date().toLocaleDateString("en-IN"),
             timeStamp: Date.now(),
             votesCount,
@@ -46,11 +48,12 @@ const getRestaurantSnapShot = async (id) => {
             snapshot.discounts = discounts;
             snapshot.newUserDiscount = newUserDiscount;
         }
-        console.log(snapshot);
         return snapshot;
     } catch (err) {
         console.log(err);
         return err;
     }
 };
-getRestaurantSnapShot(18880815);
+
+module.exports = getRestaurantSnapShot;
+// getRestaurantSnapShot(18880815);

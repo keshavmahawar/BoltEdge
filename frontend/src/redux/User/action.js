@@ -21,7 +21,7 @@ import {
     RESTAURANT_CHANGE_FAILURE,
     GST_FSSAI_CHANGE_REQUEST,
     GST_FSSAI_CHANGE_SUCCESS,
-    GST_FSSAI_CHANGE_FAILURE
+    GST_FSSAI_CHANGE_FAILURE,
 } from "./actionTypes";
 import { toast } from "react-toastify";
 
@@ -78,7 +78,6 @@ const userLogin = (payload) => (dispatch) => {
     return axios
         .post("/user/login", payload)
         .then((res) => {
-            console.log(res)
             dispatch(loginSuccess(res.data));
         })
         .catch((err) => {
@@ -87,6 +86,24 @@ const userLogin = (payload) => (dispatch) => {
                 err?.response?.data?.message || "unknown error while login"
             );
         });
+};
+
+const refreshUser = () => (dispatch, getState) => {
+    const authToken = getState().user.authToken;
+    if (authToken) {
+        return axios
+            .get("/user/refresh", {
+                headers: {
+                    Authorization: authToken,
+                },
+            })
+            .then((res) => {
+                dispatch(loginSuccess(res.data));
+            })
+            .catch((err) => {
+                console.log("some error occurred");
+            });
+    }
 };
 
 const setCompetitorRequest = (payload) => {
@@ -113,13 +130,11 @@ const setCompetitorFailure = (payload) => {
 const usersetCompetitor = (payload) => (dispatch) => {
     dispatch(setCompetitorRequest(payload));
     return axios
-        .post("/user/competitors",
-            payload.topCompetitor,
-            {
-                headers: {
-                    Authorization: payload.authToken,
-                }
-            })
+        .post("/user/competitors", payload.topCompetitor, {
+            headers: {
+                Authorization: payload.authToken,
+            },
+        })
         .then((res) => {
             dispatch(setCompetitorSuccess(res.data.competitor));
         })
@@ -173,64 +188,52 @@ const numChangeFailure = (payload) => {
 const numberChange = (payload) => (dispatch) => {
     dispatch(numChangeRequest(payload));
     return axios
-        .post("/user/updatePhoneNo",
+        .post(
+            "/user/updatePhoneNo",
             {
-                "email": payload.email,
-                "phoneNo": payload.newPhoneNum
+                phoneNo: String(payload.newPhoneNum),
             },
             {
                 headers: {
                     Authorization: payload.authToken,
-                }
-            })
+                },
+            }
+        )
         .then((res) => {
+            toast.success("Phone No changed");
+            console.log(res.data);
             dispatch(numChangeSuccess(res.data));
         })
         .catch((err) => {
             dispatch(numChangeFailure(err?.response?.data?.message));
+            console.log(err);
+            toast.error(
+                err?.response?.data?.message || "Phone No  could not be changed"
+            );
         });
 };
 
-const passwordChangeRequest = (payload) => {
-    return {
-        type: PASSWORD_CHANGE_REQUEST,
-        payload,
-    };
-};
-
-const passwordChangeSuccess = (payload) => {
-    return {
-        type: PASSWORD_CHANGE_SUCCESS,
-        payload,
-    };
-};
-
-const passwordChangeFailure = (payload) => {
-    return {
-        type: PASSWORD_CHANGE_FAILURE,
-        payload,
-    };
-};
-
 const passwordChange = (payload) => (dispatch) => {
-    dispatch(passwordChangeRequest(payload));
     return axios
-        .put("/user/updatePassword",
+        .put(
+            "/user/updatePassword",
             {
-                "email": payload.email,
-                "oldPassword": payload.oldPassword,
-                "newPassword": payload.newPassword
+                oldPassword: payload.oldPassword,
+                newPassword: payload.newPassword,
             },
             {
                 headers: {
                     Authorization: payload.authToken,
-                }
-            })
+                },
+            }
+        )
         .then((res) => {
-            dispatch(passwordChangeSuccess(res.data));
+            toast.success("Password Updated Successfully");
         })
         .catch((err) => {
-            dispatch(passwordChangeFailure(err?.response?.data?.message));
+            toast.error(
+                err?.response?.data?.message || "Password could not be updated"
+            );
         });
 };
 
@@ -258,15 +261,15 @@ const restaurantChangeFailure = (payload) => {
 const restaurantChange = (payload) => (dispatch) => {
     dispatch(restaurantChangeRequest(payload));
     return axios
-        .post("/user/updateRestaurant",
-            {
-
-            },
+        .post(
+            "/user/updateRestaurant",
+            {},
             {
                 headers: {
                     Authorization: payload.authToken,
-                }
-            })
+                },
+            }
+        )
         .then((res) => {
             dispatch(restaurantChangeSuccess(res.data));
         })
@@ -299,25 +302,30 @@ const gst_fssai_ChangeFailure = (payload) => {
 const gst_fssai_Change = (payload) => (dispatch) => {
     dispatch(gst_fssai_ChangeRequest(payload));
     return axios
-        .post("/user/updateBusinessDetails",
+        .post(
+            "/user/updateBusinessDetails",
             {
-                "email": payload.email,
-                "gstNo": payload.gst,
-                "fssaiNo": payload.fssai
+                gstNo: payload.gst,
+                fssaiNo: payload.fssai,
             },
             {
                 headers: {
                     Authorization: payload.authToken,
-                }
-            })
+                },
+            }
+        )
         .then((res) => {
-            dispatch(gst_fssai_ChangeSuccess(res.data));
+            dispatch(gst_fssai_ChangeSuccess(res.data.details));
+            toast.success("Business details updated successfully");
         })
         .catch((err) => {
+            toast.error(
+                err?.response?.data?.message ||
+                    "Business details could not be updated"
+            );
             dispatch(gst_fssai_ChangeFailure(err?.response?.data?.message));
         });
 };
-
 
 export {
     userLogin,
@@ -325,6 +333,7 @@ export {
     loginRequest,
     loginSuccess,
     loginLogout,
+    refreshUser,
     usersetCompetitor,
     setCompetitorFailure,
     setCompetitorRequest,
@@ -355,5 +364,5 @@ export {
     RESTAURANT_CHANGE_FAILURE,
     GST_FSSAI_CHANGE_REQUEST,
     GST_FSSAI_CHANGE_SUCCESS,
-    GST_FSSAI_CHANGE_FAILURE
+    GST_FSSAI_CHANGE_FAILURE,
 };

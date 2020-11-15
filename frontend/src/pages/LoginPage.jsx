@@ -1,16 +1,8 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { Formik, Form, useField } from "formik";
 import * as yup from "yup";
-import {
-    Button,
-    Grid,
-    TextField,
-    Box,
-    Checkbox,
-    FormControlLabel,
-} from "@material-ui/core";
+import { Button, Grid, TextField, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { userLogin } from "../redux/User/action";
 import Navbar from "../components/Navbar";
@@ -96,7 +88,6 @@ function LoginPage(props) {
                         onSubmit={async (data, { setSubmitting }) => {
                             setSubmitting(true);
                             await handleLogin(data);
-                            console.log("submit: ", data);
                             setSubmitting(false);
                         }}
                     >

@@ -28,12 +28,16 @@
         "bcrypt": "^5.0.0",
         "body-parser": "^1.19.0",
         "cors": "^2.8.5",
+        "dayjs": "^1.9.6",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "joi": "^17.2.1",
         "jsonwebtoken": "^8.5.1",
+        "moment-timezone": "^0.5.31",
         "mongoose": "^5.10.8",
+        "razorpay": "^2.0.6",
         "request": "^2.88.2",
-        "request-promise": "^4.2.6"
+        "request-promise": "^4.2.6",
+        "uuid": "^8.3.1"
     }
 }

@@ -43,7 +43,10 @@ const User = new Schema({
         default: 1234567890,
     },
     isVerified: { type: Boolean, default: false },
-    isPaid: { type: Boolean, default: false },
+    isPaidTill: {
+        type: Number,
+        default: 0,
+    },
     restaurant: {
         type: restaurantSchema,
         default: null,
@@ -52,6 +55,7 @@ const User = new Schema({
         type: [restaurantSchema],
         default: Array,
     },
+    transactions: [],
     date: {
         type: Date,
         default: Date.now,
