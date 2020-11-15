@@ -2,27 +2,29 @@ import React, { useEffect, useState } from 'react'
 import axios from '../requests/request'
 import { makeStyles } from '@material-ui/core/styles';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import AdminNavbar from '../components/AdminNavbar'
-
-import { Card, Paper, Box, Button, Typography, Modal, Backdrop, Fade } from '@material-ui/core'
+import CallIcon from '@material-ui/icons/Call';
+import Pagination from '@material-ui/lab/Pagination'
+import { Link, Redirect } from 'react-router-dom'
+import { Paper, Button, Container } from '@material-ui/core'
+import { useSelector } from 'react-redux';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-        backgroundColor: '#F2F2F2',
         '& > *': {
-            margin: theme.spacing(2),
+            margin: theme.spacing(4),
             width: theme.spacing(70),
-            height: theme.spacing(20),
+            height: theme.spacing(22),
         },
-        margin: 'auto'
     },
     button: {
         backgroundColor: '#BA4055',
         color: 'white',
-        margin: '10px'
+        margin: '10px 15px'
     },
     heading: {
         margin: '10px',
@@ -32,92 +34,82 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
         display: 'flex',
+        margin: '15px auto 10px auto'
     },
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+    pagination: {
+        width: '300px',
+        margin: '20px auto'
     },
-    paper: {
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
+    link: {
+        color: 'white',
+        textDecoration: 'none'
     },
 }));
 
 export default function Admin() {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
     const [allUsers, setAllUsers] = useState([])
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const [totalCount, setTotalCount] = useState("")
+    const { isAuth } = useSelector((state) => state.admin)
 
     useEffect(() => {
-        axios.get('/admin/userDetails')
+        axios.get('/admin/userDetails?page=1&limit=6')
             .then((res) => {
                 console.log(res)
-                setAllUsers([...res.data, ...allUsers])
+                setAllUsers([...res.data.current, ...allUsers])
+                setTotalCount(res.data.totalCount)
             }).catch((err) => console.log(err))
     }, [])
 
-    const handleDetails = (id) => {
-        axios.post('/admin/viewDetails', {
-            id: id
-        }).then(res => console.log(res))
-            .catch(err => console.log(err))
+    const handlePageChange = (event, value) => {
+        axios.get(`/admin/userDetails?page=${value}&limit=6`)
+            .then(res => {
+                setAllUsers([...res.data.current])
+                setTotalCount(res.data.totalCount)
+            }).catch(err => console.log(err))
     }
     return (
 
-        <>
-            <AdminNavbar />
-            <h1 style={{ textAlign: "center" }}>All User Details</h1>
-            <div className={classes.root}>
-                {
-                    allUsers.map((item) => {
-                        return (
-                            <Paper elevation={5} className={classes.content}>
-                                <div>
-                                    <div style={{ display: 'flex' }}>
-                                        <div style={{ margin: '15px 10px 15px 15px' }}><RestaurantIcon></RestaurantIcon></div>
-                                        <h2 className={classes.heading} >{item.name}</h2>
-                                    </div>
-                                    <h5>{item.email}</h5>
-                                    <h5>{item.phoneNo}</h5>
-                                    <Button type="button" onClick={handleOpen} className={classes.button} onClick={() => handleDetails(item._id)}>
-                                        View Details
-                    </Button>
-                                    <Modal
-                                        aria-labelledby="transition-modal-title"
-                                        aria-describedby="transition-modal-description"
-                                        className={classes.modal}
-                                        open={open}
-                                        onClose={handleClose}
-                                        closeAfterTransition
-                                        BackdropComponent={Backdrop}
-                                        BackdropProps={{
-                                            timeout: 500,
-                                        }}
-                                    >
-                                        <Fade in={open}>
-                                            <div className={classes.paper}>
-                                                <h2 id="transition-modal-title">Transition modal</h2>
-                                                <p id="transition-modal-description">react-transition-group animates me.</p>
+        <div style={{ backgroundColor: '#F5F5F5', height: '100%' }}>
+            {isAuth ? (
+                <>
+                    <AdminNavbar />
+                    <Pagination count={Math.ceil(totalCount / 6)} color="secondary" className={classes.pagination} onChange={handlePageChange} />
+                    <Container>
+                        <div className={classes.root}>
+                            {
+                                allUsers.map((item) => {
+                                    return (
+
+                                        <Paper elevation={5} className={classes.content}>
+                                            <div>
+                                                <div style={{ display: 'flex' }}>
+                                                    <div style={{ margin: '15px 10px 15px 15px' }}><RestaurantIcon></RestaurantIcon></div>
+                                                    <h2 className={classes.heading} >{item.name}</h2>
+                                                </div>
+
+                                                <div style={{ display: 'flex', margin: '5px 5px 0 15px' }}>
+                                                    <MailOutlineIcon></MailOutlineIcon>
+                                                    <h5 style={{ marginLeft: '15px' }}>{item.email}</h5>
+                                                </div>
+                                                <div style={{ display: 'flex', margin: '5px 5px 0 15px' }}>
+                                                    <CallIcon></CallIcon>
+                                                    <h5 style={{ marginLeft: '15px' }}>{item.phoneNo}</h5>
+                                                </div>
+
+                                                <Button type="button" className={classes.button}>
+                                                    <Link to={`/admin/${item._id}`} className={classes.link}>View Details</Link>
+                                                </Button>
                                             </div>
-                                        </Fade>
-                                    </Modal>
-                                </div>
-                            </Paper>
-                        )
-                    })
-                }
-            </div>
-        </>
+                                        </Paper>
+                                    )
+                                })
+                            }
+                        </div>
+                    </Container>
+                </>
+            ) : <Redirect to="/adminlogin" />}
+        </div>
     )
 }
 
