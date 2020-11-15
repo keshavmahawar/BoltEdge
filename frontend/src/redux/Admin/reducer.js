@@ -6,13 +6,15 @@ import {
 } from "./action";
 import { saveData, loadData, removeData } from "../localStorage";
 
-const initState = {
-    authToken: null,
-    isAuth: false
+const initState = () => {
+    if (loadData("adminAuthToken")) {
+        return { adminAuthToken: loadData("adminAuthToken") }
+    }
+    return { adminAuthToken: null }
 }
 
 const adminReducer = (
-    state = loadData("authToken") || initState,
+    state = initState(),
     { type, payload }
 ) => {
     switch (type) {
@@ -21,28 +23,29 @@ const adminReducer = (
                 ...state,
             };
         case ADMIN_LOGIN_SUCCESS:
-            let authToken = "Bearer" + payload.authToken
-            saveData("authToken", authToken);
+            let adminAuthToken = "Bearer" + " " + payload.authToken
+            saveData("adminAuthToken", adminAuthToken);
             return {
                 ...state,
-                authToken: authToken,
-                isAuth: true
+                adminAuthToken: adminAuthToken
             };
         case ADMIN_LOGIN_FAILURE:
             return {
                 ...state,
             };
         case ADMIN_LOGIN_LOGOUT:
-            removeData("authToken");
+            removeData("adminAuthToken");
             return {
                 ...state,
-                authToken: authToken,
+                ...initState()
+
             };
         default: {
             return state
         }
     }
 };
+
 
 export default adminReducer;
 

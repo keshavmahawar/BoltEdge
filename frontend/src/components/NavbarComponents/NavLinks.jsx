@@ -29,7 +29,7 @@ const Ul = styled.ul`
         background-color: white;
         position: fixed;
         transform: ${({ open }) =>
-            open ? "translateX(0)" : "translateX(100%)"};
+        open ? "translateX(0)" : "translateX(100%)"};
         top: 0;
         right: 0;
         height: 100vh;
@@ -62,6 +62,7 @@ const NavLinks = ({ open }) => {
                     <Link
                         to="/signup"
                         className="linkStyle"
+
                         style={{ color: "white" }}
                     >
                         Sign Up
