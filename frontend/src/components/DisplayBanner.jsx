@@ -27,11 +27,7 @@ const BannerImage = styled.div`
 function DisplayBanner() {
     return (
         <BannerConatiner>
-            <Heading>
-                The Best SEO & PPC Tools. Period.
-                <br /> Starting at Only $33/mo.
-            </Heading>
-
+            <Heading>We would like to watch your restaurant grow.</Heading>
             <BannerImage>
                 <Hidden only="sm">
                     {" "}
