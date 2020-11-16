@@ -43,12 +43,12 @@ Once everything has been installed, go to root folder. In the terminal type:
 - Linkedin: [@RichaSingh](https://www.linkedin.com/in/richa-singh-227286190/)
 - Email: (singhricha0724@gmail.com)
 
-👤 **Keshav Mahawar**
+👤 **Malimpati Kavya**
 
-- Github: [@KeshavMahawar](https://github.com/KeshavMahawar)
-- Twitter: [@kesmahawar](https://twitter.com/kesmahawar)
-- Linkedin: [Keshav Mahawar](https://www.linkedin.com/in/keshav-m-191a8b131)
-- Email: (kes.mahawar@gmail.com)
+- Github: [@MalimpatiKavya](https://github.com/kav310)
+- Hackerrank: [@MalimpatiKavya](https://www.hackerrank.com/malimpatikavya)
+- Linkedin: [@MalimpatiKavya]https://www.linkedin.com/in/kavya-chowdary-538108131/)
+- Email: (malimpatikavya@gmail.com)
 
 ## 🤝 Contribution
 
