@@ -57,17 +57,15 @@ const validationSchema = yup.object({
 
 function AdminLoginPage(props) {
     const classes = useStyles(props);
-    const { isAuth } = useSelector((state) => state.admin)
+    const { adminAuthToken } = useSelector((state) => state.admin)
     const dispatch = useDispatch();
     const handleLogin = async (data) => {
         dispatch(adminUserLogin(data));
     };
 
     return (
-        <div style={{
-            backgroundColor: '#F5F5F5', height: '100%', boxSizing: 'border-box'
-        }}>
-            {isAuth ? <Redirect to="/admin" /> :
+        <div>
+            {adminAuthToken != null ? <Redirect to="/admin" /> :
 
                 <div>
                     <Formik

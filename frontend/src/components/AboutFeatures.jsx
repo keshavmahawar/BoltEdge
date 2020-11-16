@@ -77,7 +77,7 @@ const Button = styled.div`
 `;
 
 const Gap = styled.div`
-    margin: 70px 0;
+    margin: 50px 0;
 `;
 
 const useStyles = makeStyles({
@@ -190,7 +190,7 @@ export default function AboutFeatures() {
                             src="undraw_analytics_5pgy.svg"
                             style={{
                                 width: "90%",
-                                height: "100%",
+                                height: "85%",
                                 objectFit: "cover",
                             }}
                             alt="brand"
@@ -198,7 +198,7 @@ export default function AboutFeatures() {
                     </Grid>
                 </Grid>
             </Container>
-            <Divider />
+            <Gap />
 
             <Heading>Competitor Research</Heading>
             <SubHeading>
@@ -262,7 +262,7 @@ export default function AboutFeatures() {
                 </Card>
             </Container>
             <Gap />
-            <Divider />
+
             <ReviewSection>
                 <Container>
                     <Heading>

@@ -1,68 +1,57 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# BoltEdge
+> A product that could help small and big scale restaurants recognize their competitors and as well as see the sales trends.
+## Built With
+* Node.js
+* Express.js
+* MongoDB
+* React
+* Material-UI
+## Getting Started
+### Just fork it and feel free to use it.
+To get a local copy up and running follow these simple example steps.
+### Prerequisites
+1. Install Node js in your local system
+2. Code Editor 
+3. Browser (optional)
+### Install
+After making a clone of this repo open your cmd/terminal and use
 
-## Available Scripts
+`npm install` ( this will install all the dependencies ).
+### Starting app
+Once everything has been installed, go to root folder. In the terminal type:
 
-In the project directory, you can run:
+`npm start` (this will open localhost and start the app)
+### Authors
+👤 **Ahsan Hyder**
 
-### `npm start`
+- Github: [@AhsanHyder](https://github.com/ahsanhyder625)
+- Hackerrank: [@AhsanHyder](https://www.hackerrank.com/ahsanhyder625?hr_r=1)
+- Linkedin: [@AhsanHyder](https://www.linkedin.com/in/ahsan-hyder-a27663135)
+- Email: (ahsanhyder625@gmail.com)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+👤 **Keshav Mahawar**
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- Github: [@KeshavMahawar](https://github.com/KeshavMahawar)
+- Twitter: [@kesmahawar](https://twitter.com/kesmahawar)
+- Linkedin: [Keshav Mahawar](https://www.linkedin.com/in/keshav-m-191a8b131)
+- Email: (kes.mahawar@gmail.com)
 
-### `npm test`
+👤 **Richa Singh**
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Github: [@RichaSingh](https://github.com/Richa-24)
+- Hackerrank: [@RichaSingh](https://www.hackerrank.com/richa_24)
+- Linkedin: [@RichaSingh](https://www.linkedin.com/in/richa-singh-227286190/)
+- Email: (singhricha0724@gmail.com)
 
-### `npm run build`
+👤 **Malimpati Kavya**
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Github: [@MalimpatiKavya](https://github.com/kav310)
+- Hackerrank: [@MalimpatiKavya](https://www.hackerrank.com/malimpatikavya)
+- Linkedin: [@MalimpatiKavya]https://www.linkedin.com/in/kavya-chowdary-538108131/)
+- Email: (malimpatikavya@gmail.com)
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## 🤝 Contribution
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Contributions, issues and feature requests are welcome!
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Feel free to check the [issues page](https://github.com/keshavmahawar/BoltEdge/issues).
