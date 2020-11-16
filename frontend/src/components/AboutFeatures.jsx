@@ -212,10 +212,10 @@ export default function AboutFeatures() {
                         Adwords Competitor Keyword Bolt Tool
                     </h4>
                     <p style={{ margin: "15px" }}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Maiores earum iusto laborum similique culpa suscipit
-                        officia at id dolor. Quam repellendus expedita atque
-                        veniam, asperiores repellat quia ea placeat numquam.
+                        You can quickly get a site's PPC keywords for direct
+                        answers about what to add to your own campaign. Get new
+                        ideas and estimate costs to for keywords you’ve been
+                        missing
                     </p>
                 </Card>
                 <Card className={classes.root}>
@@ -230,10 +230,8 @@ export default function AboutFeatures() {
                         Adwords Competitor Keyword Bolt Tool
                     </h4>
                     <p style={{ margin: "15px" }}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Maiores earum iusto laborum similique culpa suscipit
-                        officia at id dolor. Quam repellendus expedita atque
-                        veniam, asperiores repellat quia ea placeat numquam.
+                        Type in your domain, and we'll automatically organize
+                        all of your paid keywords into manageable ad groups.
                     </p>
                 </Card>
                 <Card className={classes.root}>
@@ -248,10 +246,10 @@ export default function AboutFeatures() {
                         Adwords Competitor Keyword Bolt Tool
                     </h4>
                     <p style={{ margin: "15px" }}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Maiores earum iusto laborum similique culpa suscipit
-                        officia at id dolor. Quam repellendus expedita atque
-                        veniam, asperiores repellat quia ea placeat numquam.
+                        When you wonder what keywords you might be missing, we
+                        use the wisdom of the market to give you a direct
+                        answer. Add keywords your competitors share, and drop
+                        the ones that no one else is buying.
                     </p>
                 </Card>
             </Container>
@@ -260,7 +258,7 @@ export default function AboutFeatures() {
             <ReviewSection>
                 <Container>
                     <Heading>
-                        Membership starts at just $33/month.
+                        Membership starts at just ₹200/month.
                         <br />
                         Unlimited data and downloads.
                     </Heading>
