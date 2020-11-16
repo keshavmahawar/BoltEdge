@@ -5,7 +5,9 @@ import LoginPage from "../pages/LoginPage";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import PrivateRouting from "./PrivateRouting";
-import UserDetails from "../pages/UserDetails";
+import Admin from "../pages/Admin";
+import EachUserDetails from "../components/EachUserDetails";
+import AdminLoginPage from '../pages/AdminLogin'
 
 function MainRouter(props) {
     return (
@@ -16,8 +18,11 @@ function MainRouter(props) {
                 <Route path="/signup" exact component={Register} />
                 <PrivateRouting path="/dashboard">
                     <Route path="/dashboard/" component={Dashboard} />
-                    <Route path="/dashboard/details" component={UserDetails} />
                 </PrivateRouting>
+                <Route path="/admin" exact component={Admin} />
+                <Route path={`/admin/:id`}
+                    render={(props) => <EachUserDetails {...props} />} />
+                <Route path="/adminlogin" exact component={AdminLoginPage} />
             </Switch>
         </>
     );

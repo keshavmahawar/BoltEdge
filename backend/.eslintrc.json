@@ -3,6 +3,7 @@
     "plugins": ["prettier"],
     "rules": {
         "no-console": "off",
-        "prefer-destructuring": "off"
+        "prefer-destructuring": "off",
+        "no-await-in-loop": "off"
     }
 }

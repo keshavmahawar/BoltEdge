@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     },
     signUpImage: {
         width: "80%",
-        height: "100%",
+        height: "600px",
         objectFit: "cover",
         margin: "auto",
     },
@@ -107,7 +107,7 @@ function Register(props) {
                             setSubmitting(false);
                         }}
                     >
-                        {({ values, errors, isSubmitting }) => (
+                        {({ isSubmitting }) => (
                             <Form className={classes.mainLogin}>
                                 <Box className={classes.loginHeading}>
                                     Register as new user
@@ -124,11 +124,6 @@ function Register(props) {
                                     name="email"
                                     variant="outlined"
                                 />
-                                {/* <MyTextField
-                                label="Phone Number"
-                                margin="normal"
-                                variant="outlined"
-                            /> */}
                                 <MyTextField
                                     label="Password"
                                     name="password"

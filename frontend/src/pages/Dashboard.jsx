@@ -22,12 +22,16 @@ import PlayCircleOutlineTwoToneIcon from "@material-ui/icons/PlayCircleOutlineTw
 import PaidRoute from "../route/PaidRoute";
 import UserDetails from "./UserDetails";
 import PaidAndVerifiedRoute from "../route/PaidAndVerifiedRoute";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Link, Redirect } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginLogout } from "../redux/User/action";
 import SetRestaurant from "../components/SetRestaurant";
 import GetCompetitor from "../components/GetCompetitor";
+import UserReports from "./UserReports";
+import UserDemoReport from "./UserDemoReport";
+import Verification from "./Verification";
+import Payment from "../components/Payment";
 
 const drawerWidth = 240;
 
@@ -101,6 +105,7 @@ export default function Dashboard() {
     const theme = useTheme();
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
+    const isPaid = useSelector((state) => state.user.isPaid);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -171,7 +176,20 @@ export default function Dashboard() {
                 </div>
                 <Divider />
                 <List>
-                    {["User Details"].map((text, index) => (
+                    <Link to="/dashboard/report">
+                        {["Report"].map((text, index) => (
+                            <ListItem button key={text}>
+                                <ListItemIcon>
+                                    <AssignmentTwoToneIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        ))}
+                    </Link>
+                </List>
+                <Divider />
+                <List>
+                    {["Insight"].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon>
                                 <DetailsTwoToneIcon />
@@ -182,56 +200,51 @@ export default function Dashboard() {
                 </List>
                 <Divider />
                 <List>
-                    {["Insight"].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                <InsertChartTwoToneIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
+                    <Link to="/dashboard/details">
+                        {["User Details"].map((text, index) => (
+                            <ListItem button key={text}>
+                                <ListItemIcon>
+                                    <InsertChartTwoToneIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        ))}
+                    </Link>
                 </List>
+
                 <Divider />
                 <List>
-                    {["Report"].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                <AssignmentTwoToneIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
-                <List>
-                    {["Demo"].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                <PlayCircleOutlineTwoToneIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
+                    <Link to="/dashboard/demo">
+                        {["Demo"].map((text, index) => (
+                            <ListItem button key={text}>
+                                <ListItemIcon>
+                                    <PlayCircleOutlineTwoToneIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        ))}
+                    </Link>
                 </List>
                 <Divider />
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <Switch>
+                    <Route path="/dashboard/" exact>
+                        <Redirect
+                            to={
+                                isPaid ? "/dashboard/report" : "/dashboard/demo"
+                            }
+                        />
+                    </Route>
+                    <Route path="/dashboard/pay" component={Payment} />
+                    <Route path="/dashboard/details" component={UserDetails} />
                     <Route
-                        path="/dashboard/"
-                        exact
-                        render={() => <div>demo</div>}
+                        path="/dashboard/verification"
+                        component={Verification}
                     />
-                    <Route
-                        path="/dashboard/pay"
-                        render={() => <div>pay</div>}
-                    />
+                    <Route path="/dashboard/demo" component={UserDemoReport} />
                     <PaidRoute
-                        path="/dashboard/details"
-                        component={UserDetails}
-                    />
-                    <PaidAndVerifiedRoute
                         path="/dashboard/restaurant/add"
                         component={SetRestaurant}
                     />
@@ -245,7 +258,7 @@ export default function Dashboard() {
                     />
                     <PaidAndVerifiedRoute
                         path="/dashboard/report"
-                        component={() => <div>report </div>}
+                        component={UserReports}
                     />
                 </Switch>
             </main>

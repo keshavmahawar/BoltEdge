@@ -20,7 +20,7 @@ import {
     RESTAURANT_CHANGE_FAILURE,
     GST_FSSAI_CHANGE_REQUEST,
     GST_FSSAI_CHANGE_SUCCESS,
-    GST_FSSAI_CHANGE_FAILURE
+    GST_FSSAI_CHANGE_FAILURE,
 } from "./action";
 import { saveData, loadData, removeData } from "../localStorage";
 
@@ -110,7 +110,7 @@ const userReducer = (
         case NUMBER_CHANGE_SUCCESS:
             return {
                 ...state,
-                phoneNo: payload.user.phoneNo,
+                phoneNo: payload.phoneNo,
             };
         case NUMBER_CHANGE_FAILURE:
             return {
@@ -147,8 +147,7 @@ const userReducer = (
         case GST_FSSAI_CHANGE_SUCCESS:
             return {
                 ...state,
-                gstNo: payload.user.gstNo,
-                fssaiNo: payload.user.fssaiNo
+                ...payload,
             };
         case GST_FSSAI_CHANGE_FAILURE:
             return {

@@ -49,7 +49,6 @@ const searchRestaurant = async (req, res) => {
                 radius: 7000,
             },
         });
-
         res.json(restaurantDataParser(data));
     } catch (error) {
         res.status(400).json({

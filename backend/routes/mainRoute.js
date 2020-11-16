@@ -8,24 +8,39 @@ const {
     updatePassword,
     updatePhoneNo,
     updateBussinessDetails,
+    placeOrders,
+    refreshUser,
+    captureOrders,
+    userReport,
+    createMockData,
+    demoReport,
 } = require("../controllers/userController");
 
 const userAuthCheck = require("../middleware/userAuthCheck");
+const userPaidCheck = require("../middleware/userPaidCheck");
 const userVerifiedAndPaidCheck = require("../middleware/userVerifiedAndPaidCheck");
 
 const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.put("/updatePassword", updatePassword);
-router.post("/updatePhoneNo", updatePhoneNo);
-router.post("/updateBussinessDetails", updateBussinessDetails);
+router.post("/mock", createMockData);
+router.get("/demo", demoReport);
 
 router.use(userAuthCheck);
-router.use(userVerifiedAndPaidCheck);
+router.post("/updatePhoneNo", updatePhoneNo);
+router.post("/order", placeOrders);
+router.post("/paid", captureOrders);
+router.get("/refresh", refreshUser);
+router.put("/updatePassword", updatePassword);
+router.post("/updateBusinessDetails", updateBussinessDetails);
 
-router.get("/competitors", competitors);
-router.post("/competitors", setUserCompetitors);
+router.use(userPaidCheck);
 router.post("/restaurant", setRestaurant);
+
+router.use(userVerifiedAndPaidCheck);
+router.get("/competitors", competitors);
+router.get("/report", userReport);
+router.post("/competitors", setUserCompetitors);
 
 module.exports = router;
