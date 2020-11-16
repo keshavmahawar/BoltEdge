@@ -107,6 +107,39 @@ class Report {
         );
     }
 
+    async getSalesTrend() {
+        const restaurantArray = await RestaurantSnapshot.find(
+            {
+                id: this.competitorId,
+            },
+            { votesCount: 1, date: 1 }
+        ).sort({ date: 1 });
+        if (restaurantArray.length < 4) return false;
+        const data = [];
+        // console.log(
+        //     restaurantArray.map(({ votesCount, date }) => ({
+        //         votesCount,
+        //         date,
+        //     }))
+        // );
+        for (let i = 1; i < restaurantArray.length; i += 1) {
+            const date1 = new Date(restaurantArray[i].date);
+            const date2 = new Date(restaurantArray[i - 1].date);
+            const diffTime = Math.abs(date1 - date2);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const salesTrend =
+                (restaurantArray[i].votesCount -
+                    restaurantArray[i - 1].votesCount) /
+                (0.35 * diffDays);
+            const temp = {
+                sales: parseFloat(salesTrend).toFixed(2),
+                date: date1.toLocaleDateString(),
+            };
+            data.push(temp);
+        }
+        return data;
+    }
+
     getCompetitorAverageBurn() {
         if (!this.competitorLast.newUserDiscount[0]) return false;
         const lastSnapshot = this.competitorLast;

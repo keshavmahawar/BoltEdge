@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { refreshUser } from "../redux/User/action";
-import { history, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => ({
         margin: "0px auto",
     },
     heading: {
-        textAlign: "left",
+        textAlign: "center",
         fontSize: "50px",
         fontWeight: "300",
         color: "#333333",
@@ -31,7 +31,7 @@ function Payment(props) {
     const [planType, setPlanType] = useState(1);
     const paymentSuccess = async (response) => {
         try {
-            const captureResponse = await axios.post("user/paid", response, {
+            await axios.post("user/paid", response, {
                 headers: {
                     authorization: authToken,
                 },
@@ -77,7 +77,11 @@ function Payment(props) {
 
     return (
         <div className={classes.root}>
-            <Box className={classes.heading}>Buy Premium Plan</Box>
+            <Box className={classes.heading}>
+                Buy Premium Plan And
+                <br />
+                Generate Your Reports Now
+            </Box>
             <Box margin={4}>
                 <Select
                     labelId="Plan Type"

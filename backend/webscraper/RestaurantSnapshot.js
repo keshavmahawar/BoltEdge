@@ -48,6 +48,7 @@ const getRestaurantSnapShot = async (id) => {
             snapshot.discounts = discounts;
             snapshot.newUserDiscount = newUserDiscount;
         }
+        console.log(snapshot);
         return snapshot;
     } catch (err) {
         console.log(err);

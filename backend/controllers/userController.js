@@ -7,6 +7,9 @@ const dotenv = require("dotenv");
 const User = require("../models/userModel");
 const Transaction = require("../models/transactionsModel");
 const Report = require("./reportsClass");
+const {
+    restaurantSnapshotsSave,
+} = require("../webscraper/restaurantDataScripts");
 
 dotenv.config();
 const instance = new Razorpay({
@@ -221,6 +224,11 @@ const setUserCompetitors = async (req, res) => {
             message: "restaurant competitors updated",
             competitor: user.competitor,
         });
+        let competitorIdList = user.competitor.map(
+            (restaurant) => restaurant.id
+        );
+        competitorIdList = [...competitorIdList, user.restaurant.id];
+        restaurantSnapshotsSave(competitorIdList);
     } catch (error) {
         res.status(401).json({
             message: error.message,
@@ -234,7 +242,7 @@ const competitors = async (req, res) => {
         const { restaurant } = await User.findOne({ email });
         if (restaurant === null) throw Error("Restaurant doesn't exist");
 
-        const { lat, lon, cuisines } = restaurant;
+        const { lat, lon, cuisines, id } = restaurant;
         const cuisinesArray = cuisines.split(", ");
         const {
             data: { cuisines: cuisinesData },
@@ -264,8 +272,10 @@ const competitors = async (req, res) => {
                 cuisines: cuisinesArrayKey.join(","),
             },
         });
-
-        res.json(restaurantDataParser(data));
+        const restaurantList = restaurantDataParser(data).filter(
+            (item) => item.id !== id
+        );
+        res.json(restaurantList);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -500,6 +510,7 @@ const userReport = async (req, res) => {
             noOfDaysData: report.getNoOfDaysData(),
             burn: report.getCompetitorAverageBurn(),
             isCompetitorOnline: report.getIsCompetitorOnline(),
+            salesTrend: await report.getSalesTrend(),
         };
         res.json(data);
     } catch (error) {
