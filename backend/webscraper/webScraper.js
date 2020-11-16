@@ -134,11 +134,11 @@ const orderPageDataSelector = async (url) => {
         const items = menus[i].menu.categories[0].category.items;
         totalItems += items.length;
 
-        // for (let j = 0; j < items.length; j += 1) {
-        //     if (items[j].item.tag_slugs.includes("bestseller")) {
-        //         bestSeller.push(items[j].item.name);
-        //     }
-        // }
+        for (let j = 0; j < items.length; j += 1) {
+            if (items[j].item.tag_slugs.includes("bestseller")) {
+                bestSeller.push(items[j].item.name);
+            }
+        }
     }
 
     return { totalItems, bestSeller, discounts, newUserDiscount };

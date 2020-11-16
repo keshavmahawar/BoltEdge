@@ -1,46 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import ListIcon from "@material-ui/icons/List";
-import StarsIcon from "@material-ui/icons/Stars";
-import RateReviewIcon from "@material-ui/icons/RateReview";
-import LocalOfferIcon from "@material-ui/icons/LocalOffer";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
-import RestaurantIcon from "@material-ui/icons/Restaurant";
-import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
-import ComparisonCard from "../components/ComparisonCard";
-import DataCard from "../components/DataCard";
-import { Line } from "react-chartjs-2";
+import Report from "../components/Report";
 import { useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import axios from "../requests/request";
-
-const data1 = {
-    labels: ["1", "2", "3", "4", "5", "6"],
-    datasets: [
-        {
-            label: "# of Votes",
-            data: [12, 19, 3, 5, 2, 3],
-            fill: false,
-            backgroundColor: "rgb(255, 99, 132)",
-            borderColor: "rgba(255, 99, 132, 0.2)",
-        },
-    ],
-};
-
-const options = {
-    scales: {
-        yAxes: [
-            {
-                ticks: {
-                    beginAtZero: true,
-                },
-            },
-        ],
-    },
-};
 
 const useStyles = makeStyles((theme) => ({
     nav: {
@@ -144,144 +111,73 @@ export default function UserReports() {
         };
         request();
     }, [competitorSelect]);
+
+    const reportRef = React.createRef();
     if (!restaurant) return <Redirect to="/dashboard/restaurant/add" />;
     else if (!competitor.length)
         return <Redirect to="/dashboard/restaurant/competitors" />;
     return (
         <div className={classes.root}>
-            <div>
-                Select Competitor:
-                <Select
-                    labelId="Plan Type"
-                    value={competitorSelect}
-                    onChange={(event) =>
-                        setCompetitorSelect(event.target.value)
-                    }
-                >
-                    {competitor.map(({ name }, index) => (
-                        <MenuItem value={index} key={index}>
-                            {name}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </div>
+            <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                p={1}
+            >
+                <div>
+                    Competitor: &nbsp;
+                    <Select
+                        labelId="Plan Type"
+                        value={competitorSelect}
+                        onChange={(event) =>
+                            setCompetitorSelect(event.target.value)
+                        }
+                    >
+                        {competitor.map(({ name }, index) => (
+                            <MenuItem value={index} key={index}>
+                                {name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </div>
+                {/* <div>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        onClick={convertPdf}
+                    >
+                        Save Report
+                    </Button>
+                </div> */}
 
+                <div>
+                    <Link to="/restaurant/competitors">
+                        <Button color="primary" variant="contained">
+                            Change Competitors
+                        </Button>
+                    </Link>
+                </div>
+            </Box>
             {data ? (
-                <div className={classes.root1}>
-                    <ComparisonCard
-                        heading="No Of Items"
-                        data={data.noOfItems}
-                        icon={ListIcon}
-                    />
-                    <ComparisonCard
-                        heading="Rating Comparison"
-                        data={data.rating}
-                        icon={StarsIcon}
-                    />
-                    <ComparisonCard
-                        heading="Review Comparison"
-                        data={data.votes}
-                        icon={RateReviewIcon}
-                    />
-                    <ComparisonCard
-                        heading="Discount comparison"
-                        data={data.discount}
-                        icon={LocalOfferIcon}
-                    />
-                </div>
-            ) : (
-                <div>Loading...</div>
-            )}
-            <div style={{ display: "flex", flexWrap: "wrap" }}>
-                <div className={classes.root2}>
-                    <Paper elevation={5} style={{ background: "#FFFFFF" }}>
-                        <div style={{ display: "flex" }}>
-                            <TrendingUpIcon className={classes.size} />
-                            <h3>Sales Trend Chart</h3>
-                        </div>
-                        <div>
-                            <Line data={data1} options={options} />
-                        </div>
-                    </Paper>
-                </div>
-                <div className={classes.root3}>
-                    <Paper elevation={5} style={{ background: "#FFFFFF" }}>
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                            <RestaurantIcon className={classes.size} />
-                            <h3>Competitor Comparison</h3>
-                        </div>
-                        <div className={classes.root4}>
-                            <DataCard
-                                heading="Average Order Value"
-                                icon={RestaurantMenuIcon}
-                                data={data?.aov?.c}
-                            />
-                            <DataCard
-                                heading="Discount Gap"
-                                icon={RestaurantMenuIcon}
-                                data={
-                                    data?.discountGap === 0
-                                        ? "Same Discounts"
-                                        : data?.discountGap
-                                }
-                            />
-                        </div>
-                        <div className={classes.root4}>
-                            <DataCard
-                                heading="Average Burn"
-                                icon={RestaurantMenuIcon}
-                                data={data?.burn}
-                            />
-                            <DataCard
-                                heading="Cuisines Type"
-                                icon={RestaurantMenuIcon}
-                                data={data?.cuisines?.c}
-                                fontSmall={true}
-                            />
-                        </div>
-                    </Paper>
-                </div>
-            </div>
-
-            <div className={classes.root6}>
-                <Paper elevation={5} style={{ background: "#FFFFFF" }}>
-                    <div style={{ display: "flex", textAlign: "center" }}>
-                        {/* <TrendingUpIcon className={classes.size}/> */}
+                data.dataAvailable ? (
+                    <Report data={data} />
+                ) : (
+                    <div style={{ textAlign: "center" }}>
+                        <h1>Data crunching in it may take some time</h1>
                         <img
-                            src="https://www.pngitem.com/pimgs/m/4-40385_logo-best-seller-png-transparent-png.png"
-                            style={{
-                                height: "60px",
-                                width: "60px",
-                                margin: "10px",
-                            }}
-                            alt="best seller"
+                            src="https://i.pinimg.com/originals/59/a7/99/59a7995fed72fa18cb623d195f00abbc.gif"
+                            alt="loading"
                         />
-                        <h3>Best Selling Comparison</h3>
                     </div>
-                    <div className={classes.root7}>
-                        <Paper elevation={5} style={{ background: "#F4F4F8" }}>
-                            <div style={{ textAlign: "center" }}>
-                                <strong>Yours</strong>
-                                {data &&
-                                    data.bestSellers &&
-                                    data.bestSellers.b.map((item, index) => (
-                                        <h3 key={item + index}>{item}</h3>
-                                    ))}
-                            </div>
-                        </Paper>
-                        <Paper elevation={5} style={{ background: "#F4F4F8" }}>
-                            <div style={{ textAlign: "center" }}>
-                                <strong>Competitor</strong>
-                                {data &&
-                                    data.bestSellers &&
-                                    data.bestSellers.c.map((item, index) => (
-                                        <h3 key={item + index}>{item}</h3>
-                                    ))}
-                            </div>
-                        </Paper>
-                    </div>
-                </Paper>
-            </div>
+                )
+            ) : (
+                <div style={{ textAlign: "center" }}>
+                    <img
+                        src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/6d391369321565.5b7d0d570e829.gif"
+                        alt="loading"
+                    />
+                </div>
+            )}
         </div>
     );
 }

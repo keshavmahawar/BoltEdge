@@ -242,7 +242,7 @@ const competitors = async (req, res) => {
         const { restaurant } = await User.findOne({ email });
         if (restaurant === null) throw Error("Restaurant doesn't exist");
 
-        const { lat, lon, cuisines } = restaurant;
+        const { lat, lon, cuisines, id } = restaurant;
         const cuisinesArray = cuisines.split(", ");
         const {
             data: { cuisines: cuisinesData },
@@ -272,8 +272,10 @@ const competitors = async (req, res) => {
                 cuisines: cuisinesArrayKey.join(","),
             },
         });
-
-        res.json(restaurantDataParser(data));
+        const restaurantList = restaurantDataParser(data).filter(
+            (item) => item.id !== id
+        );
+        res.json(restaurantList);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -508,6 +510,7 @@ const userReport = async (req, res) => {
             noOfDaysData: report.getNoOfDaysData(),
             burn: report.getCompetitorAverageBurn(),
             isCompetitorOnline: report.getIsCompetitorOnline(),
+            salesTrend: await report.getSalesTrend(),
         };
         res.json(data);
     } catch (error) {

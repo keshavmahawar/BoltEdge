@@ -175,6 +175,19 @@ export default function Dashboard() {
                 </div>
                 <Divider />
                 <List>
+                    <Link to="/dashboard/report">
+                        {["Report"].map((text, index) => (
+                            <ListItem button key={text}>
+                                <ListItemIcon>
+                                    <AssignmentTwoToneIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        ))}
+                    </Link>
+                </List>
+                <Divider />
+                <List>
                     {["Insight"].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon>
@@ -197,19 +210,7 @@ export default function Dashboard() {
                         ))}
                     </Link>
                 </List>
-                <Divider />
-                <List>
-                    <Link to="/dashboard/report">
-                        {["Report"].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>
-                                    <AssignmentTwoToneIcon />
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        ))}
-                    </Link>
-                </List>
+
                 <Divider />
                 <List>
                     <Link to="/dashboard/demo">

@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-    passwordChange,
-    numberChange,
-    gst_fssai_Change,
-} from "../redux/User/action";
+import { gst_fssai_Change } from "../redux/User/action";
 import { Redirect } from "react-router-dom";
 import { Button, Grid, TextField, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,6 +16,12 @@ const useStyles = makeStyles({
         textAlign: "left",
         fontSize: "50px",
         fontWeight: "300",
+        color: "#333333",
+        marginBottom: "10px",
+    },
+    subHeading: {
+        textAlign: "left",
+        fontSize: "25px",
         color: "#333333",
         marginBottom: "10px",
     },
@@ -47,7 +49,6 @@ export default function UserDetails() {
     return (
         <div className={classes.root}>
             <div>
-                <h1>Verification pending</h1>
                 <Grid container style={{ minHeight: "60vh" }}>
                     <Grid
                         container
@@ -62,8 +63,13 @@ export default function UserDetails() {
                         <div />
                         <div className={classes.mainLogin}>
                             <Box className={classes.loginHeading}>
-                                Business Details
+                                Business Verification
                             </Box>
+                            <Box className={classes.subHeading}>
+                                Update your business details below, this process
+                                may take upto 24 hr to verify your details
+                            </Box>
+
                             <TextField
                                 label="GST Details"
                                 margin="normal"
