@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import '../admin.module.css'
 import axios from '../requests/request'
 import { makeStyles } from '@material-ui/core/styles';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
@@ -12,6 +13,9 @@ import { useSelector } from 'react-redux';
 
 
 const useStyles = makeStyles((theme) => ({
+    body: {
+        backgroundColor: 'blue'
+    },
     root: {
         display: 'flex',
         flexWrap: 'wrap',
@@ -37,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
         margin: '15px auto 10px auto'
     },
     pagination: {
-        width: '300px',
-        margin: '20px auto'
+        margin: '20px auto 20px auto',
+        width: '350px'
     },
     link: {
         color: 'white',
@@ -71,11 +75,15 @@ export default function Admin() {
     console.log(adminAuthToken)
     return (
 
-        <div style={{ backgroundColor: '#F5F5F5', height: '100%' }}>
+        <div>
             {adminAuthToken != null ? (
                 <>
                     <AdminNavbar />
-                    <Pagination count={Math.ceil(totalCount / 6)} color="secondary" className={classes.pagination} onChange={handlePageChange} />
+                    <div className={classes.pagination}>
+                        <Pagination
+                            count={Math.ceil(totalCount / 6)}
+                            color="secondary" onChange={handlePageChange} />
+                    </div>
                     <Container>
                         <div className={classes.root}>
                             {

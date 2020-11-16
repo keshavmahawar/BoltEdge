@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import '../index.css'
+import '../admin.module.css'
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { Formik, Form, useField } from "formik";

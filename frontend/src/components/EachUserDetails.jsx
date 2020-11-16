@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import '../admin.module.css'
 import axios from '../requests/request'
 import { Paper, Container, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
@@ -113,7 +114,7 @@ export default function EachUserDetails(props) {
     return (
         <>
             <AdminNavbar />
-            <div style={{ backgroundColor: '#F5F5F5' }}>
+            <div>
                 <Container>
                     <h1 className={classes.mainHeading}>User Details</h1>
                     <div>
