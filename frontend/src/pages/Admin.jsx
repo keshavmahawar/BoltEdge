@@ -50,7 +50,7 @@ export default function Admin() {
     const classes = useStyles();
     const [allUsers, setAllUsers] = useState([])
     const [totalCount, setTotalCount] = useState("")
-    const { isAuth } = useSelector((state) => state.admin)
+    const { adminAuthToken } = useSelector((state) => state.admin)
 
     useEffect(() => {
         axios.get('/admin/userDetails?page=1&limit=6')
@@ -68,10 +68,11 @@ export default function Admin() {
                 setTotalCount(res.data.totalCount)
             }).catch(err => console.log(err))
     }
+    console.log(adminAuthToken)
     return (
 
         <div style={{ backgroundColor: '#F5F5F5', height: '100%' }}>
-            {isAuth ? (
+            {adminAuthToken != null ? (
                 <>
                     <AdminNavbar />
                     <Pagination count={Math.ceil(totalCount / 6)} color="secondary" className={classes.pagination} onChange={handlePageChange} />

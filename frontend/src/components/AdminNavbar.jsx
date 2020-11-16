@@ -1,12 +1,13 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
+import { useDispatch } from 'react-redux'
+import { AppBar, Button } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import { adminLoginLogout } from '../redux/Admin/action';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -51,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	inputInput: {
 		padding: theme.spacing(1, 1, 1, 0),
-		// vertical padding + font size from searchIcon
 		paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
 		transition: theme.transitions.create('width'),
 		width: '100%',
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SearchAppBar() {
 	const classes = useStyles();
-
+	const dispatch = useDispatch()
 	return (
 		<div className={classes.root}>
 			<AppBar position="static" style={{ background: '#FFFFFF', color: '#BA4055' }}>
@@ -92,7 +92,13 @@ export default function SearchAppBar() {
 							inputProps={{ 'aria-label': 'search' }}
 						/>
 					</div>
-					<button>Logout</button>
+					<Button
+						variant="contained"
+						color="secondary"
+						onClick={() => dispatch(adminLoginLogout())}
+					>
+						Logout
+                    </Button>
 				</Toolbar>
 			</AppBar>
 		</div>

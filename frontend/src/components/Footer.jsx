@@ -17,7 +17,7 @@ const useStyles = makeStyles({
         flex: 1,
         fontSize: 16,
         marginTop: 70,
-        marginLeft: "10%",
+        marginLeft: "9%",
         fontWeight: "bold",
     },
     contentStyle: {
