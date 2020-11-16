@@ -5,6 +5,7 @@ const Razorpay = require("razorpay");
 const request = require("request");
 const dotenv = require("dotenv");
 const User = require("../models/userModel");
+const RestaurantSnapshot = require("../models/restaurantSnapshot");
 const Transaction = require("../models/transactionsModel");
 const Report = require("./reportsClass");
 const {
@@ -236,6 +237,62 @@ const setUserCompetitors = async (req, res) => {
     }
 };
 
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+}
+
+const createMockData = async (req, res) => {
+    try {
+        const { id: idBody } = req.body;
+        const restaurantLast = await RestaurantSnapshot.findOne({ id: idBody });
+        const {
+            bestSeller,
+            discounts,
+            newUserDiscount,
+            sales,
+            id,
+            rating,
+            reviewCount,
+            cuisines,
+            averageOrderValue,
+            hasOnlineOrder,
+            totalItems,
+        } = restaurantLast;
+        let { date, votesCount } = restaurantLast;
+        date = new Date(date);
+        const dataArray = [];
+
+        for (let i = 1; i <= 15; i += 1) {
+            date.setDate(date.getDate() - 1);
+            votesCount -= getRandomInt(20, 30);
+            dataArray.push({
+                bestSeller,
+                discounts,
+                newUserDiscount,
+                sales,
+                id,
+                date: date.toLocaleDateString("en-IN"),
+                votesCount,
+                rating,
+                reviewCount,
+                cuisines,
+                averageOrderValue,
+                hasOnlineOrder,
+                totalItems,
+            });
+        }
+        await RestaurantSnapshot.insertMany(dataArray);
+
+        // console.log("test", dataArray);
+        res.send("test");
+    } catch (error) {
+        res.status(401).json({
+            message: error.message,
+        });
+    }
+};
 const competitors = async (req, res) => {
     try {
         const { email } = req.user;
@@ -476,6 +533,52 @@ const captureOrders = async (req, res) => {
     }
 };
 
+const demoReport = async (req, res) => {
+    try {
+        const { competitorNo } = req.query;
+
+        const competitorIds = [
+            18878201,
+            18891028,
+            18826016,
+            18883037,
+            19330750,
+        ];
+        const brandId = 18883026;
+        const competitorId = competitorIds[competitorNo];
+        const end = new Date();
+        const start = new Date();
+        start.setDate(start.getDate() - 7);
+        const report = new Report(brandId, competitorId, start, end);
+        await report.getSnapshots();
+        // console.log(report);
+        if (!report.dataAvailable()) {
+            res.json({ dataAvailable: false });
+            return;
+        }
+        const data = {
+            dataAvailable: true,
+            rating: report.getRating(),
+            bestSellers: report.getBestSeller(),
+            votes: report.getVotes(),
+            noOfItems: report.getNoOfItems(),
+            cuisines: report.getCuisinesType(),
+            aov: report.getAverageOrderValue(),
+            discount: report.getDiscount(),
+            discountGap: report.getDiscountGap(),
+            noOfDaysData: report.getNoOfDaysData(),
+            burn: report.getCompetitorAverageBurn(),
+            isCompetitorOnline: report.getIsCompetitorOnline(),
+            salesTrend: await report.getSalesTrend(),
+        };
+        res.json(data);
+    } catch (error) {
+        res.status(400).json({
+            message: error.message,
+        });
+    }
+};
+
 const userReport = async (req, res) => {
     try {
         const { competitorNo } = req.query;
@@ -533,4 +636,6 @@ module.exports = {
     captureOrders,
     refreshUser,
     userReport,
+    createMockData,
+    demoReport,
 };

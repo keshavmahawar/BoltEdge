@@ -29,6 +29,7 @@ import { loginLogout } from "../redux/User/action";
 import SetRestaurant from "../components/SetRestaurant";
 import GetCompetitor from "../components/GetCompetitor";
 import UserReports from "./UserReports";
+import UserDemoReport from "./UserDemoReport";
 import Verification from "./Verification";
 import Payment from "../components/Payment";
 
@@ -242,14 +243,7 @@ export default function Dashboard() {
                         path="/dashboard/verification"
                         component={Verification}
                     />
-                    <Route
-                        path="/dashboard/demo"
-                        component={() => (
-                            <div>
-                                <h1>Demo Page</h1>
-                            </div>
-                        )}
-                    />
+                    <Route path="/dashboard/demo" component={UserDemoReport} />
                     <PaidRoute
                         path="/dashboard/restaurant/add"
                         component={SetRestaurant}

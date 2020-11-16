@@ -12,6 +12,8 @@ const {
     refreshUser,
     captureOrders,
     userReport,
+    createMockData,
+    demoReport,
 } = require("../controllers/userController");
 
 const userAuthCheck = require("../middleware/userAuthCheck");
@@ -22,6 +24,8 @@ const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
+router.post("/mock", createMockData);
+router.get("/demo", demoReport);
 
 router.use(userAuthCheck);
 router.post("/updatePhoneNo", updatePhoneNo);

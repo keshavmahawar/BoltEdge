@@ -66,7 +66,7 @@ export default function Report(props) {
                             <h3>Order Trend Chart</h3>
                         </div>
                         <div>
-                            {data?.salesTrend && (
+                            {data?.salesTrend ? (
                                 <Line
                                     data={{
                                         datasets: [
@@ -88,6 +88,21 @@ export default function Report(props) {
                                     }}
                                     options={options}
                                 />
+                            ) : (
+                                <div
+                                    style={{
+                                        textAlign: "center",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        margin: "30px",
+                                    }}
+                                >
+                                    <h2>
+                                        Enough data not available for showing
+                                        projections, wait for few days to gather
+                                        more data
+                                    </h2>
+                                </div>
                             )}
                         </div>
                     </Paper>

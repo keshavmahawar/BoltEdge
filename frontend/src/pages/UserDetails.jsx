@@ -151,7 +151,7 @@ export default function UserDetails() {
                     </Grid>
                 </Grid>
 
-                <Grid container style={{ minHeight: "60vh" }}>
+                <Grid container style={{ minHeight: "30vh" }}>
                     <Grid
                         container
                         item
