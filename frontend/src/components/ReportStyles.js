@@ -12,6 +12,7 @@ const useReportStyles = makeStyles((theme) => ({
     root1: {
         display: "flex",
         flexWrap: "wrap",
+        // flexDirection: "column",
         "& > *": {
             margin: theme.spacing(2),
             width: theme.spacing(40),
@@ -60,17 +61,18 @@ const useReportStyles = makeStyles((theme) => ({
         "& > *": {
             margin: theme.spacing(2),
             width: theme.spacing(172),
-            height: theme.spacing(90),
+            height: theme.spacing('auto'),
         },
     },
     root7: {
         display: "flex",
         flexWrap: "wrap",
         "& > *": {
-            margin: theme.spacing(2),
+            margin: theme.spacing(1),
             width: theme.spacing(70),
-            height: theme.spacing(70),
+            height: theme.spacing('auto'),
         },
+        margin: '20px 100px 100px 100px'
     },
     size: {
         margin: theme.spacing(2),

@@ -89,21 +89,21 @@ export default function Report(props) {
                                     options={options}
                                 />
                             ) : (
-                                <div
-                                    style={{
-                                        textAlign: "center",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        margin: "30px",
-                                    }}
-                                >
-                                    <h2>
-                                        Enough data not available for showing
-                                        projections, wait for few days to gather
-                                        more data
+                                    <div
+                                        style={{
+                                            textAlign: "center",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            margin: "30px",
+                                        }}
+                                    >
+                                        <h2>
+                                            Enough data not available for showing
+                                            projections, wait for few days to gather
+                                            more data
                                     </h2>
-                                </div>
-                            )}
+                                    </div>
+                                )}
                         </div>
                     </Paper>
                 </div>
@@ -173,17 +173,17 @@ export default function Report(props) {
                     <div className={classes.root7}>
                         <Paper elevation={5} style={{ background: "#F4F4F8" }}>
                             <div style={{ textAlign: "center" }}>
-                                <strong>Yours</strong>
+                                <h1 style={{ margin: '15px' }}>Yours</h1>
                                 {data &&
                                     data.bestSellers &&
                                     data.bestSellers.b.map((item, index) => (
-                                        <h3 key={item + index}>{item}</h3>
+                                        <h3 key={item + index} style={{ margin: '8px' }}>{item}</h3>
                                     ))}
                             </div>
                         </Paper>
                         <Paper elevation={5} style={{ background: "#F4F4F8" }}>
                             <div style={{ textAlign: "center" }}>
-                                <strong>Competitor</strong>
+                                <h1 style={{ margin: '15px' }}>Competitor</h1>
                                 {data &&
                                     data.bestSellers &&
                                     data.bestSellers.c.map((item, index) => (

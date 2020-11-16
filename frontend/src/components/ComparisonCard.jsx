@@ -31,10 +31,10 @@ export default function ComparisonCard(props) {
                     </Paper>
                 </div>
             ) : (
-                <h1>
-                    <div style={{ textAlign: "center" }}>Not Available</div>
-                </h1>
-            )}
+                    <h1>
+                        <div style={{ textAlign: "center" }}>Not Available</div>
+                    </h1>
+                )}
         </Paper>
     );
 }
