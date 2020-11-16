@@ -150,7 +150,7 @@ export default function Report(props) {
                 </div>
             </div>
             <div className={classes.root6}>
-                <Paper elevation={5} style={{ background: "#FFFFFF" }}>
+                <Paper elevation={5} style={{ background: "#FFFFFF" }} className={classes.cardRadius}>
                     <div
                         style={{
                             display: "flex",
@@ -170,25 +170,25 @@ export default function Report(props) {
                         />
                         <h3>Best Selling Comparison</h3>
                     </div>
-                    <div className={classes.root7}>
-                        <Paper elevation={5} style={{ background: "#F4F4F8" }}>
+                    <div className={clsx(classes.root7, classes.cardRadius)}>
+                        <Paper elevation={5} style={{ background: "#F4F4F8" }} className={classes.cardRadius}>
                             <div style={{ textAlign: "center" }}>
                                 <h1 style={{ margin: '15px' }}>Yours</h1>
                                 {data &&
                                     data.bestSellers &&
-                                    data.bestSellers.b.map((item, index) => (
+                                    data.bestSellers.b.length ? data.bestSellers.b.map((item, index) => (
                                         <h3 key={item + index} style={{ margin: '8px' }}>{item}</h3>
-                                    ))}
+                                    )) : <h3>No Best Sellers Available!</h3>}
                             </div>
                         </Paper>
-                        <Paper elevation={5} style={{ background: "#F4F4F8" }}>
+                        <Paper elevation={5} style={{ background: "#F4F4F8" }} className={classes.cardRadius}>
                             <div style={{ textAlign: "center" }}>
                                 <h1 style={{ margin: '15px' }}>Competitor</h1>
                                 {data &&
                                     data.bestSellers &&
-                                    data.bestSellers.c.map((item, index) => (
+                                    data.bestSellers.c.length ? data.bestSellers.c.map((item, index) => (
                                         <h3 key={item + index}>{item}</h3>
-                                    ))}
+                                    )) : <h3>No Best Sellers Available!</h3>}
                             </div>
                         </Paper>
                     </div>
